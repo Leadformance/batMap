@@ -62,6 +62,8 @@ git push origin master
 
 echo ""
 echo "##-- Deploying on Github tag --##"
+cp -a dist/. docs/dist
+git add -f docs/dist
 git add -f dist
 
 git commit -m "release(app): generate files for version ${TAG}"
