@@ -4,6 +4,7 @@
   "description": "Unique interface above multiple map providers",
   "dependencies": {
     "@google/markerclusterer": "^1.0.3",
+    "leaflet": "^1.0.3",
     "promise": "^8.0.3",
     "simple-js-validator": "^0.13.0"
   },
