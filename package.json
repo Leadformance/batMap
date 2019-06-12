@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Unique interface above multiple map providers",
   "dependencies": {
+    "promise": "^8.0.3",
     "simple-js-validator": "^0.13.0"
   },
   "devDependencies": {
