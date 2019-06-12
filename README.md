@@ -11,7 +11,7 @@ Providers available:
 
 ## Getting Started
 
-See the [documentation](https://marierigal.github.io/bat-map/)
+See the [documentation](https://marierigal.github.io/batMap/)
 
 ## Development
 
@@ -25,7 +25,7 @@ Any changes will be watched.
 If you need to test your developments before releasing, you can push the compiled filed to Github Pages.
 To do this, just run `npm run gh-deploy`.
 
-You'll find the generated files on this link: https://marierigal.github.io/bat-map/dist/[PROVIDER].js
+You'll find the generated files on this link: https://marierigal.github.io/batMap/dist/[PROVIDER].js
 
 ### Deploy your devs
 

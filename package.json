@@ -1,5 +1,5 @@
 {
-  "name": "bat-map",
+  "name": "batMap",
   "version": "1.0.1",
   "description": "Unique interface above multiple map providers",
   "dependencies": {
@@ -40,12 +40,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/marierigal/bat-map.git"
+    "url": "https://github.com/marierigal/batMap.git"
   },
   "author": "Marie Rigal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/marierigal/bat-map/issues"
+    "url": "https://github.com/marierigal/batMap/issues"
   },
-  "homepage": "https://marierigal.github.io/bat-map/"
+  "homepage": "https://marierigal.github.io/batMap/"
 }

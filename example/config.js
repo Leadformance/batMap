@@ -20,32 +20,32 @@ const mapConfig = {
     },
     markers: {
         default: {
-            url: '/oneMapToRuleThemAll/example/assets/images/markers/marker-default.svg',
+            url: '/batMap/example/assets/images/markers/marker-default.svg',
             width: 38,
             height: 50
         },
         hover: {
-            url: '/oneMapToRuleThemAll/example/assets/images/markers/marker-hover.svg',
+            url: '/batMap/example/assets/images/markers/marker-hover.svg',
             width: 38,
             height: 50
         },
         active: {
-            url: '/oneMapToRuleThemAll/example/assets/images/markers/marker-active.svg',
+            url: '/batMap/example/assets/images/markers/marker-active.svg',
             width: 38,
             height: 50
         },
         location: {
-            url: '/oneMapToRuleThemAll/example/assets/images/markers/marker-location.svg',
+            url: '/batMap/example/assets/images/markers/marker-location.svg',
             width: 38,
             height: 50
         },
         user: {
-            url: '/oneMapToRuleThemAll/example/assets/images/markers/marker-user.svg',
+            url: '/batMap/example/assets/images/markers/marker-user.svg',
             width: 38,
             height: 50
         },
         cluster: {
-            url: '/oneMapToRuleThemAll/example/assets/images/markers/marker-cluster.svg',
+            url: '/batMap/example/assets/images/markers/marker-cluster.svg',
             width: 50,
             height: 50,
             label: {

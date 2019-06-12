@@ -36,19 +36,19 @@ Set map options in `theme.yml`.
 Using bower:
 
 ```bash
-bower install marierigal/oneMapToRuleThemAll
+bower install marierigal/batMap
 ```
 
 ```js
 // component
 
-require(`OneMapToRuleThemAll/dist/${provider}`);
+require(`batMap/dist/${provider}`);
 ```
 
 Or directly in html:
 
 ```html
-<script src="path/to/OneMapToRuleThemAll/dist/{{ provider }}.min.js"></script>
+<script src="path/to/batMap/dist/{{ provider }}.min.js"></script>
 ```
 
 2. Create a new map instance and display it.

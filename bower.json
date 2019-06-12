@@ -1,5 +1,5 @@
 {
-  "name": "bat-map",
+  "name": "batMap",
   "description": "Unique interface above multiple map providers.",
   "main": "dist/gmaps.js",
   "ignore": [
