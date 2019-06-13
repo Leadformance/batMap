@@ -12,11 +12,11 @@ theme:
         javascript:
             components:
                 map:
-                    provider: "%bridge_front_components.map.provider%"
-                    apiKey: "%bridge_front_components.map.api_key%"
-                    showCluster: true     # true|false : enable/disable marker clustering
-                    showLabel: true       # true|false : enable/disable label on markers
-                    showPosition: true    # true|false : enable/disable user geolocation on the map
+                    provider: "%bridge_front_starter_kit.map.provider%"
+                    apiKey: "%bridge_front_starter_kit.map.api_key%"
+                    showLabel: "%bridge_front_starter_kit.map.markers.show_label%"
+                    showPosition: "%bridge_front_starter_kit.map.markers.show_position%"
+                    showCluster: "%bridge_front_starter_kit.map.markers.show_cluster%"
 
                     # MAP OPTIONS
                     # It is possible to add native provider options here or directly in the component.
@@ -78,7 +78,7 @@ theme:
               components:
                     # Overload options (map, markers, labels, clusters) for each pages
                     map:
-                        showCluster: false
                         showLabel: false
                         showPosition: false
+                        showCluster: false
 ```

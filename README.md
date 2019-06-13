@@ -38,13 +38,13 @@ Now you can use this version in your project.
 
 ## Compatibility
 
-|         | Google Map | Mappy |
-| ------- | :--------: | :---: |
-| Chrome  |     OK     |   OK  |
-| Firefox |     ?      |   ?   |
-| Opera   |     ?      |   ?   |
-| Safari  |     ?      |   ?   |
-| IE11    |     ?      |   ?   |
-| EDGE    |     ?      |   ?   |
+|         | Google Map | Mappy | SVG Marker |
+| ------- | :--------: | :---: | :--------: |
+| Chrome  |     OK     |   OK  |     OK     |
+| Firefox |     OK     |   OK  |     OK     |
+| Opera   |     ?      |   ?   |     ?      |
+| Safari  |     OK     |   OK  |     OK     |
+| IE11    |     OK     |   ?   |     OK     |
+| EDGE    |     OK     |   OK  |     OK     |
 
 - need to include [es5-shim && es5-sham](https://github.com/es-shims/es5-shim)

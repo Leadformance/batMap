@@ -22,8 +22,11 @@ Set the provider in `parameters.yml`
 ```yml
 # app/config/parameters.yml
 
-bridge_front_components.map.provider: 'provider' # chosen provider
-bridge_front_components.map.api_key: 'api_key'   # client api key
+bridge_front_starter_kit.map.provider: 'provider'         # chosen provider
+bridge_front_starter_kit.map.api_key: 'api_key'           # client api key
+bridge_front_starter_kit.map.markers.show_label: true     # true|false : enable/disable label on markers
+bridge_front_starter_kit.map.markers.show_position: true  # true|false : enable/disable marker clustering
+bridge_front_starter_kit.map.markers.show_cluster: true   # true|false : enable/disable user geolocation on the map
 ```
 
 Set map options in `theme.yml`.
