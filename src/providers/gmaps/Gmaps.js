@@ -236,4 +236,4 @@ class GoogleMap extends AbstractMap {
 }
 
 window.GoogleMap = GoogleMap;
-window.OneMap = GoogleMap;
+window.BatMap = GoogleMap;

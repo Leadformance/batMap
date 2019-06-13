@@ -1,5 +1,5 @@
 {
-  "name": "batMap",
+  "name": "batmap",
   "version": "1.0.2",
   "description": "Unique interface above multiple map providers",
   "dependencies": {

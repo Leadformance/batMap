@@ -54,7 +54,7 @@ Or directly in html:
 2. Create a new map instance and display it.
 
 ```js
-const map = new window.OneMap(
+const map = new window.BatMap(
     domSelector,
     apiKey,
     locale,

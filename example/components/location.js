@@ -14,7 +14,7 @@ class MyMap {
         document.head.appendChild(script);
 
         script.addEventListener('load', () => {
-            this.map = new OneMap(
+            this.map = new BatMap(
                 this.el,
                 this.attr.apiKey,
                 this.attr.locale,

@@ -148,7 +148,7 @@ class Mappy extends AbstractMap {
             const iconLabelOptions = options.label || {};
 
             this.icons[type] = new L.Icon({
-                className: `onemap-marker-${type}`,
+                className: `batmap-marker-${type}`,
                 iconUrl: options.url,
                 iconSize: [options.width, options.height],
                 iconAnchor,
@@ -277,4 +277,4 @@ class Mappy extends AbstractMap {
 }
 
 window.MappyMap = Mappy;
-window.OneMap = Mappy;
+window.BatMap = Mappy;
