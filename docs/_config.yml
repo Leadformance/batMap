@@ -1,4 +1,6 @@
 theme: jekyll-theme-cayman
+title: BatMap
+show_downloads: true
 plugins:
   - jekyll-relative-links
   - jemoji

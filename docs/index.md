@@ -4,10 +4,10 @@ The goal of this tiny lib is to offer a common interface to allow basic usage of
 
 The only thing that change will be the chosen provider and its API Key. All your map interaction logic will stay the same regardless of the provider chosen. On the other hand, it is possible to overload all methods if it is needed for customization.
 
-Providers available:
+**Providers available:**
 
-- gmaps
-- mappy
+- [Google Map](https://developers.google.com/maps/documentation/javascript/) - `gmaps`
+- [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html) - `mappy`
 
 ## References
 
@@ -15,24 +15,46 @@ Providers available:
 
 ## Getting Started
 
-### Set options
+### Starter Kit
 
-Set the provider in `parameters.yml`
+[Integration example](example/starter-kit)
 
-```yml
-# app/config/parameters.yml
+### Basics
 
-bridge_front_starter_kit.map.provider: 'provider'         # chosen provider
-bridge_front_starter_kit.map.api_key: 'api_key'           # client api key
-bridge_front_starter_kit.map.markers.show_label: true     # true|false : enable/disable label on markers
-bridge_front_starter_kit.map.markers.show_position: true  # true|false : enable/disable marker clustering
-bridge_front_starter_kit.map.markers.show_cluster: true   # true|false : enable/disable user geolocation on the map
+#### Set options
+
+```js
+const config = {
+    provider: 'provider',
+    apiKey: 'api_key',
+    locale: 'en',
+    locations: [...],
+    showCluster: true,
+    showLabel: true,
+    showPosition: true,
+    options: {
+        zoom: 12,
+        locationZoom: 16,
+    },
+    markers: {
+        default: {
+            url: 'marker-default.svg',
+            width: 38,
+            height: 50
+        }
+    },
+    labels: {
+        origin: [19, 19],
+        color: 'white',
+        font: 'Arial, sans-serif',
+        size: '14px',
+        weight: 'normal'
+    },
+    clusters: {}
+};
 ```
 
-Set map options in `theme.yml`.
-[More informations](parameters/theme)
-
-### Usage
+#### Usage
 
 1. Add the provider script.
 
@@ -43,8 +65,6 @@ bower install marierigal/batMap
 ```
 
 ```js
-// component
-
 require(`batMap/dist/${provider}`);
 ```
 
@@ -58,15 +78,36 @@ Or directly in html:
 
 ```js
 const map = new window.BatMap(
-    domSelector,
-    apiKey,
-    locale,
-    showCluster,
-    showLabel,
-    showPosition,
+    '#my-map',
+    config.apiKey,
+    config.locale,
+    config.showCluster,
+    config.showLabel,
+    config.showPosition,
     callback
 );
 
-map.setMapOptions();
-map.init();
+function callback() {
+    map.setMapOptions(config.options, config.markers, config.labels, config.clusters);
+
+    map.init();
+
+    map.setMarkerIcons();
+
+    [].forEach.call(config.locations, location => {
+        map.setPoint(location, 'default');
+    });
+
+    map.addMarkers({
+        click: handleClickOnMarker
+    });
+
+    map.fitBounds(map.getBounds(), config.options.zoom);
+}
+
+function handleClickOnMarker(marker) {
+    return () => {
+        map.focusOnMarker(marker);
+    };
+}
 ```
