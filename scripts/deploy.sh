@@ -57,13 +57,15 @@ echo "##-- Upgrading Project version --##"
 TAG=`npm --no-git-tag-version version $1`
 
 git add package.json
+
+cp -a dist/. docs/dist
+git add docs/dist
+
 git commit -m "release(app): release new version ${TAG}"
 git push origin master
 
 echo ""
 echo "##-- Deploying on Github tag --##"
-cp -a dist/. docs/dist
-git add -f docs/dist
 git add -f dist
 
 git commit -m "release(app): generate files for version ${TAG}"
