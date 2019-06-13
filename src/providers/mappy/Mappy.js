@@ -178,14 +178,15 @@ class Mappy extends AbstractMap {
                 const labelOptions = icon.options.labelOptions;
                 const span = document.createElement('span');
                 span.innerText = marker.options.label;
-                span.style = `position: absolute;
-                              top: ${labelOptions.origin[0]}px;
-                              left: ${labelOptions.origin[1]}px;
-                              transform: translate(-50%, -50%);
-                              color: ${labelOptions.color};
-                              font-family: ${labelOptions.font};
-                              font-weight: ${labelOptions.weight};
-                              font-size: ${labelOptions.size};`;
+
+                span.style.position = 'absolute';
+                span.style.top = `${labelOptions.origin[0]}px`;
+                span.style.left = `${labelOptions.origin[1]}px`;
+                span.style.transform = 'translate(-50%, -50%)';
+                span.style.color = `${labelOptions.color}`;
+                span.style.fontFamily = `${labelOptions.font}`;
+                span.style.fontWeight = `${labelOptions.weight}`;
+                span.style.fontSize = `${labelOptions.size}px`;
 
                 marker.setIcon(new L.DivIcon({
                     className: icon.options.className,
@@ -227,14 +228,15 @@ class Mappy extends AbstractMap {
                 const labelOptions = icon.options.labelOptions;
                 const span = document.createElement('span');
                 span.innerText = cluster.getChildCount();
-                span.style = `position: absolute;
-                              top: ${labelOptions.origin[0]}px;
-                              left: ${labelOptions.origin[1]}px;
-                              transform: translate(-50%, -50%);
-                              color: ${labelOptions.color};
-                              font-family: ${labelOptions.font};
-                              font-weight: ${labelOptions.weight};
-                              font-size: ${labelOptions.size}px;`;
+
+                span.style.position = 'absolute';
+                span.style.top = `${labelOptions.origin[0]}px`;
+                span.style.left = `${labelOptions.origin[1]}px`;
+                span.style.transform = 'translate(-50%, -50%)';
+                span.style.color = `${labelOptions.color}`;
+                span.style.fontFamily = `${labelOptions.font}`;
+                span.style.fontWeight = `${labelOptions.weight}`;
+                span.style.fontSize = `${labelOptions.size}px`;
 
                 return L.divIcon({
                     className: icon.options.className,
