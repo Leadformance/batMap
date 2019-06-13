@@ -1,6 +1,6 @@
 {
   "name": "batmap",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Unique interface above multiple map providers",
   "dependencies": {
     "@google/markerclusterer": "^1.0.3",
