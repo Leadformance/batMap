@@ -38,13 +38,13 @@ Now you can use this version in your project.
 
 ## Compatibility
 
-|         | Google Map | Mappy | SVG Marker |
-| ------- | :--------: | :---: | :--------: |
-| Chrome  |     OK     |   OK  |     OK     |
-| Firefox |     OK     |   OK  |     OK     |
-| Opera   |     ?      |   ?   |     ?      |
-| Safari  |     OK     |   OK  |     OK     |
-| IE11    |     OK     |   ?   |     OK     |
-| EDGE    |     OK     |   OK  |     OK     |
+|         |         Google Map         |         Mappy         |         SVG Marker         |
+| ------- |         :--------:         |         :---:         |         :--------:         |
+| Chrome  |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
+| Firefox |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
+| Opera   |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
+| Safari  |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
+| IE11    |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
+| EDGE    |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
 
 - need to include [es5-shim && es5-sham](https://github.com/es-shims/es5-shim)
