@@ -115,6 +115,7 @@ class Mappy extends AbstractMap {
     addMarker(point, eventCallback = {}) {
         const marker = L.marker(point.position, point);
         marker.id = point.id;
+        marker.location = point.location;
 
         this.setIconOnMarker(marker, point.iconType);
 
