@@ -4,10 +4,10 @@ The goal of this tiny lib is to offer a common interface to allow basic usage of
 
 The only thing that change will be the chosen provider and its API Key. All your map interaction logic will stay the same regardless of the provider chosen. On the other hand, it is possible to overload all methods if it is needed for customization.
 
-Providers available:
+**Providers available:**
 
-- gmaps
-- mappy
+- [Google Maps](https://developers.google.com/maps/documentation/javascript/) - `gmaps`
+- [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html) - `mappy`
 
 ## Getting Started
 
