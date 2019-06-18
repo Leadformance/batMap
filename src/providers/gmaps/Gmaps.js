@@ -11,6 +11,7 @@ const AbstractMap = require('../../AbstractMap');
 /* jshint +W079 */
 
 const domUtils = require('../../utils/dom');
+const loaderUtils = require('../../utils/loader');
 const objectAssign = require('object-assign');
 
 const MarkerClusterer = require('@google/markerclusterer');
@@ -27,6 +28,8 @@ class GoogleMap extends AbstractMap {
             callback();
             return;
         }
+
+        callback = loaderUtils.addLoader(this.domElement, callback);
 
         let resources = [];
 

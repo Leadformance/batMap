@@ -1,13 +1,14 @@
 'use strict';
 
-const defaultLoaderClass = 'one-map-to-rule-them-all__spinner';
+const defaultLoaderClass = 'batmap__spinner';
 
 module.exports = {
-    addLoader: function(domElement, loadingMask, callbackToWrap) {
+    addLoader: function(domElement, callback, customClass = null) {
+        domElement.style.position = 'relative';
         let loader = document.createElement('div');
 
-        if (typeof loadingMask === 'string') {
-            loader.className = loadingMask;
+        if (typeof customClass === 'string') {
+            loader.className = customClass;
         } else {
             loader.className = defaultLoaderClass;
         }
@@ -16,7 +17,7 @@ module.exports = {
 
         return function() {
             domElement.removeChild(loader);
-            callbackToWrap();
+            callback();
         };
     }
 };

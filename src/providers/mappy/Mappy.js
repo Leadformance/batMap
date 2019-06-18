@@ -11,6 +11,7 @@ const AbstractMap = require('../../AbstractMap');
 /* jshint +W079 */
 
 const domUtils = require('../../utils/dom');
+const loaderUtils = require('../../utils/loader');
 const objectAssign = require('object-assign');
 
 let L;
@@ -27,6 +28,8 @@ class Mappy extends AbstractMap {
             callback();
             return;
         }
+
+        callback = loaderUtils.addLoader(this.domElement, callback);
 
         domUtils.addResources(document.head, [
             domUtils.createStyle('//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css'),
