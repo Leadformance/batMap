@@ -123,36 +123,34 @@ class MyMap {
 
     handleClickOnMarker(marker) {
         return () => {
-            [].forEach.call(this.getMarkers(), m => {
-                this.setIconOnMarker(m, 'default');
-            });
+            if (this.getMarkerIconType(marker) !== 'active') {
+                [].forEach.call(this.getMarkers(), m => {
+                    this.setIconOnMarker(m, 'default');
+                });
 
-            this.setIconOnMarker(marker, 'active');
-
-            this.focusOnMarker(marker);
-
-            this.scrollToLocation(marker.id);
-            this.highlightLocation(marker.id, true);
+                this.setIconOnMarker(marker, 'active');
+                this.focusOnMarker(marker);
+                this.scrollToLocation(marker.id);
+                this.highlightLocation(marker.id, true);
+            }
         }
     }
 
     handleMouseEnterOnMarker(marker) {
         return () => {
-            if (this.getMarkerIconType(marker) !== 'active') {
+            if (this.getMarkerIconType(marker) !== 'active' && this.getMarkerIconType(marker) !== 'hover') {
                 this.setIconOnMarker(marker, 'hover');
+                this.highlightLocation(marker.id);
             }
-
-            this.highlightLocation(marker.id);
         }
     }
 
     handleMouseLeaveOnMarker(marker) {
         return () => {
-            if (this.getMarkerIconType(marker) !== 'active') {
+            if (this.getMarkerIconType(marker) !== 'active' && this.getMarkerIconType(marker) !== 'default') {
                 this.setIconOnMarker(marker, 'default');
+                this.highlightLocation(false);
             }
-
-            this.highlightLocation(false);
         }
     }
 
@@ -164,22 +162,24 @@ class MyMap {
             });
 
             const marker = this.map.getMarker(id);
-            this.setIconOnMarker(marker, 'active');
-
-            this.focusOnMarker(marker);
-
-            this.highlightLocation(id, true);
+            if (marker) {
+                this.setIconOnMarker(marker, 'active');
+                this.focusOnMarker(marker);
+                this.highlightLocation(id, true);
+            }
         }
     }
 
     handleMouseEnterOnLocation(id) {
         return () => {
             const marker = this.map.getMarker(id);
-            if (this.getMarkerIconType(marker) !== 'active') {
-                this.setIconOnMarker(marker, 'hover');
-                this.highlightLocation(id);
-            } else {
-                this.highlightLocation(id, true);
+            if (marker) {
+                if (this.getMarkerIconType(marker) !== 'active') {
+                    this.setIconOnMarker(marker, 'hover');
+                    this.highlightLocation(id);
+                } else {
+                    this.highlightLocation(id, true);
+                }
             }
         }
     }
@@ -187,11 +187,13 @@ class MyMap {
     handleMouseLeaveOnLocation(id) {
         return () => {
             const marker = this.map.getMarker(id);
-            if (this.getMarkerIconType(marker) !== 'active') {
-                this.setIconOnMarker(marker, 'default');
-                this.highlightLocation();
-            } else {
-                this.highlightLocation(id, true);
+            if (marker) {
+                if (this.getMarkerIconType(marker) !== 'active') {
+                    this.setIconOnMarker(marker, 'default');
+                    this.highlightLocation();
+                } else {
+                    this.highlightLocation(id, true);
+                }
             }
         }
     }
@@ -204,13 +206,15 @@ class MyMap {
         if (id) {
             const location = document.querySelector(`[data-location="${id}"]`);
 
-            location.classList.add('hover');
+            if (location) {
+                location.classList.add('hover');
 
-            if (isActive) {
-                [].forEach.call(document.querySelectorAll('[data-location]'), l => {
-                    l.classList.remove('active');
-                });
-                location.classList.add('active');
+                if (isActive) {
+                    [].forEach.call(document.querySelectorAll('[data-location]'), l => {
+                        l.classList.remove('active');
+                    });
+                    location.classList.add('active');
+                }
             }
         }
     }
@@ -220,7 +224,10 @@ class MyMap {
         const list = document.querySelector('#locationsList');
 
         if (location && list) {
-            list.scrollTo(0, location.offsetTop - location.clientHeight - list.offsetTop);
+            list.scrollTo({
+                top: location.offsetTop - location.clientHeight - list.offsetTop,
+                behavior: 'smooth'
+            });
         }
     }
 }
