@@ -24,6 +24,8 @@ class GoogleMap extends AbstractMap {
     }
 
     load(callback) {
+        this.domElement.classList.add('batmap__map', 'batmap-gmaps');
+
         if (window.google && window.google.maps) {
             callback();
             return;

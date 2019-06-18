@@ -24,6 +24,8 @@ class Mappy extends AbstractMap {
     }
 
     load(callback) {
+        this.domElement.classList.add('batmap__map', 'batmap-mappy');
+
         if (window.L && window.L.Mappy) {
             callback();
             return;
@@ -271,7 +273,10 @@ class Mappy extends AbstractMap {
 
     fitBounds(bounds, zoom = this.mapOptions.zoom) {
         if (this.markers.length > 1) {
-            this.map.fitBounds(bounds);
+            this.map.fitBounds(bounds, {
+                padding: L.point(50, 50),
+                maxZoom: zoom
+            });
         } else {
             this.setCenter(this.markers[0].getLatLng(), zoom);
         }
