@@ -131,6 +131,7 @@ class MyMap {
 
             this.focusOnMarker(marker);
 
+            this.scrollToLocation(marker.id);
             this.highlightLocation(marker.id, true);
         }
     }
@@ -202,14 +203,24 @@ class MyMap {
 
         if (id) {
             const location = document.querySelector(`[data-location="${id}"]`);
+
+            location.classList.add('hover');
+
             if (isActive) {
                 [].forEach.call(document.querySelectorAll('[data-location]'), l => {
                     l.classList.remove('active');
                 });
                 location.classList.add('active');
             }
+        }
+    }
 
-            location.classList.add('hover');
+    scrollToLocation(id) {
+        const location = document.querySelector(`[data-location="${id}"]`);
+        const list = document.querySelector('#locationsList');
+
+        if (location && list) {
+            list.scrollTo(0, location.offsetTop - location.clientHeight - list.offsetTop);
         }
     }
 }

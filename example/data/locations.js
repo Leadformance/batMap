@@ -1,31 +1,27 @@
 // Mock data ResultsPage
 
-const locations = [
-    {
-        _id: 'uuid1',
+function getRandomInRange(from, to, fixed) {
+    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+}
+
+let locations = [];
+
+for (let i = 0; i < 20; i++) {
+    const location = {
+        _id: `uuid${i}`,
         localisation: {
             coordinates: {
-                latitude: 45.564,
-                longitude: 5.917
+                latitude: getRandomInRange(45, 46, 3),
+                longitude: getRandomInRange(5, 7, 3)
             }
         }
-    },
-    {
-        _id: 'uuid2',
-        localisation: {
-            coordinates: {
-                latitude: 45.594,
-                longitude: 5.927
-            }
-        }
-    },
-    {
-        _id: 'uuid3',
-        localisation: {
-            coordinates: {
-                latitude: 45.664,
-                longitude: 5.937
-            }
-        }
-    }
-];
+    };
+
+    locations.push(location);
+
+    const li = document.createElement('li');
+    li.classList.add('location');
+    li.setAttribute('data-location', location._id);
+    li.innerText = `Location ${i + 1}`;
+    document.querySelector('#locationsList').appendChild(li);
+}

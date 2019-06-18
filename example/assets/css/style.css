@@ -20,6 +20,8 @@ h1::after {
 .list {
     margin-top: 40px;
     border: 1px solid black;
+    height: calc(44px * 3);
+    overflow-y: scroll;
 }
 
 .location {
