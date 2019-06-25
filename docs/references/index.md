@@ -26,6 +26,8 @@
 - [getPoints](get-points)
 - [getBounds](get-bounds)
 - [initMap](init-map)
+- [listenZoomChange](listen-zoom-change)
+- [minifyMarkerIcons](minify-marker-icons)
 - [panTo](pan-to)
 - [removeMarker](remove-marker)
 - [setCenter](set-center)

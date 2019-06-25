@@ -111,6 +111,10 @@ class AbstractMap {
         console.error(`${this.provider} has no 'addMarkers' method implemented.`);
     }
 
+    addUserMarker() {
+        console.error(`${this.provider} has no 'addUserMarker' method implemented.`);
+    }
+
     addMarker() {
         console.error(`${this.provider} has no 'addMarker' method implemented.`);
     }
@@ -143,8 +147,28 @@ class AbstractMap {
         console.error(`${this.provider} has no 'fitBounds' method implemented.`);
     }
 
+    extendBounds() {
+        console.error(`${this.provider} has no 'extendBounds' method implemented.`);
+    }
+
+    getBounds() {
+        console.error(`${this.provider} has no 'getBounds' method implemented.`);
+    }
+
     panTo() {
         console.error(`${this.provider} has no 'panTo' method implemented.`);
+    }
+
+    setZoom() {
+        console.error(`${this.provider} has no 'setZoom' method implemented.`);
+    }
+
+    listenZoomChange() {
+        console.error(`${this.provider} has no 'listenZoomChange' method implemented.`);
+    }
+
+    minifyMarkerIcons() {
+        console.error(`${this.provider} has no 'minifyMarkerIcons' method implemented.`);
     }
 }
 

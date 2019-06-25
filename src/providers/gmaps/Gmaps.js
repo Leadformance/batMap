@@ -238,6 +238,30 @@ class GoogleMap extends AbstractMap {
         this.map.panTo(position);
     }
 
+    listenZoomChange(callback) {
+        this.map.addListener('zoom_changed', () => {
+            return callback(this.map.getZoom());
+        });
+    }
+
+    minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
+        if (zoom < breakZoom && !this.isMinifiedMarkerIcons) {
+            [].forEach.call(Object.keys(this.icons), key => {
+                const size = this.icons[key].scaledSize;
+                this.icons[key].scaledSize.width = size.width * minifier;
+                this.icons[key].scaledSize.height = size.height * minifier;
+            });
+            this.isMinifiedMarkerIcons = true;
+        } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
+            [].forEach.call(Object.keys(this.icons), key => {
+                const size = this.icons[key].scaledSize;
+                this.icons[key].scaledSize.width = size.width / minifier;
+                this.icons[key].scaledSize.height = size.height / minifier;
+            });
+            this.isMinifiedMarkerIcons = false;
+        }
+    }
+
 }
 
 window.GoogleMap = GoogleMap;

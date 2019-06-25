@@ -41,11 +41,16 @@ class MyMap {
         this.map.initMap();
 
         this.setMarkerIcons();
+        this.geolocateOnMap();
         this.setPoints();
-
         this.addMarkers();
 
-        this.geolocateOnMap();
+        if (!this.attr.showLabel && !this.attr.showCluster) {
+            console.log('minify');
+            this.map.listenZoomChange(zoom => {
+                this.map.minifyMarkerIcons(zoom);
+            });
+        }
 
         this.panToAllMarkers();
 

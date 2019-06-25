@@ -285,6 +285,40 @@ class Mappy extends AbstractMap {
     panTo(position, zoom = this.mapOptions.locationZoom) {
         this.map.flyTo(position, zoom);
     }
+
+    listenZoomChange(callback) {
+        this.map.on('zoomend', () => {
+            return callback(this.map.getZoom());
+        });
+    }
+
+    minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
+        if (zoom < breakZoom && !this.isMinifiedMarkerIcons) {
+            [].forEach.call(Object.keys(this.icons), key => {
+                const size = this.icons[key].options.iconSize;
+                this.icons[key].options.iconSize = [size[0] * minifier, size[1] * minifier];
+            });
+            this.isMinifiedMarkerIcons = true;
+            this.updateAllMarkerIconsOnMap();
+        } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
+            [].forEach.call(Object.keys(this.icons), key => {
+                const size = this.icons[key].options.iconSize;
+                this.icons[key].options.iconSize = [size[0] / minifier, size[1] / minifier];
+            });
+            this.isMinifiedMarkerIcons = false;
+            this.updateAllMarkerIconsOnMap();
+        }
+    }
+
+    updateAllMarkerIconsOnMap() {
+        [].forEach.call(this.markers, marker => {
+            this.setIconOnMarker(marker, marker.iconType, false);
+        });
+
+        if (this.userMarker) {
+            this.setIconOnMarker(this.userMarker, this.userMarker.iconType, false);
+        }
+    }
 }
 
 window.MappyMap = Mappy;
