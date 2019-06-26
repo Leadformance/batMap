@@ -293,7 +293,7 @@ class Mappy extends AbstractMap {
     }
 
     minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
-        if (zoom < breakZoom && !this.isMinifiedMarkerIcons) {
+        if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
             [].forEach.call(Object.keys(this.icons), key => {
                 const size = this.icons[key].options.iconSize;
                 this.icons[key].options.iconSize = [size[0] * minifier, size[1] * minifier];

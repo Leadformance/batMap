@@ -46,7 +46,6 @@ class MyMap {
         this.addMarkers();
 
         if (!this.attr.showLabel && !this.attr.showCluster) {
-            console.log('minify');
             this.map.listenZoomChange(zoom => {
                 this.map.minifyMarkerIcons(zoom);
             });
