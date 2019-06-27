@@ -1,9 +1,10 @@
 'use strict';
 
 /**
- * Mappy Map
- * API Documentation: https://leafletjs.com/reference-1.0.3.html
+ * Leaflet Map
+ * API Documentation: http://leafletjs.com/reference.html
  * MarkerCluster Documentation: https://leaflet.github.io/Leaflet.markercluster/
+ * Free providers: https://leaflet-extras.github.io/leaflet-providers/preview/
  */
 
 /*jshint -W079 */
@@ -16,17 +17,17 @@ const objectAssign = require('object-assign');
 
 let L;
 
-class Mappy extends AbstractMap {
+class Leaflet extends AbstractMap {
     constructor(...args) {
         super(...args);
 
-        this.provider = 'Mappy';
+        this.provider = 'Leaflet';
     }
 
     load(callback) {
-        this.domElement.classList.add('batmap__map', 'batmap-mappy');
+        this.domElement.classList.add('batmap__map', 'batmap-leaflet');
 
-        if (window.L && window.L.Mappy) {
+        if (window.L) {
             callback();
             return;
         }
@@ -34,23 +35,19 @@ class Mappy extends AbstractMap {
         callback = loaderUtils.addLoader(this.domElement, callback);
 
         domUtils.addResources(document.head, [
-            domUtils.createStyle('//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css'),
-            domUtils.createScript('//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js')
+            domUtils.createStyle('//unpkg.com/leaflet@1.5.1/dist/leaflet.css'),
+            domUtils.createScript('//unpkg.com/leaflet@1.5.1/dist/leaflet.js')
         ], () => {
-            const resources = [
-                domUtils.createScript('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.js'),
-                domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.css')
-            ];
+            const resources = [];
 
             if (this.showCluster) {
-                resources.push(domUtils.createScript('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/leaflet.markercluster.js'));
-                resources.push(domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.Default.css'));
-                resources.push(domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.css'));
+                resources.push(domUtils.createStyle('//unpkg.com/leaflet.markercluster@1.1.0/dist/MarkerCluster.css'));
+                resources.push(domUtils.createStyle('//unpkg.com/leaflet.markercluster@1.1.0/dist/MarkerCluster.Default.css'));
+                resources.push(domUtils.createScript('//unpkg.com/leaflet.markercluster@1.1.0/dist/leaflet.markercluster.js'));
             }
 
             domUtils.addResources(document.head, resources, () => {
                 L = window.L;
-                L.Mappy.setImgPath('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/images/');
                 callback();
             });
         });
@@ -58,22 +55,13 @@ class Mappy extends AbstractMap {
 
     setMapOptions(options = {}, markers = {}, labels = {}, clusters = {}) {
         this.mapOptions = objectAssign({
-            clientId: this.apiKey,
-            locale: this.locale,
             center: [0, 0],
             zoom: 12,
             locationZoom: 16,
-            scrollwheel: true,
-            mapTypeControl: false,
-            panControl: false,
-            zoomControl: true,
-            scaleControl: false,
-            streetViewControl: false,
-            layersControl: {
-                publicTransport: false,
-                traffic: true,
-                viewMode: true,
-                trafficLegend: true
+            tileLayerProvider: '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            tileLayerOptions: {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                maxZoom: 19
             }
         }, options);
 
@@ -86,9 +74,10 @@ class Mappy extends AbstractMap {
 
     initMap() {
         this.bounds = new L.latLngBounds([]);
-        this.map = new L.Mappy.Map(this.domElement, this.mapOptions);
-    }
+        this.map = L.map(this.domElement, this.mapOptions);
 
+        L.tileLayer(this.mapOptions.tileLayerProvider, this.mapOptions.tileLayerOptions).addTo(this.map);
+    }
     setPoint(location, iconType, label = false) {
         const point = {
             position: L.latLng(
@@ -321,5 +310,5 @@ class Mappy extends AbstractMap {
     }
 }
 
-window.MappyMap = Mappy;
-window.BatMap = Mappy;
+window.LeafletMap = Leaflet;
+window.BatMap = Leaflet;

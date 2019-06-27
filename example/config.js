@@ -9,6 +9,10 @@ const mapConfig = {
     // provider: 'mappy',
     // apiKey: 'PJ_Bridge',
 
+    /* Leaflet */
+    // provider: 'leaflet',
+    // apiKey: '',
+
     locale: 'en',
     locations: locations,
     showCluster: true,

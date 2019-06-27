@@ -40,3 +40,8 @@
 .batmap-mappy .leaflet-control.leaflet-control-scale {
     padding: 0 5px;
 }
+
+/* Leaflet */
+.batmap-leaflet.leaflet-touch .leaflet-bar a {
+    line-height: 26px;
+}
