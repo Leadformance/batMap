@@ -13,7 +13,7 @@ echo "##-- Building last sources from $branch --##"
 npm run build
 
 echo ""
-echo "##-- Checkout gh-pages branch --##"
+echo "##-- Commit on $branch --##"
 
 cp -a dist/. docs/dist
 git add -f docs/dist

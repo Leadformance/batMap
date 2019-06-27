@@ -57,6 +57,7 @@ echo "##-- Upgrading Project version --##"
 TAG=`npm --no-git-tag-version version $1`
 
 git add package.json
+git add package-lock.json
 
 cp -a dist/. docs/dist
 git add docs/dist
