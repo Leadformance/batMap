@@ -8,6 +8,7 @@ The only thing that change will be the chosen provider and its API Key. All your
 
 - [Google Maps](https://developers.google.com/maps/documentation/javascript/) - `gmaps`
 - [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html) - `mappy`
+- [Leaflet](http://leafletjs.com/reference-1.5.1.html) - `leaflet`
 
 ## References
 

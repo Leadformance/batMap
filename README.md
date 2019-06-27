@@ -8,6 +8,7 @@ The only thing that change will be the chosen provider and its API Key. All your
 
 - [Google Maps](https://developers.google.com/maps/documentation/javascript/) - `gmaps`
 - [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html) - `mappy`
+- [Leaflet](http://leafletjs.com/reference-1.5.1.html) - `leaflet`
 
 ## Getting Started
 
@@ -38,13 +39,13 @@ Now you can use this version in your project.
 
 ## Compatibility
 
-|         |         Google Map         |         Mappy         |         SVG Marker         |
-| ------- |         :--------:         |         :---:         |         :--------:         |
-| Chrome  |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
-| Firefox |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
-| Opera   |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
-| Safari  |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
-| IE11    |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
-| EDGE    |     :white_check_mark:     |   :white_check_mark:  |     :white_check_mark:     |
+|         |         Google Map         |         Mappy         |        Yandex         |         SVG Marker         |
+| ------- |         :--------:         |         :---:         |         :---:         |         :--------:         |
+| Chrome  |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
+| Firefox |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
+| Opera   |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
+| Safari  |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
+| IE11    |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
+| EDGE    |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
 
 - need to include [es5-shim && es5-sham](https://github.com/es-shims/es5-shim)
