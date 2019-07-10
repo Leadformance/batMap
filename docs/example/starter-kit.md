@@ -7,11 +7,30 @@
 ```yml
 # app/config/parameters.yml
 
-bridge_front_starter_kit.map.provider: 'provider'         # chosen provider
-bridge_front_starter_kit.map.api_key: 'api_key'           # client api key
+# Map
 bridge_front_starter_kit.map.markers.show_label: true     # enable label on markers
 bridge_front_starter_kit.map.markers.show_position: true  # enable marker clustering
 bridge_front_starter_kit.map.markers.show_cluster: true   # enable user geolocation on the map
+
+## Mappy
+bridge_front_starter_kit.map.provider: 'mappy'
+bridge_front_starter_kit.map.api_key: 'PJ_Bridge'
+bridge_front_starter_kit.map.itinerary:
+    host: 'https://fr.mappy.com/#/2/M2/TItinerary/I'
+    start_addr: 'FR'
+    dest_addr: '|TO'
+
+## Gmaps
+bridge_front_starter_kit.map.provider: 'gmaps'
+bridge_front_starter_kit.map.api_key: 'AIzaSyBgMN26G65UEgkWVDIPKTq-VpvktLmezjQ'
+bridge_front_starter_kit.map.itinerary:
+    host: 'https://www.google.com/maps'
+    start_addr: '?saddr='
+    dest_addr: '&daddr='
+
+## Leaflet
+bridge_front_starter_kit.map.provider: 'leaflet'
+bridge_front_starter_kit.map.api_key: ''
 ```
 
 ```yml

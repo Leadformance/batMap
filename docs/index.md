@@ -62,7 +62,7 @@ const config = {
 Using bower:
 
 ```bash
-bower install marierigal/batMap
+bower install Leadformance/batMap
 ```
 
 ```js

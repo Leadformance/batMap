@@ -6,6 +6,7 @@
 
 - [Google Map](https://developers.google.com/maps/documentation/javascript/)
 - [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html)
+- [Leaflet](http://leafletjs.com/reference-1.5.1.html)
 
 ## Methods
 

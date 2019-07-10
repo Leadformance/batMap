@@ -39,12 +39,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/marierigal/batMap.git"
+    "url": "https://github.com/Leadformance/batMap.git"
   },
   "author": "Marie Rigal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/marierigal/batMap/issues"
+    "url": "https://github.com/leadformance/batMap/issues"
   },
-  "homepage": "https://marierigal.github.io/batMap/"
+  "homepage": "https://leadformance.github.io/batMap/"
 }
