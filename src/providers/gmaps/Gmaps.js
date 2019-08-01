@@ -46,7 +46,6 @@ class GoogleMap extends AbstractMap {
             center: {lat: 0, lng: 0},
             zoom: 12,
             locationZoom: 16,
-            scrollwheel: true,
             mapTypeControl: false,
             zoomControl: true,
             zoomControlOptions: {
