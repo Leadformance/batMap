@@ -283,7 +283,7 @@ class Mappy extends AbstractMap {
     }
 
     panTo(position, zoom = this.mapOptions.locationZoom) {
-        this.map.flyTo(position, zoom);
+        this.map.setView(position, zoom);
     }
 
     listenZoomChange(callback) {
