@@ -4,6 +4,7 @@ const LoaderOptionsPlugin = require('webpack').LoaderOptionsPlugin;
 module.exports = {
     entry: {
         gmaps: './src/providers/gmaps/Gmaps.js',
+        gmapswidget: './src/providers/gmaps-widget/GmapsWidget.js',
         mappy: './src/providers/mappy/Mappy.js',
         mappywidget: './src/providers/mappy-widget/MappyWidget.js',
         leaflet: './src/providers/leaflet/Leaflet.js'
