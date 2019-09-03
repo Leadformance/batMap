@@ -16,37 +16,34 @@ const objectAssign = require('object-assign');
 
 const MarkerClusterer = require('@google/markerclusterer');
 
-
 class GoogleMap extends AbstractMap {
     constructor(...args) {
         super(...args);
 
         this.provider = 'GoogleMap';
+        window.google = document.querySelector('[data-reactroot]').contentWindow.google;
     }
 
     load(callback) {
         this.domElement.classList.add('batmap__map', 'batmap-gmaps');
-        let iframe =  document.querySelector('[data-reactroot]');
 
-        if (iframe.contentWindow.google && iframe.contentWindow.google.maps) {
-            console.log('google already found in iframe');
+        if (window.google && window.google.maps) {
             setTimeout(callback, 0);
             return;
         }
 
         callback = loaderUtils.addLoader(this.domElement, callback);
 
+        let iframe =  document.querySelector('[data-reactroot]');
         let resources = [];
 
         const urlParams = '?v=3.37&language=' + this.locale + '&key=' + this.apiKey;
         resources.push(domUtils.createScript('//maps.googleapis.com/maps/api/js' + urlParams));
 
-        domUtils.addResources(document.head, resources, callback);
-        domUtils.addResources(document.querySelector('[data-reactroot]').contentDocument.head, resources, callback);
+        domUtils.addResources(iframe.contentDocument.head, resources, callback);
     }
 
     setMapOptions(options = {}, markers = {}, labels = {}, clusters = {}) {
-        let google = document.querySelector('[data-reactroot]').contentWindow.google;
         this.mapOptions = objectAssign({
             center: {lat: 0, lng: 0},
             zoom: 12,
@@ -58,7 +55,7 @@ class GoogleMap extends AbstractMap {
             },
             streetViewControl: false
         }, options);
-        console.log(`markers in setMapOptions: ${markers}`);
+
         this.markersOptions = markers;
 
         this.labelsOptions = labels;
@@ -67,14 +64,11 @@ class GoogleMap extends AbstractMap {
     }
 
     initMap() {
-        console.log('initMap');
-        let iframeWindow = document.querySelector('[data-reactroot]').contentWindow;
-        this.bounds = new iframeWindow.google.maps.LatLngBounds();
-        this.map = new iframeWindow.google.maps.Map(this.domElement, this.mapOptions);
+        this.bounds = new google.maps.LatLngBounds();
+        this.map = new google.maps.Map(this.domElement, this.mapOptions);
     }
 
     setPoint(location, iconType, label = false) {
-        let google = document.querySelector('[data-reactroot]').contentWindow.google;
         const point = {
             position: new google.maps.LatLng(
                 location.latitude,
@@ -84,7 +78,6 @@ class GoogleMap extends AbstractMap {
             location,
             iconType
         };
-
 
         if (this.showLabel && label) {
             point.label = {
@@ -100,16 +93,13 @@ class GoogleMap extends AbstractMap {
             this.addMarker(point, eventCallback);
         });
 
-        if (this.showCluster && this.icons.cluster) {
+        if (this.showCluster && this.icons.cluster && this.points.length > 1) {
             this.addCluster();
         }
     }
 
     addMarker(point, eventCallback = {}) {
-        let google = document.querySelector('[data-reactroot]').contentWindow.google;
         const marker = new google.maps.Marker(point);
-        console.log('marker in addmarker');
-        console.log(marker);
         this.markers.push(marker);
         marker.setMap(this.map);
 
@@ -131,7 +121,6 @@ class GoogleMap extends AbstractMap {
     }
 
     setMarkerIcons() {
-        let google = document.querySelector('[data-reactroot]').contentWindow.google;
         Object.keys(this.markersOptions).forEach(type => {
             const options = this.markersOptions[type];
             const iconAnchor = options.anchor || [options.width / 2, options.height];
@@ -160,6 +149,7 @@ class GoogleMap extends AbstractMap {
     setIconOnMarker(marker, iconType, isLabeled = true) {
         marker = this.getMarker(marker);
         const icon = this.icons[iconType];
+
         if (marker && icon) {
             marker.setIcon(icon);
             marker.iconType = iconType;
@@ -171,7 +161,7 @@ class GoogleMap extends AbstractMap {
                     fontFamily: iconLabelOptions.family,
                     fontSize: iconLabelOptions.size,
                     fontWeight: iconLabelOptions.weight,
-                    // text: marker.label.text
+                    text: marker.label.text
                 };
                 marker.setLabel(label);
             }
@@ -186,7 +176,6 @@ class GoogleMap extends AbstractMap {
     }
 
     addUserMarker(position, iconType, id = 0) {
-        let google = document.querySelector('[data-reactroot]').contentWindow.google;
         if (position) {
             const point = {
                 id: `${id}`,
@@ -206,10 +195,8 @@ class GoogleMap extends AbstractMap {
     }
 
     addCluster() {
-        console.log('addCluster');
         const icon = this.icons.cluster;
-        console.log(icon);
-        console.log(this.clustersOptions);
+
         this.cluster = new MarkerClusterer(this.map, this.markers, objectAssign({
             averageCenter: true,
             styles: [{
