@@ -5,6 +5,7 @@ module.exports = {
     entry: {
         gmaps: './src/providers/gmaps/Gmaps.js',
         mappy: './src/providers/mappy/Mappy.js',
+        mappywidget: './src/providers/mappy-widget/MappyWidget.js',
         leaflet: './src/providers/leaflet/Leaflet.js'
     },
     output: {
