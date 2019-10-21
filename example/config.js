@@ -4,6 +4,7 @@ const mapConfig = {
     /* Gmaps */
     provider: 'gmaps',
     apiKey: 'AIzaSyBgMN26G65UEgkWVDIPKTq-VpvktLmezjQ',
+    // apiKey: ['gme-lorealsa', 'Cz_fa_vO6pGrXm7LV9yNKZCJrpA='],
 
     /* Mappy */
     // provider: 'mappy',

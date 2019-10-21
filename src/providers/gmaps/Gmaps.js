@@ -14,6 +14,8 @@ const domUtils = require('../../utils/dom');
 const loaderUtils = require('../../utils/loader');
 const objectAssign = require('object-assign');
 
+const gmapsPremium = require('./GmapsPremium');
+
 const MarkerClusterer = require('@google/markerclusterer');
 
 class GoogleMap extends AbstractMap {
@@ -34,8 +36,15 @@ class GoogleMap extends AbstractMap {
         callback = loaderUtils.addLoader(this.domElement, callback);
 
         let resources = [];
+        let urlParams = '?v=3.37&language=' + this.locale;
 
-        const urlParams = '?v=3.37&language=' + this.locale + '&key=' + this.apiKey;
+        if (Array.isArray(this.apiKey)) {
+            urlParams = urlParams + '&client=' + this.apiKey[0];
+            urlParams = urlParams + gmapsPremium.sign('https://maps.googleapis.com/maps/api/js', this.apiKey[1]);
+        } else {
+            urlParams = urlParams + '&key=' + this.apiKey;
+        }
+
         resources.push(domUtils.createScript('//maps.googleapis.com/maps/api/js' + urlParams));
 
         domUtils.addResources(document.head, resources, callback);
@@ -260,7 +269,6 @@ class GoogleMap extends AbstractMap {
             this.isMinifiedMarkerIcons = false;
         }
     }
-
 }
 
 window.GoogleMap = GoogleMap;
