@@ -12,7 +12,7 @@ The only thing that change will be the chosen provider and its API Key. All your
 
 ## Getting Started
 
-See the [documentation](https://leadformance.github.io/batMap/)
+See the full [documentation](https://leadformance.github.io/batMap/).
 
 ## Development
 
@@ -21,12 +21,16 @@ See the [documentation](https://leadformance.github.io/batMap/)
 Run `npm run build-dev` and launch the example folder on a local server.
 Any changes will be watched.
 
+### Validate your code
+
+Run `npm run test` to launch the tests (Jest - [documentation](https://jestjs.io/)).
+
 ### Testing your devs
 
 If you need to test your developments before releasing, you can push the compiled filed to Github Pages.
 To do this, just run `npm run gh-deploy`.
 
-You'll find the generated files on this link: https://leadformance.github.io/batMap/dist/[PROVIDER].js
+You'll find the generated files on this link: https://leadformance.github.io/batMap/dist/[PROVIDER].[min].js
 
 ### Deploy your devs
 
@@ -39,13 +43,13 @@ Now you can use this version in your project.
 
 ## Compatibility
 
-|         |         Google Map         |         Mappy         |        Leaflet        |         SVG Marker         |
-| ------- |         :--------:         |      :--------:       |      :--------:       |         :--------:         |
-| Chrome  |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
-| Firefox |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
-| Opera   |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
-| Safari  |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
-| IE11    |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
-| EDGE    |     :white_check_mark:     |   :white_check_mark:  |   :white_check_mark:  |     :white_check_mark:     |
+|         | Google Map |   Mappy   |  Leaflet  | SVG Marker |
+| ------- | :--------: | :-------: | :-------: | :--------: |
+| Chrome  |     ✔      |     ✔     |     ✔     |     ✔      |
+| Firefox |     ✔      |     ✔     |     ✔     |     ✔      |
+| Opera   |     ✔      |     ✔     |     ✔     |     ✔      |
+| Safari  |     ✔      |     ✔     |     ✔     |     ✔      |
+| IE11    |     ✔      |     ✔     |     ✔     |     ✔      |
+| EDGE    |     ✔      |     ✔     |     ✔     |     ✔      |
 
 - need to include [es5-shim && es5-sham](https://github.com/es-shims/es5-shim)

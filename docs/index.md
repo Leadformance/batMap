@@ -22,6 +22,37 @@ The only thing that change will be the chosen provider and its API Key. All your
 
 ### Basics
 
+#### Set provider
+
+##### Google Maps
+
+```js
+const config = {
+    provider: 'gmaps',
+    apiKey: 'API_KEY'|['CLIENT_ID', 'API_KEY_PREMIUM'],
+    // ...
+}
+```
+
+##### Mappy
+
+```js
+const config = {
+    provider: 'mappy',
+    apiKey: 'CLIENT_ID',
+    // ...
+}
+```
+
+##### Leaflet
+
+```js
+const config = {
+    provider: 'leaflet',
+    // ...
+}
+```
+
 #### Set options
 
 ```js
