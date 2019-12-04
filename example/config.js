@@ -1,5 +1,6 @@
 // Parameters
 
+// eslint-disable-next-line no-unused-vars
 const mapConfig = {
     /* Gmaps */
     provider: 'gmaps',
@@ -15,13 +16,13 @@ const mapConfig = {
     // apiKey: '',
 
     locale: 'en',
-    locations: locations,
+    locations: locations, // eslint-disable-line no-undef
     showCluster: true,
     showLabel: true,
     showPosition: true,
     options: {
         zoom: 12,
-        locationZoom: 16,
+        locationZoom: 16
     },
     markers: {
         default: {
@@ -54,13 +55,13 @@ const mapConfig = {
             width: 50,
             height: 50,
             label: {
-                origin: [25, 25],
+                origin: [25, 25], //eslint-disable-line no-magic-numbers
                 size: 14
             }
         }
     },
     labels: {
-        origin: [19, 19],
+        origin: [19, 19], //eslint-disable-line no-magic-numbers
         color: 'white',
         font: 'Arial, sans-serif',
         size: '14px',

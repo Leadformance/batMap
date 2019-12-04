@@ -1,5 +1,6 @@
-// Mock data LocationPage
+// Mock data LocationPag
 
+// eslint-disable-next-line no-unused-vars
 const locations = [
     {
         _id: 'uuid1',

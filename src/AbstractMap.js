@@ -1,5 +1,3 @@
-'use strict';
-
 require('./style.css');
 const objectAssign = require('object-assign');
 const dom = require('./utils/dom');
@@ -10,8 +8,18 @@ if (typeof Promise === 'undefined') {
 }
 
 class AbstractMap {
-    constructor(domSelector, apiKey, locale, showCluster = false, showLabel = false, showPosition = false, callback = () => {}) {
-        this.domElement = dom.isHTMLElement(domSelector) ? domSelector : document.querySelector(domSelector);
+    constructor(
+        domSelector,
+        apiKey,
+        locale,
+        showCluster = false,
+        showLabel = false,
+        showPosition = false,
+        callback = () => {}
+    ) {
+        this.domElement = dom.isHTMLElement(domSelector)
+            ? domSelector
+            : document.querySelector(domSelector);
         this.domId = this.domElement.id || '';
 
         this.apiKey = apiKey;
@@ -58,6 +66,7 @@ class AbstractMap {
 
     getMarker(marker) {
         if (typeof marker === 'string') {
+            // eslint-disable-next-line no-param-reassign
             marker = this.markers.find(m => {
                 return m.id === marker;
             });
@@ -79,11 +88,12 @@ class AbstractMap {
     }
 
     getMarkerIconType(marker) {
-        marker = this.getMarker(marker);
+        marker = this.getMarker(marker); // eslint-disable-line no-param-reassign
         return marker.iconType;
     }
 
     getGeolocation() {
+        // eslint-disable-next-line no-undef
         return new Promise((resolve, reject) => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -92,83 +102,115 @@ class AbstractMap {
                     enableHighAccuracy: true
                 });
             } else {
-                reject(
-                    new Error()
-                );
+                reject(new Error());
             }
         });
     }
 
     initMap() {
-        console.error(`${this.provider} has no 'initMap' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'initMap' method implemented.`
+        );
     }
 
     setPoint() {
-        console.error(`${this.provider} has no 'setPoint' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'setPoint' method implemented.`
+        );
     }
 
     addMarkers() {
-        console.error(`${this.provider} has no 'addMarkers' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'addMarkers' method implemented.`
+        );
     }
 
     addUserMarker() {
-        console.error(`${this.provider} has no 'addUserMarker' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'addUserMarker' method implemented.`
+        );
     }
 
     addMarker() {
-        console.error(`${this.provider} has no 'addMarker' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'addMarker' method implemented.`
+        );
     }
 
     removeMarker() {
-        console.error(`${this.provider} has no 'removeMarker' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'removeMarker' method implemented.`
+        );
     }
 
     setMarkerIcons() {
-        console.error(`${this.provider} has no 'setMarkerIcons' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'setMarkerIcons' method implemented.`
+        );
     }
 
     setIconOnMarker() {
-        console.error(`${this.provider} has no 'setIconOnMarker' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'setIconOnMarker' method implemented.`
+        );
     }
 
     focusOnMarker() {
-        console.error(`${this.provider} has no 'focusOnMarker' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'focusOnMarker' method implemented.`
+        );
     }
 
     addCluster() {
-        console.error(`${this.provider} has no 'addCluster' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'addCluster' method implemented.`
+        );
     }
 
     setCenter() {
-        console.error(`${this.provider} has no 'setCenter' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'setCenter' method implemented.`
+        );
     }
 
     fitBounds() {
-        console.error(`${this.provider} has no 'fitBounds' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'fitBounds' method implemented.`
+        );
     }
 
     extendBounds() {
-        console.error(`${this.provider} has no 'extendBounds' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'extendBounds' method implemented.`
+        );
     }
 
     getBounds() {
-        console.error(`${this.provider} has no 'getBounds' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'getBounds' method implemented.`
+        );
     }
 
     panTo() {
-        console.error(`${this.provider} has no 'panTo' method implemented.`);
+        throw new Error(`${this.provider} has no 'panTo' method implemented.`);
     }
 
     setZoom() {
-        console.error(`${this.provider} has no 'setZoom' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'setZoom' method implemented.`
+        );
     }
 
     listenZoomChange() {
-        console.error(`${this.provider} has no 'listenZoomChange' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'listenZoomChange' method implemented.`
+        );
     }
 
     minifyMarkerIcons() {
-        console.error(`${this.provider} has no 'minifyMarkerIcons' method implemented.`);
+        throw new Error(
+            `${this.provider} has no 'minifyMarkerIcons' method implemented.`
+        );
     }
 }
 

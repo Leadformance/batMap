@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Mappy Map
  * API Documentation: https://leafletjs.com/reference-1.0.3.html
@@ -31,51 +29,80 @@ class Mappy extends AbstractMap {
             return;
         }
 
-        callback = loaderUtils.addLoader(this.domElement, callback);
+        callback = loaderUtils.addLoader(this.domElement, callback); //eslint-disable-line no-param-reassign
 
-        domUtils.addResources(document.head, [
-            domUtils.createStyle('//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css'),
-            domUtils.createScript('//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js')
-        ], () => {
-            const resources = [
-                domUtils.createScript('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.js'),
-                domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.css')
-            ];
+        domUtils.addResources(
+            document.head,
+            [
+                domUtils.createStyle(
+                    '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css'
+                ),
+                domUtils.createScript(
+                    '//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js'
+                )
+            ],
+            () => {
+                const resources = [
+                    domUtils.createScript(
+                        '//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.js'
+                    ),
+                    domUtils.createStyle(
+                        '//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.css'
+                    )
+                ];
 
-            if (this.showCluster) {
-                resources.push(domUtils.createScript('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/leaflet.markercluster.js'));
-                resources.push(domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.Default.css'));
-                resources.push(domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.css'));
+                if (this.showCluster) {
+                    resources.push(
+                        domUtils.createScript(
+                            '//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/leaflet.markercluster.js'
+                        )
+                    );
+                    resources.push(
+                        domUtils.createStyle(
+                            '//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.Default.css'
+                        )
+                    );
+                    resources.push(
+                        domUtils.createStyle(
+                            '//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.css'
+                        )
+                    );
+                }
+
+                domUtils.addResources(document.head, resources, () => {
+                    L = window.L;
+                    L.Mappy.setImgPath(
+                        '//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/images/'
+                    );
+                    callback();
+                });
             }
-
-            domUtils.addResources(document.head, resources, () => {
-                L = window.L;
-                L.Mappy.setImgPath('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/images/');
-                callback();
-            });
-        });
+        );
     }
 
     setMapOptions(options = {}, markers = {}, labels = {}, clusters = {}) {
-        this.mapOptions = objectAssign({
-            clientId: this.apiKey,
-            locale: this.locale,
-            center: [0, 0],
-            zoom: 12,
-            locationZoom: 16,
-            scrollwheel: true,
-            mapTypeControl: false,
-            panControl: false,
-            zoomControl: true,
-            scaleControl: false,
-            streetViewControl: false,
-            layersControl: {
-                publicTransport: false,
-                traffic: true,
-                viewMode: true,
-                trafficLegend: true
-            }
-        }, options);
+        this.mapOptions = objectAssign(
+            {
+                clientId: this.apiKey,
+                locale: this.locale,
+                center: [0, 0],
+                zoom: 12,
+                locationZoom: 16,
+                scrollwheel: true,
+                mapTypeControl: false,
+                panControl: false,
+                zoomControl: true,
+                scaleControl: false,
+                streetViewControl: false,
+                layersControl: {
+                    publicTransport: false,
+                    traffic: true,
+                    viewMode: true,
+                    trafficLegend: true
+                }
+            },
+            options
+        );
 
         this.markersOptions = markers;
 
@@ -85,7 +112,7 @@ class Mappy extends AbstractMap {
     }
 
     initMap() {
-        this.bounds = new L.latLngBounds([]);
+        this.bounds = new L.latLngBounds([]); //eslint-disable-line new-cap
         this.map = new L.Mappy.Map(this.domElement, this.mapOptions);
     }
 
@@ -141,16 +168,21 @@ class Mappy extends AbstractMap {
     }
 
     removeMarker(marker) {
-        marker = this.getMarker(marker);
+        marker = this.getMarker(marker); //eslint-disable-line no-param-reassign
 
         marker.removeFrom(this.map);
-        this.markers = this.markers.filter(m => m.id !== marker.id);
+        this.markers = this.markers.filter(m => m.id !== marker.id); //eslint-disable-line arrow-body-style
     }
 
     setMarkerIcons() {
+        const divider = 2;
+
         Object.keys(this.markersOptions).forEach(type => {
             const options = this.markersOptions[type];
-            const iconAnchor = options.anchor || [options.width / 2, options.height];
+            const iconAnchor = options.anchor || [
+                options.width / divider,
+                options.height
+            ];
             const iconLabelOptions = options.label || {};
 
             this.icons[type] = new L.Icon({
@@ -164,8 +196,16 @@ class Mappy extends AbstractMap {
     }
 
     getLabelOptions(options) {
+        const divider = 2;
+
         return {
-            origin: options.origin || this.labelsOptions.origin || [options.width / 2, options.height / 2],
+            /* eslint-disable indent */
+            origin: options.origin ||
+                this.labelsOptions.origin || [
+                    options.width / divider,
+                    options.height / divider
+                ],
+            /* eslint-enable indent */
             color: options.color || this.labelsOptions.color,
             font: options.font || this.labelsOptions.font,
             size: options.size || this.labelsOptions.size,
@@ -174,7 +214,7 @@ class Mappy extends AbstractMap {
     }
 
     setIconOnMarker(marker, iconType, isLabeled = true) {
-        marker = this.getMarker(marker);
+        marker = this.getMarker(marker); //eslint-disable-line no-param-reassign
         const icon = this.icons[iconType];
 
         if (marker && icon) {
@@ -194,12 +234,14 @@ class Mappy extends AbstractMap {
                 span.style.fontWeight = `${labelOptions.weight}`;
                 span.style.fontSize = `${labelOptions.size}px`;
 
-                marker.setIcon(new L.DivIcon({
-                    className: icon.options.className,
-                    iconSize: icon.options.iconSize,
-                    iconAnchor: icon.options.iconAnchor,
-                    html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image">${span.outerHTML}`
-                }));
+                marker.setIcon(
+                    new L.DivIcon({
+                        className: icon.options.className,
+                        iconSize: icon.options.iconSize,
+                        iconAnchor: icon.options.iconAnchor,
+                        html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image">${span.outerHTML}`
+                    })
+                );
             } else {
                 marker.setIcon(icon);
             }
@@ -207,14 +249,17 @@ class Mappy extends AbstractMap {
     }
 
     focusOnMarker(marker) {
-        marker = this.getMarker(marker);
+        marker = this.getMarker(marker); //eslint-disable-line no-param-reassign
 
         this.panTo(marker.getLatLng());
     }
 
     addUserMarker(position, iconType, id = 0) {
         if (position) {
-            this.userMarker = new L.marker(L.latLng(position.latitude, position.longitude));
+            //eslint-disable-next-line new-cap
+            this.userMarker = new L.marker(
+                L.latLng(position.latitude, position.longitude)
+            );
             this.userMarker.id = id;
             this.userMarker.addTo(this.map);
 
@@ -226,31 +271,38 @@ class Mappy extends AbstractMap {
     addCluster() {
         const icon = this.icons.cluster;
 
-        this.cluster = L.markerClusterGroup(objectAssign({
-            showCoverageOnHover: false,
-            zoomToBoundsOnClick: true,
-            spiderfyOnMaxZoom: true,
-            iconCreateFunction: cluster => {
-                const labelOptions = icon.options.labelOptions;
-                const span = document.createElement('span');
-                span.innerText = cluster.getChildCount();
+        this.cluster = L.markerClusterGroup(
+            objectAssign(
+                {
+                    showCoverageOnHover: false,
+                    zoomToBoundsOnClick: true,
+                    spiderfyOnMaxZoom: true,
+                    iconCreateFunction: cluster => {
+                        const labelOptions = icon.options.labelOptions;
+                        const span = document.createElement('span');
+                        span.innerText = cluster.getChildCount();
 
-                span.style.position = 'absolute';
-                span.style.top = `${labelOptions.origin[0]}px`;
-                span.style.left = `${labelOptions.origin[1]}px`;
-                span.style.transform = 'translate(-50%, -50%)';
-                span.style.color = `${labelOptions.color}`;
-                span.style.fontFamily = `${labelOptions.font}`;
-                span.style.fontWeight = `${labelOptions.weight}`;
-                span.style.fontSize = `${labelOptions.size}px`;
+                        span.style.position = 'absolute';
+                        span.style.top = `${labelOptions.origin[0]}px`;
+                        span.style.left = `${labelOptions.origin[1]}px`;
+                        span.style.transform = 'translate(-50%, -50%)';
+                        span.style.color = `${labelOptions.color}`;
+                        span.style.fontFamily = `${labelOptions.font}`;
+                        span.style.fontWeight = `${labelOptions.weight}`;
+                        span.style.fontSize = `${labelOptions.size}px`;
 
-                return L.divIcon({
-                    className: icon.options.className,
-                    html: `<img src="${icon.options.iconUrl}" class="map-marker-cluster__image">` + span.outerHTML,
-                    iconSize: icon.options.iconSize
-                });
-            }
-        }, this.clustersOptions));
+                        return L.divIcon({
+                            className: icon.options.className,
+                            html:
+                                `<img src="${icon.options.iconUrl}" class="map-marker-cluster__image">` +
+                                span.outerHTML,
+                            iconSize: icon.options.iconSize
+                        });
+                    }
+                },
+                this.clustersOptions
+            )
+        );
 
         this.map.addLayer(this.cluster);
     }
@@ -274,7 +326,7 @@ class Mappy extends AbstractMap {
     fitBounds(bounds, zoom = this.mapOptions.zoom) {
         if (this.markers.length > 1) {
             this.map.fitBounds(bounds, {
-                padding: L.point(50, 50),
+                padding: L.point(50, 50), //eslint-disable-line no-magic-numbers
                 maxZoom: zoom
             });
         } else {
@@ -291,19 +343,25 @@ class Mappy extends AbstractMap {
             return callback(this.map.getZoom());
         });
     }
-
+    //eslint-disable-next-line no-magic-numbers
     minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
         if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
             [].forEach.call(Object.keys(this.icons), key => {
                 const size = this.icons[key].options.iconSize;
-                this.icons[key].options.iconSize = [size[0] * minifier, size[1] * minifier];
+                this.icons[key].options.iconSize = [
+                    size[0] * minifier,
+                    size[1] * minifier
+                ];
             });
             this.isMinifiedMarkerIcons = true;
             this.updateAllMarkerIconsOnMap();
         } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
             [].forEach.call(Object.keys(this.icons), key => {
                 const size = this.icons[key].options.iconSize;
-                this.icons[key].options.iconSize = [size[0] / minifier, size[1] / minifier];
+                this.icons[key].options.iconSize = [
+                    size[0] / minifier,
+                    size[1] / minifier
+                ];
             });
             this.isMinifiedMarkerIcons = false;
             this.updateAllMarkerIconsOnMap();
@@ -316,7 +374,11 @@ class Mappy extends AbstractMap {
         });
 
         if (this.userMarker) {
-            this.setIconOnMarker(this.userMarker, this.userMarker.iconType, false);
+            this.setIconOnMarker(
+                this.userMarker,
+                this.userMarker.iconType,
+                false
+            );
         }
     }
 }
