@@ -100,7 +100,7 @@ class GoogleMap extends AbstractMap {
             this.addMarker(point, eventCallback);
         });
 
-        if (this.showCluster && this.icons.cluster) {
+        if (this.showCluster && this.icons.cluster && this.points.length > 1) {
             this.addCluster();
         }
     }
