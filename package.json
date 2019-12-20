@@ -1,50 +1,154 @@
 {
-  "name": "batmap",
-  "version": "1.6.1",
-  "description": "Unique interface above multiple map providers",
-  "dependencies": {
-    "@google/markerclusterer": "^1.0.3",
-    "promise": "^8.0.3",
-    "simple-js-validator": "^0.13.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "@types/jest": "^23.3.1",
-    "ajv": "^6.5.3",
-    "babel-core": "^6.26.3",
-    "babel-jest": "^23.4.2",
-    "babel-loader": "^8.0.0",
-    "css-loader": "^0.14.4",
-    "express": "^4.16.3",
-    "jest": "^23.5.0",
-    "jest-puppeteer": "^3.3.1",
-    "jsdom": "^12.0.0",
-    "jshint": "^2.9.6",
-    "jshint-loader": "^0.8.4",
-    "node-libs-browser": "^0.5.2",
-    "object-assign": "^3.0.0",
-    "puppeteer": "^1.7.0",
-    "regenerator-runtime": "^0.12.1",
-    "style-loader": "^0.12.3",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0"
-  },
-  "scripts": {
-    "build": "rm -rf dist && webpack -p && find dist/ -maxdepth 1 -mindepth 1 -type f -name '*.js' | sed 's/.js$//' | xargs -I{} mv {}.js {}.min.js && webpack",
-    "build-dev": "rm -rf dist && webpack --mode development --watch",
-    "deploy": "bash scripts/deploy.sh",
-    "gh-deploy": "bash scripts/gh-deploy.sh",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Leadformance/batMap.git"
-  },
-  "author": "Marie Rigal",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/leadformance/batMap/issues"
-  },
-  "homepage": "https://leadformance.github.io/batMap/"
+    "name": "@bridge/batmap",
+    "version": "1.6.1",
+    "description": "Unique interface above multiple map providers",
+    "keywords": [
+        "bridge",
+        "node",
+        "map"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Leadformance/batMap.git"
+    },
+    "engines": {
+        "node": ">=8.7",
+        "yarn": ">=1"
+    },
+    "author": "Marie Rigal",
+    "license": "ISC",
+    "private": false,
+    "files": [
+        "dist/index.{d.ts,js}",
+        "dist/*.{js,ts}"
+    ],
+    "publishConfig": {
+        "registry": "https://solocal.jfrog.io/solocal/api/npm/npm-local/"
+    },
+    "scripts": {
+        "build": "rm -rf dist && webpack -p && find dist/ -maxdepth 1 -mindepth 1 -type f -name '*.js' | sed 's/.js$//' | xargs -I{} mv {}.js {}.min.js && webpack",
+        "build-dev": "rm -rf dist && webpack --mode development --watch",
+        "deploy": "bash scripts/deploy.sh",
+        "gh-deploy": "bash scripts/gh-deploy.sh",
+        "ci-validate": "npm run lint && npm run test:cov",
+        "cover": "open coverage/lcov-report/index.html",
+        "eslint": "eslint -c .eslintrc.json --ext js",
+        "lint": "npm run lint:eslint && npm run lint:commit",
+        "lint2": "npm run lint:eslint && npm run lint:prettier && npm run lint:commit",
+        "lint:commit": "commitlint --from=$( git rev-list --tags --max-count=1 )",
+        "lint:eslint": "npm run eslint '**/*.js'",
+        "lint:prettier": "prettier -l '{specs,src,test}/**/*.{js,md,json}'",
+        "lint:prettier:fix": "prettier --write '{specs,src,test}/**/*.{js,md,json}'",
+        "prepublishOnly": "npm run build",
+        "test": "jest --forceExit --passWithNoTests --detectOpenHandles",
+        "test:cov": "npm run test --ci --coverage",
+        "test:watch": "npm run test --watch",
+        "semantic-release": "gh-actions-bridge-semantic-release"
+    },
+    "commitlint": {
+        "extends": [
+            "@bridge/commitlint-config",
+            "@commitlint/config-conventional"
+        ]
+    },
+    "lint-staged": {
+        "*.{ts,js}": [
+            "prettier --write",
+            "git add"
+        ],
+        "*.{json,md}": [
+            "prettier --write",
+            "git add"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+            "pre-commit": "lint-staged"
+        }
+    },
+    "prettier": {
+        "printWidth": 80,
+        "tabWidth": 4,
+        "semi": true,
+        "singleQuote": true,
+        "trailingComma": "none",
+        "bracketSpacing": true,
+        "arrowParens": "avoid"
+    },
+    "jest": {
+        "coverageDirectory": "coverage",
+        "collectCoverage": false,
+        "collectCoverageFrom": [
+            "src/**/*.ts",
+            "!src/**/*.d.ts",
+            "!src/**/@types/**",
+            "!src/**/index.ts"
+        ],
+        "globals": {
+            "BLUEBIRD_DEBUG": 1
+        },
+        "moduleFileExtensions": [
+            "js",
+            "ts"
+        ],
+        "modulePaths": [
+            "."
+        ],
+        "testEnvironment": "node",
+        "testMatch": [
+            "<rootDir>/src/**/*.test.ts"
+        ],
+        "testPathIgnorePatterns": [
+            "/node_modules/",
+            "/dist"
+        ],
+        "transform": {
+            "\\.(ts|tsx)$": "ts-jest"
+        }
+    },
+    "devDependencies": {
+        "@bridge/commitlint-config": "^2.0.0",
+        "@bridge/eslint-config": "^4.0.14",
+        "@bridge/semantic-release-config": "^2.1.32",
+        "@commitlint/cli": "^8.2.0",
+        "@commitlint/config-conventional": "^8.2.0",
+        "@types/jest": "^24.0.23",
+        "@babel/core": "^7.0.0",
+        "@babel/preset-env": "^7.1.0",
+        "ajv": "^6.5.3",
+        "babel-core": "^6.26.3",
+        "babel-jest": "^23.4.2",
+        "babel-loader": "^8.0.0",
+        "css-loader": "^0.14.4",
+        "express": "^4.16.3",
+        "jsdom": "^12.0.0",
+        "jshint": "^2.9.6",
+        "jshint-loader": "^0.8.4",
+        "node-libs-browser": "^0.5.2",
+        "object-assign": "^3.0.0",
+        "puppeteer": "^1.7.0",
+        "regenerator-runtime": "^0.12.1",
+        "style-loader": "^0.12.3",
+        "webpack": "^4.17.1",
+        "webpack-cli": "^3.1.0",
+        "codecov": "^3.2.0",
+        "husky": "^3.1.0",
+        "jest": "^24.8.0",
+        "jest-environment-node-debug": "^2.0.0",
+        "jest-puppeteer": "^3.3.1",
+        "lint-staged": "^9.4.3",
+        "prettier": "^1.19.1",
+        "ts-jest": "^24.0.2",
+        "typescript": "^3.7.2"
+    },
+    "dependencies": {
+        "@google/markerclusterer": "^1.0.3",
+        "promise": "^8.0.3",
+        "simple-js-validator": "^0.13.0"
+    },
+    "bugs": {
+        "url": "https://github.com/leadformance/batMap/issues"
+    },
+    "homepage": "https://leadformance.github.io/batMap/"
 }
