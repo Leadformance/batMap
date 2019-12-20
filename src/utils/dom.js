@@ -1,26 +1,24 @@
-'use strict';
-
-let ieUtils = require('./ie');
-let isAString = require('./type').isAString;
-let isDefined = require('simple-js-validator').isDefined;
+const ieUtils = require('./ie');
+const isAString = require('./type').isAString;
+const isDefined = require('simple-js-validator').isDefined;
 
 module.exports = {
-    addScript: function (domElement, src) {
+    addScript: function(domElement, src) {
         domElement.appendChild(this.createScript(src));
     },
 
-    addStyle: function (domElement, href) {
+    addStyle: function(domElement, href) {
         domElement.appendChild(this.createStyle(href));
     },
 
-    addResources: function (domElement, resources, callback) {
+    addResources: function(domElement, resources, callback) {
         let nbLoaded = 0;
 
         if (resources.length === 0) {
             callback();
         }
 
-        resources.forEach((resource) => {
+        resources.forEach(resource => {
             ieUtils.addLoadListener(resource, () => {
                 nbLoaded++;
 
@@ -33,8 +31,8 @@ module.exports = {
         });
     },
 
-    createScript: function (src) {
-        let script = document.createElement('script');
+    createScript: function(src) {
+        const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = src;
         script.async = true;
@@ -42,36 +40,42 @@ module.exports = {
         return script;
     },
 
-    createStyle: function (href) {
-        let style = document.createElement('link');
+    createStyle: function(href) {
+        const style = document.createElement('link');
         style.rel = 'stylesheet';
         style.href = href;
 
         return style;
     },
 
-    isHTMLElement: function (obj) {
-        return obj && typeof obj === 'object' && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === 'string';
+    isHTMLElement: function(obj) {
+        return (
+            obj &&
+            typeof obj === 'object' &&
+            obj !== null &&
+            obj.nodeType === 1 &&
+            typeof obj.nodeName === 'string'
+        );
     },
 
-    extractTextAndCssClasses: function (str) {
-        let div = document.createElement('div');
+    extractTextAndCssClasses: function(str) {
+        const div = document.createElement('div');
         div.innerHTML = str;
-        let textContent = div.textContent || div.innerText || '';
+        const textContent = div.textContent || div.innerText || '';
         let classes = '';
         if (isDefined(div.firstChild)) {
             classes = div.firstChild.className;
         }
-        return {textContent: textContent, classes: classes};
+        return { textContent: textContent, classes: classes };
     },
 
     // use a memoized version of the function as il would be silly to repeat the operation
-    getStyleFromCss: memoize((cssClass) => {
+    getStyleFromCss: memoize(cssClass => {
         const div = document.createElement('div');
         div.className = cssClass;
         document.body.appendChild(div);
-        let style = window.getComputedStyle(div);
-        let result = {
+        const style = window.getComputedStyle(div);
+        const result = {
             top: extractPx(style.top),
             left: extractPx(style.left)
         };
@@ -85,25 +89,23 @@ function extractPx(str) {
         const pxValue = str.replace('px', '').replace('"', '');
         const pxNumber = parseInt(pxValue);
         return isFinite(pxNumber) ? pxNumber : 0;
-    } else {
-        return 0;
     }
+
+    return 0;
 }
 
 function memoize(func) {
     const cache = {};
-    return (arg) => {
+    return arg => {
         if (arg in cache) {
             return cache[arg];
-        } else {
-            try {
-                let result = func(arg);
-                cache[arg] = result;
-                return result;
-            } catch (e) {
-                console.log(e);
-                return null;
-            }
+        }
+        try {
+            const result = func(arg);
+            cache[arg] = result;
+            return result;
+        } catch (e) {
+            throw new Error(e);
         }
     };
 }

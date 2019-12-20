@@ -1,11 +1,9 @@
-'use strict';
-
 module.exports = {
     delete: function(obj, key) {
         try {
             delete obj[key];
-        } catch(e) {
-            obj[key] = undefined;
+        } catch (e) {
+            obj[key] = undefined; //eslint-disable-line no-undefined
         }
     },
     addEventListener: function(domElement, event, callback, useCapture) {

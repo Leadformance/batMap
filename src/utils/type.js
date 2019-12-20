@@ -1,5 +1,3 @@
-'use strict';
-
 function isAString(something) {
     return typeof something === 'string';
 }

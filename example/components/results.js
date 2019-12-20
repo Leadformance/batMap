@@ -10,10 +10,11 @@ class MyMap {
 
     init() {
         const script = document.createElement('script');
-        script.setAttribute('src', `../dist/${this.attr.provider}.js`)
+        script.setAttribute('src', `../dist/${this.attr.provider}.js`);
         document.head.appendChild(script);
 
         script.addEventListener('load', () => {
+            //eslint-disable-next-line no-undef
             this.map = new BatMap(
                 this.el,
                 this.attr.apiKey,
@@ -27,12 +28,24 @@ class MyMap {
     }
 
     bindEvents() {
-        [].forEach.call(document.querySelectorAll('[data-location]'), location => {
-            const id = location.getAttribute('data-location');
-            location.addEventListener('click', this.handleClickOnLocation(id));
-            location.addEventListener('mouseenter', this.handleMouseEnterOnLocation(id));
-            location.addEventListener('mouseleave', this.handleMouseLeaveOnLocation(id));
-        });
+        [].forEach.call(
+            document.querySelectorAll('[data-location]'),
+            location => {
+                const id = location.getAttribute('data-location');
+                location.addEventListener(
+                    'click',
+                    this.handleClickOnLocation(id)
+                );
+                location.addEventListener(
+                    'mouseenter',
+                    this.handleMouseEnterOnLocation(id)
+                );
+                location.addEventListener(
+                    'mouseleave',
+                    this.handleMouseLeaveOnLocation(id)
+                );
+            }
+        );
     }
 
     initMap() {
@@ -57,7 +70,12 @@ class MyMap {
     }
 
     setMapOptions() {
-        this.map.setMapOptions(this.attr.options, this.attr.markers, this.attr.labels, this.attr.clusters);
+        this.map.setMapOptions(
+            this.attr.options,
+            this.attr.markers,
+            this.attr.labels,
+            this.attr.clusters
+        );
     }
 
     setPoints() {
@@ -103,18 +121,19 @@ class MyMap {
     }
 
     geolocateOnMap() {
-        if(this.attr.showPosition) {
-            this.map.getGeolocation()
+        if (this.attr.showPosition) {
+            this.map
+                .getGeolocation()
                 .then(position => {
                     this.map.addUserMarker(position.coords, 'user');
                 })
                 .catch(error => {
-                    console.error(`geolocateOnMap(): ${error.message}`);
-                    return false;
+                    throw new Error(`geolocateOnMap(): ${error.message}`);
                 });
         } else {
             return false;
         }
+        return true;
     }
 
     panToAllMarkers() {
@@ -137,25 +156,31 @@ class MyMap {
                 this.scrollToLocation(marker.id);
                 this.highlightLocation(marker.id, true);
             }
-        }
+        };
     }
 
     handleMouseEnterOnMarker(marker) {
         return () => {
-            if (this.getMarkerIconType(marker) !== 'active' && this.getMarkerIconType(marker) !== 'hover') {
+            if (
+                this.getMarkerIconType(marker) !== 'active' &&
+                this.getMarkerIconType(marker) !== 'hover'
+            ) {
                 this.setIconOnMarker(marker, 'hover');
                 this.highlightLocation(marker.id);
             }
-        }
+        };
     }
 
     handleMouseLeaveOnMarker(marker) {
         return () => {
-            if (this.getMarkerIconType(marker) !== 'active' && this.getMarkerIconType(marker) !== 'default') {
+            if (
+                this.getMarkerIconType(marker) !== 'active' &&
+                this.getMarkerIconType(marker) !== 'default'
+            ) {
                 this.setIconOnMarker(marker, 'default');
                 this.highlightLocation(false);
             }
-        }
+        };
     }
 
     // NOTE: LocationOnMap
@@ -171,7 +196,7 @@ class MyMap {
                 this.focusOnMarker(marker);
                 this.highlightLocation(id, true);
             }
-        }
+        };
     }
 
     handleMouseEnterOnLocation(id) {
@@ -185,7 +210,7 @@ class MyMap {
                     this.highlightLocation(id, true);
                 }
             }
-        }
+        };
     }
 
     handleMouseLeaveOnLocation(id) {
@@ -199,7 +224,7 @@ class MyMap {
                     this.highlightLocation(id, true);
                 }
             }
-        }
+        };
     }
 
     highlightLocation(id = false, isActive = false) {
@@ -214,9 +239,12 @@ class MyMap {
                 location.classList.add('hover');
 
                 if (isActive) {
-                    [].forEach.call(document.querySelectorAll('[data-location]'), l => {
-                        l.classList.remove('active');
-                    });
+                    [].forEach.call(
+                        document.querySelectorAll('[data-location]'),
+                        l => {
+                            l.classList.remove('active');
+                        }
+                    );
                     location.classList.add('active');
                 }
             }
@@ -229,7 +257,8 @@ class MyMap {
 
         if (location && list) {
             list.scrollTo({
-                top: location.offsetTop - location.clientHeight - list.offsetTop,
+                top:
+                    location.offsetTop - location.clientHeight - list.offsetTop,
                 behavior: 'smooth'
             });
         }

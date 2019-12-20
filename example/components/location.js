@@ -10,10 +10,11 @@ class MyMap {
 
     init() {
         const script = document.createElement('script');
-        script.setAttribute('src', `../dist/${this.attr.provider}.js`)
+        script.setAttribute('src', `../dist/${this.attr.provider}.js`);
         document.head.appendChild(script);
 
         script.addEventListener('load', () => {
+            //eslint-disable-next-line no-undef
             this.map = new BatMap(
                 this.el,
                 this.attr.apiKey,
@@ -27,7 +28,11 @@ class MyMap {
     }
 
     initMap() {
-        this.map.setMapOptions(this.attr.options, this.attr.markers, this.attr.labels);
+        this.map.setMapOptions(
+            this.attr.options,
+            this.attr.markers,
+            this.attr.labels
+        );
 
         this.map.initMap();
 
@@ -39,7 +44,10 @@ class MyMap {
 
         this.map.addMarkers();
 
-        this.map.fitBounds(this.map.getBounds(), this.attr.options.locationZoom);
+        this.map.fitBounds(
+            this.map.getBounds(),
+            this.attr.options.locationZoom
+        );
     }
 }
 

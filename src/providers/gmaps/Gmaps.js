@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Google Map v3
  * API Documentation: https://developers.google.com/maps/documentation/javascript/
@@ -33,35 +31,47 @@ class GoogleMap extends AbstractMap {
             return;
         }
 
-        callback = loaderUtils.addLoader(this.domElement, callback);
+        callback = loaderUtils.addLoader(this.domElement, callback); //eslint-disable-line no-param-reassign
 
-        let resources = [];
+        const resources = [];
         let urlParams = '?v=3.37&language=' + this.locale;
 
         if (Array.isArray(this.apiKey)) {
             urlParams = urlParams + '&client=' + this.apiKey[0];
-            urlParams = urlParams + gmapsPremium.sign('https://maps.googleapis.com/maps/api/js', this.apiKey[1]);
+            urlParams =
+                urlParams +
+                gmapsPremium.sign(
+                    'https://maps.googleapis.com/maps/api/js',
+                    this.apiKey[1]
+                );
         } else {
             urlParams = urlParams + '&key=' + this.apiKey;
         }
 
-        resources.push(domUtils.createScript('//maps.googleapis.com/maps/api/js' + urlParams));
+        resources.push(
+            domUtils.createScript(
+                '//maps.googleapis.com/maps/api/js' + urlParams
+            )
+        );
 
         domUtils.addResources(document.head, resources, callback);
     }
 
     setMapOptions(options = {}, markers = {}, labels = {}, clusters = {}) {
-        this.mapOptions = objectAssign({
-            center: {lat: 0, lng: 0},
-            zoom: 12,
-            locationZoom: 16,
-            mapTypeControl: false,
-            zoomControl: true,
-            zoomControlOptions: {
-                position: google.maps.ControlPosition.TOP_LEFT
+        this.mapOptions = objectAssign(
+            {
+                center: { lat: 0, lng: 0 },
+                zoom: 12,
+                locationZoom: 16,
+                mapTypeControl: false,
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.TOP_LEFT //eslint-disable-line no-undef
+                },
+                streetViewControl: false
             },
-            streetViewControl: false
-        }, options);
+            options
+        );
 
         this.markersOptions = markers;
 
@@ -71,13 +81,13 @@ class GoogleMap extends AbstractMap {
     }
 
     initMap() {
-        this.bounds = new google.maps.LatLngBounds();
-        this.map = new google.maps.Map(this.domElement, this.mapOptions);
+        this.bounds = new google.maps.LatLngBounds(); //eslint-disable-line no-undef
+        this.map = new google.maps.Map(this.domElement, this.mapOptions); //eslint-disable-line no-undef
     }
 
     setPoint(location, iconType, label = false) {
         const point = {
-            position: new google.maps.LatLng(
+            position: new google.maps.LatLng( //eslint-disable-line no-undef
                 location.localisation.coordinates.latitude,
                 location.localisation.coordinates.longitude
             ),
@@ -106,7 +116,7 @@ class GoogleMap extends AbstractMap {
     }
 
     addMarker(point, eventCallback = {}) {
-        const marker = new google.maps.Marker(point);
+        const marker = new google.maps.Marker(point); //eslint-disable-line no-undef
         this.markers.push(marker);
         marker.setMap(this.map);
 
@@ -121,24 +131,39 @@ class GoogleMap extends AbstractMap {
     }
 
     removeMarker(marker) {
-        marker = this.getMarker(marker);
+        marker = this.getMarker(marker); //eslint-disable-line no-param-reassign
 
         marker.setMap(null);
-        this.markers = this.markers.filter(m => m.id !== marker.id);
+        this.markers = this.markers.filter(m => m.id !== marker.id); //eslint-disable-line arrow-body-style
     }
 
     setMarkerIcons() {
+        const divider = 2;
+
         Object.keys(this.markersOptions).forEach(type => {
             const options = this.markersOptions[type];
-            const iconAnchor = options.anchor || [options.width / 2, options.height];
-            const iconLabelOptions = options.label || {};
-            const labelOrigin = options.origin || this.labelsOptions.origin || [options.width / 2, options.height / 2];
+            const iconAnchor = options.anchor || [
+                options.width / divider,
+                options.height
+            ];
 
+            const iconLabelOptions = options.label || {};
+            /* eslint-disable indent */
+            const labelOrigin = options.origin ||
+                this.labelsOptions.origin || [
+                    options.width / divider,
+                    options.height / divider
+                ];
+            /* eslint-enable indent */
             this.icons[type] = {
                 url: options.url,
-                scaledSize: new google.maps.Size(options.width, options.height),
-                anchor: new google.maps.Point(iconAnchor[0], iconAnchor[1]),
-                labelOrigin: new google.maps.Point(labelOrigin[0], labelOrigin[1]),
+                scaledSize: new google.maps.Size(options.width, options.height), //eslint-disable-line no-undef
+                anchor: new google.maps.Point(iconAnchor[0], iconAnchor[1]), //eslint-disable-line no-undef
+                //eslint-disable-next-line no-undef
+                labelOrigin: new google.maps.Point(
+                    labelOrigin[0],
+                    labelOrigin[1]
+                ),
                 labelOptions: this.getLabelOptions(iconLabelOptions)
             };
         });
@@ -154,7 +179,7 @@ class GoogleMap extends AbstractMap {
     }
 
     setIconOnMarker(marker, iconType, isLabeled = true) {
-        marker = this.getMarker(marker);
+        marker = this.getMarker(marker); //eslint-disable-line no-param-reassign
         const icon = this.icons[iconType];
 
         if (marker && icon) {
@@ -176,7 +201,7 @@ class GoogleMap extends AbstractMap {
     }
 
     focusOnMarker(marker) {
-        marker = this.getMarker(marker);
+        marker = this.getMarker(marker); //eslint-disable-line no-param-reassign
 
         this.map.setZoom(this.mapOptions.locationZoom);
         this.panTo(marker.position);
@@ -187,6 +212,7 @@ class GoogleMap extends AbstractMap {
             const point = {
                 id: `${id}`,
                 map: this.map,
+                //eslint-disable-next-line no-undef
                 position: new google.maps.LatLng(
                     position.latitude,
                     position.longitude
@@ -194,7 +220,7 @@ class GoogleMap extends AbstractMap {
                 iconType
             };
 
-            this.userMarker = new google.maps.Marker(point);
+            this.userMarker = new google.maps.Marker(point); //eslint-disable-line no-undef
 
             this.setIconOnMarker(this.userMarker, iconType, false);
             this.extendBounds(this.userMarker.position);
@@ -204,17 +230,26 @@ class GoogleMap extends AbstractMap {
     addCluster() {
         const icon = this.icons.cluster;
 
-        this.cluster = new MarkerClusterer(this.map, this.markers, objectAssign({
-            averageCenter: true,
-            styles: [{
-                url: icon.url,
-                width: icon.scaledSize.width,
-                height: icon.scaledSize.height,
-                iconAnchor: icon.anchor,
-                textSize: icon.labelOptions.size,
-                textColor: icon.labelOptions.color
-            }]
-        }, this.clustersOptions));
+        this.cluster = new MarkerClusterer(
+            this.map,
+            this.markers,
+            objectAssign(
+                {
+                    averageCenter: true,
+                    styles: [
+                        {
+                            url: icon.url,
+                            width: icon.scaledSize.width,
+                            height: icon.scaledSize.height,
+                            iconAnchor: icon.anchor,
+                            textSize: icon.labelOptions.size,
+                            textColor: icon.labelOptions.color
+                        }
+                    ]
+                },
+                this.clustersOptions
+            )
+        );
     }
 
     setZoom(zoom) {
@@ -252,6 +287,7 @@ class GoogleMap extends AbstractMap {
         });
     }
 
+    //eslint-disable-next-line no-magic-numbers
     minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
         if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
             [].forEach.call(Object.keys(this.icons), key => {
