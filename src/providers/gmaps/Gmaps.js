@@ -132,7 +132,7 @@ class GoogleMap extends AbstractMap {
             const options = this.markersOptions[type];
             const iconAnchor = options.anchor || [options.width / 2, options.height];
             const iconLabelOptions = options.label || {};
-            const labelOrigin = options.origin || this.labelsOptions.origin || [options.width / 2, options.height / 2];
+            const labelOrigin = options.label && options.label.origin ? options.label.origin : this.labelsOptions.origin || [options.width / 2, options.height / 2];
 
             this.icons[type] = {
                 url: options.url,
@@ -208,9 +208,10 @@ class GoogleMap extends AbstractMap {
             averageCenter: true,
             styles: [{
                 url: icon.url,
-                width: icon.scaledSize.width,
-                height: icon.scaledSize.height,
-                iconAnchor: icon.anchor,
+                width: icon.scaledSize.width + icon.labelOrigin.x,
+                height: icon.scaledSize.height + icon.labelOrigin.y,
+                iconAnchor: [icon.anchor.x, icon.anchor.y],
+                anchor: [icon.labelOrigin.y, icon.labelOrigin.x],
                 textSize: icon.labelOptions.size,
                 textColor: icon.labelOptions.color
             }]
