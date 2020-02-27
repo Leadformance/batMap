@@ -54,7 +54,7 @@ const mapConfig = {
             width: 50,
             height: 50,
             label: {
-                origin: [0, 17],
+                origin: [0, 0],
                 size: 14
             }
         }
