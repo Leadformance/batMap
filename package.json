@@ -3,7 +3,8 @@
   "version": "1.6.3",
   "description": "Unique interface above multiple map providers",
   "dependencies": {
-    "@google/markerclusterer": "^1.0.3",
+    "@google/markerclusterer": "^2.0.6",
+    "@google/markerclustererplus": "^5.0.1",
     "promise": "^8.0.3",
     "simple-js-validator": "^0.13.0"
   },

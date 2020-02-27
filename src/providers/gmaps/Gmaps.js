@@ -3,7 +3,7 @@
 /**
  * Google Map v3
  * API Documentation: https://developers.google.com/maps/documentation/javascript/
- * MarkerClusterer: https://gmaps-marker-clusterer.github.io/gmaps-marker-clusterer/
+ * MarkerClusterer: https://googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html
  */
 
 /*jshint -W079 */
@@ -16,7 +16,7 @@ const objectAssign = require('object-assign');
 
 const gmapsPremium = require('./GmapsPremium');
 
-const MarkerClusterer = require('@google/markerclusterer');
+const MarkerClusterer = require('@google/markerclustererplus').default;
 
 class GoogleMap extends AbstractMap {
     constructor(...args) {
@@ -206,14 +206,18 @@ class GoogleMap extends AbstractMap {
 
         this.cluster = new MarkerClusterer(this.map, this.markers, objectAssign({
             averageCenter: true,
+            clusterClass: 'batmap-marker-cluster',
             styles: [{
                 url: icon.url,
-                width: icon.scaledSize.width + icon.labelOrigin.x,
-                height: icon.scaledSize.height + icon.labelOrigin.y,
-                iconAnchor: [icon.anchor.x, icon.anchor.y],
-                anchor: [icon.labelOrigin.y, icon.labelOrigin.x],
+                width: icon.scaledSize.width,
+                height: icon.scaledSize.height,
+                anchorText: [icon.labelOrigin.y, icon.labelOrigin.x], // [yoffset, xoffset]
+                anchorIcon: [icon.anchor.y, icon.anchor.x], // [yoffset, xoffset]
                 textSize: icon.labelOptions.size,
-                textColor: icon.labelOptions.color
+                textColor: icon.labelOptions.color,
+                fontWeight: icon.labelOptions.weight,
+                fontSize: icon.labelOptions.size,
+                fontFamily: icon.labelOptions.font
             }]
         }, this.clustersOptions));
     }
