@@ -25,32 +25,32 @@ const mapConfig = {
     },
     markers: {
         default: {
-            url: '/batMap/example/assets/images/markers/marker-default.svg',
+            url: '/assets/images/markers/marker-default.svg',
             width: 38,
             height: 50
         },
         hover: {
-            url: '/batMap/example/assets/images/markers/marker-hover.svg',
+            url: '/assets/images/markers/marker-hover.svg',
             width: 38,
             height: 50
         },
         active: {
-            url: '/batMap/example/assets/images/markers/marker-active.svg',
+            url: '/assets/images/markers/marker-active.svg',
             width: 38,
             height: 50
         },
         location: {
-            url: '/batMap/example/assets/images/markers/marker-location.svg',
+            url: '/assets/images/markers/marker-location.svg',
             width: 38,
             height: 50
         },
         user: {
-            url: '/batMap/example/assets/images/markers/marker-user.svg',
+            url: '/assets/images/markers/marker-user.svg',
             width: 38,
             height: 50
         },
         cluster: {
-            url: '/batMap/example/assets/images/markers/marker-cluster.svg',
+            url: '/assets/images/markers/marker-cluster.svg',
             width: 50,
             height: 50,
             label: {

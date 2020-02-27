@@ -10,7 +10,7 @@ class MyMap {
 
     init() {
         const script = document.createElement('script');
-        script.setAttribute('src', `../dist/${this.attr.provider}.js`)
+        script.setAttribute('src', `/${this.attr.provider}.js`)
         document.head.appendChild(script);
 
         script.addEventListener('load', () => {
