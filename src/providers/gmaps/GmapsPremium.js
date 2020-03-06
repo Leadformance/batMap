@@ -63,4 +63,4 @@ module.exports = {
     const hashedSignature = makeWebSafe(encodeBase64Hash(safeSecret, uri.path));
     return '&signature=' + hashedSignature;
   }
-}
+};

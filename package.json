@@ -32,7 +32,7 @@
     "webpack-cli": "^3.1.0"
   },
   "scripts": {
-    "start": "browser-sync 'example' 'dist' --watch",
+    "start": "browser-sync example dist --watch",
     "build": "rm -rf dist && webpack -p && find dist/ -maxdepth 1 -mindepth 1 -type f -name '*.js' | sed 's/.js$//' | xargs -I{} mv {}.js {}.min.js && webpack",
     "build-dev": "rm -rf dist && webpack --mode development --watch",
     "deploy": "bash scripts/deploy.sh",
