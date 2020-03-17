@@ -1,3 +1,4 @@
+// jshint ignore: start
 'use strict';
 
 /**
@@ -36,6 +37,7 @@
  */
 import { Cluster } from './cluster';
 import { OverlayViewSafe } from './overlay-view-safe';
+const objectAssign = require('object-assign');
 /**
  * @ignore
  */
@@ -786,7 +788,7 @@ export class MarkerClusterer extends OverlayViewSafe {
      * @param overrides override default values
      */
     static withDefaultStyle(overrides) {
-        return Object.assign({ textColor: 'black', textSize: 11, textDecoration: 'none', textLineHeight: overrides.height, fontWeight: 'bold', fontStyle: 'normal', fontFamily: 'Arial,sans-serif', backgroundPosition: '0 0' }, overrides);
+        return objectAssign({ textColor: 'black', textSize: 11, textDecoration: 'none', textLineHeight: overrides.height, fontWeight: 'bold', fontStyle: 'normal', fontFamily: 'Arial,sans-serif', backgroundPosition: '0 0' }, overrides);
     }
 }
 /**

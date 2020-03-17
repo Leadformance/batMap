@@ -1,3 +1,4 @@
+// jshint ignore: start
 'use strict';
 
 /**
@@ -16,6 +17,7 @@
  * limitations under the License.
  */
 import { OverlayViewSafe } from './overlay-view-safe';
+const objectAssign = require('object-assign');
 /**
  *
  * @hidden
@@ -237,7 +239,7 @@ export class ClusterIcon extends OverlayViewSafe {
                 clip: `rect(${Y1}px, ${X1}px, ${Y2}px, ${X2}px)`
             };
         }
-        const cssText = toCssText(Object.assign({ position: 'absolute', top: coercePixels(spriteV), left: coercePixels(spriteH) }, dimensions));
+        const cssText = toCssText(objectAssign({ position: 'absolute', top: coercePixels(spriteV), left: coercePixels(spriteH) }, dimensions));
         return `<img alt='${this.sums_.text}' aria-hidden='true' src='${this.style.url}' style='${cssText}'/>`;
     }
     /**
