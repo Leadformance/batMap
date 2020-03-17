@@ -3,8 +3,10 @@
 /**
  * Google Map v3
  * API Documentation: https://developers.google.com/maps/documentation/javascript/
- * MarkerClusterer: https://gmaps-marker-clusterer.github.io/gmaps-marker-clusterer/
+ * MarkerClusterer: https://googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html
  */
+
+import { MarkerClusterer } from './MarkerClustererPlus';
 
 /*jshint -W079 */
 const AbstractMap = require('../../AbstractMap');
@@ -15,8 +17,6 @@ const loaderUtils = require('../../utils/loader');
 const objectAssign = require('object-assign');
 
 const gmapsPremium = require('./GmapsPremium');
-
-const MarkerClusterer = require('@google/markerclusterer');
 
 class GoogleMap extends AbstractMap {
     constructor(...args) {
@@ -36,7 +36,7 @@ class GoogleMap extends AbstractMap {
         callback = loaderUtils.addLoader(this.domElement, callback);
 
         let resources = [];
-        let urlParams = '?v=3.37&language=' + this.locale;
+        let urlParams = '?v=3.40&language=' + this.locale;
 
         if (Array.isArray(this.apiKey)) {
             urlParams = urlParams + '&client=' + this.apiKey[0];
@@ -206,14 +206,21 @@ class GoogleMap extends AbstractMap {
 
         this.cluster = new MarkerClusterer(this.map, this.markers, objectAssign({
             averageCenter: true,
+            clusterClass: 'batmap-marker-cluster',
             styles: [{
                 url: icon.url,
-                width: icon.scaledSize.width + icon.labelOrigin.x,
-                height: icon.scaledSize.height + icon.labelOrigin.y,
-                iconAnchor: [icon.anchor.x, icon.anchor.y],
-                anchor: [icon.labelOrigin.y, icon.labelOrigin.x],
+                width: icon.scaledSize.width,
+                height: icon.scaledSize.height,
+                anchorText: [
+                    icon.labelOrigin.y - icon.scaledSize.height / 2 + icon.labelOptions.size * 1.2,
+                    icon.labelOrigin.x - icon.scaledSize.width / 2
+                ], // [yoffset, xoffset]
+                anchorIcon: [icon.anchor.y, icon.anchor.x], // [yoffset, xoffset]
                 textSize: icon.labelOptions.size,
-                textColor: icon.labelOptions.color
+                textColor: icon.labelOptions.color,
+                fontWeight: icon.labelOptions.weight,
+                fontSize: icon.labelOptions.size,
+                fontFamily: icon.labelOptions.font
             }]
         }, this.clustersOptions));
     }
