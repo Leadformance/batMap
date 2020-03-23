@@ -1,7 +1,7 @@
 {
-  "name": "batmap",
+  "name": "@bridge/batMap",
   "version": "1.7.1",
-  "description": "Unique interface above multiple map providers",
+  "description": "",
   "dependencies": {
     "@google/markerclusterer": "^1.0.3",
     "promise": "^8.0.3",
@@ -41,12 +41,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Leadformance/batMap.git"
+    "url": "git+https://github.com/Leadformance/batMap.git"
   },
   "author": "Marie Rigal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/leadformance/batMap/issues"
+    "url": "git+https://github.com/Leadformance/batMap.git"
   },
   "homepage": "https://leadformance.github.io/batMap/"
 }
