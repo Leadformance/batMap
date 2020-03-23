@@ -1,0 +1,44 @@
+name: CI
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, '[skip ci]')"
+        steps:
+            - uses: actions/checkout@v1
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 12.x
+                  registry-url: https://solocal.jfrog.io/solocal/api/npm/npm/
+                  always-auth: true
+            - name: "Cache node modules"
+              id: cache
+              uses: actions/cache@v1
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+            - name: "Install dependencies"
+              if: steps.cache.outputs.cache-hit != 'true'
+              run: yarn install --pure-lockfile
+              env:
+                  HUSKY_SKIP_INSTALL: true
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            - name: "Build & tests"
+              run: |
+                  yarn build
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    # https://github.community/t5/GitHub-Actions/Workflow-is-failing-if-no-job-can-be-ran-due-to-condition/m-p/38186#M3250
+    always_job:
+        name: Aways run job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Always run
+              run: echo "This job is used to prevent the workflow to fail when all other jobs are skipped."
