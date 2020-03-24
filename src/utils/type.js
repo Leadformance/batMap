@@ -9,6 +9,6 @@ function isAFunction(something) {
 }
 
 module.exports = {
-    isAString: isAString,
-    isAFunction: isAFunction
+    isAString,
+    isAFunction
 };
