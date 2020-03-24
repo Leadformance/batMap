@@ -1,52 +1,60 @@
 {
-  "name": "@bridge/batMap",
-  "version": "1.7.2",
-  "description": "",
-  "dependencies": {
-    "@google/markerclusterer": "^1.0.3",
-    "promise": "^8.0.3",
-    "simple-js-validator": "^0.13.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "@types/jest": "^23.3.1",
-    "ajv": "^6.5.3",
-    "babel-core": "^6.26.3",
-    "babel-jest": "^23.4.2",
-    "babel-loader": "^8.0.0",
-    "browser-sync": "^2.26.7",
-    "css-loader": "^0.14.4",
-    "express": "^4.16.3",
-    "jest": "^23.5.0",
-    "jest-puppeteer": "^3.3.1",
-    "jsdom": "^12.0.0",
-    "jshint": "^2.9.6",
-    "jshint-loader": "^0.8.4",
-    "node-libs-browser": "^0.5.2",
-    "object-assign": "^3.0.0",
-    "puppeteer": "^1.7.0",
-    "regenerator-runtime": "^0.12.1",
-    "style-loader": "^0.12.3",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0"
-  },
-  "scripts": {
-    "start": "browser-sync example dist --watch",
-    "build": "rm -rf dist && webpack -p && find dist/ -maxdepth 1 -mindepth 1 -type f -name '*.js' | sed 's/.js$//' | xargs -I{} mv {}.js {}.min.js && webpack",
-    "build-dev": "rm -rf dist && webpack --mode development --watch",
-    "deploy": "bash scripts/deploy.sh",
-    "gh-deploy": "bash scripts/gh-deploy.sh",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Leadformance/batMap.git"
-  },
-  "author": "Marie Rigal",
-  "license": "ISC",
-  "bugs": {
-    "url": "git+https://github.com/Leadformance/batMap.git"
-  },
-  "homepage": "https://leadformance.github.io/batMap/"
+    "name": "@bridge/batMap",
+    "version": "1.7.3",
+    "description": "",
+    "dependencies": {
+        "@bridge/commitlint-config": "^2.1.1",
+        "@bridge/eslint-config": "^4.1.14",
+        "@bridge/semantic-release-config": "^2.1.40",
+        "@commitlint/cli": "^8.3.5",
+        "@commitlint/config-conventional": "^8.3.4",
+        "@google/markerclusterer": "^1.0.3",
+        "promise": "^8.0.3",
+        "simple-js-validator": "^0.13.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.0.0",
+        "@babel/preset-env": "^7.1.0",
+        "@types/jest": "^23.3.1",
+        "ajv": "^6.5.3",
+        "babel-core": "^6.26.3",
+        "babel-jest": "^23.4.2",
+        "babel-loader": "^8.0.0",
+        "browser-sync": "^2.26.7",
+        "css-loader": "^0.14.4",
+        "express": "^4.16.3",
+        "jest": "^23.5.0",
+        "jest-puppeteer": "^3.3.1",
+        "jsdom": "^12.0.0",
+        "jshint": "^2.9.6",
+        "jshint-loader": "^0.8.4",
+        "node-libs-browser": "^0.5.2",
+        "object-assign": "^3.0.0",
+        "puppeteer": "^1.7.0",
+        "regenerator-runtime": "^0.12.1",
+        "style-loader": "^0.12.3",
+        "webpack": "^4.17.1",
+        "webpack-cli": "^3.1.0"
+    },
+    "scripts": {
+        "cover": "open coverage/lcov-report/index.html",
+        "ci-validate": "yarn test:cov",
+        "start": "browser-sync example dist --watch",
+        "build": "rm -rf dist && webpack -p && find dist/ -maxdepth 1 -mindepth 1 -type f -name '*.js' | sed 's/.js$//' | xargs -I{} mv {}.js {}.min.js && webpack",
+        "build-dev": "rm -rf dist && webpack --mode development --watch",
+        "deploy": "bash scripts/deploy.sh",
+        "gh-deploy": "bash scripts/gh-deploy.sh",
+        "test": "jest --forceExit --passWithNoTests",
+        "test:cov": "yarn test --ci --coverage"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Leadformance/batMap.git"
+    },
+    "author": "Marie Rigal",
+    "license": "ISC",
+    "bugs": {
+        "url": "git+https://github.com/Leadformance/batMap.git"
+    },
+    "homepage": "https://leadformance.github.io/batMap/"
 }
