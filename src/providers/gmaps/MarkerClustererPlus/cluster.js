@@ -16,12 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ClusterIcon } from './cluster-icon';
+const ClusterIcon = require('./cluster-icon');
 /**
  * Creates a single cluster that manages a group of proximate markers.
  *  Used internally, do not call this constructor directly.
  */
-export class Cluster {
+class Cluster {
     /**
      *
      * @param markerClusterer_ The `MarkerClusterer` object with which this
@@ -216,3 +216,5 @@ export class Cluster {
         return false;
     }
 }
+
+module.exports = Cluster;

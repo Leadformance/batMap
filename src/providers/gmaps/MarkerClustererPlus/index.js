@@ -35,8 +35,8 @@
  *  errors on Internet Explorer. Note that the name of the `clusterclick` event has been
  *  deprecated. The new name is `click`, so please change your application code now.
  */
-import { Cluster } from './cluster';
-import { OverlayViewSafe } from './overlay-view-safe';
+const Cluster = require('./cluster');
+const OverlayViewSafe = require('./overlay-view-safe');
 const objectAssign = require('object-assign');
 /**
  * @ignore
@@ -49,7 +49,7 @@ const getOption = (options, prop, def) => {
         return def;
     }
 };
-export class MarkerClusterer extends OverlayViewSafe {
+class MarkerClusterer extends OverlayViewSafe {
     /**
      * Creates a MarkerClusterer object with the options specified in {@link MarkerClustererOptions}.
      * @param map The Google map to attach to.
@@ -811,3 +811,5 @@ MarkerClusterer.IMAGE_EXTENSION = 'png';
  * The default array of sizes for the marker cluster images.
  */
 MarkerClusterer.IMAGE_SIZES = [53, 56, 66, 78, 90];
+
+module.exports = MarkerClusterer;

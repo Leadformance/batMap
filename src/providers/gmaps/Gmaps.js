@@ -6,7 +6,7 @@
  * MarkerClusterer: https://googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html
  */
 
-import { MarkerClusterer } from './MarkerClustererPlus';
+const MarkerClusterer = require('./MarkerClustererPlus');
 
 /*jshint -W079 */
 const AbstractMap = require('../../AbstractMap');
@@ -212,8 +212,8 @@ class GoogleMap extends AbstractMap {
                 width: icon.scaledSize.width,
                 height: icon.scaledSize.height,
                 anchorText: [
-                    icon.labelOrigin.y - icon.scaledSize.height / 2 + icon.labelOptions.size * 1.2,
-                    icon.labelOrigin.x - icon.scaledSize.width / 2
+                    Math.ceil(icon.labelOrigin.y - icon.scaledSize.height / 2 + icon.labelOptions.size * 1.2),
+                    Math.ceil(icon.labelOrigin.x - icon.scaledSize.width / 2)
                 ], // [yoffset, xoffset]
                 anchorIcon: [icon.anchor.y, icon.anchor.x], // [yoffset, xoffset]
                 textSize: icon.labelOptions.size,

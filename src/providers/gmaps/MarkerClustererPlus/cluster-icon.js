@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { OverlayViewSafe } from './overlay-view-safe';
+const OverlayViewSafe = require('./overlay-view-safe');
 const objectAssign = require('object-assign');
 /**
  *
@@ -42,7 +42,7 @@ function coercePixels(pixels) {
 /**
  * A cluster icon.
  */
-export class ClusterIcon extends OverlayViewSafe {
+class ClusterIcon extends OverlayViewSafe {
     /**
      * @param cluster_ The cluster with which the icon is to be associated.
      * @param styles_ An array of {@link ClusterIconStyle} defining the cluster icons
@@ -306,3 +306,5 @@ export class ClusterIcon extends OverlayViewSafe {
         return pos;
     }
 }
+
+module.exports = ClusterIcon;

@@ -32,7 +32,7 @@ function extend(type1, type2) {
 /**
 * @ignore
 */
-export class OverlayViewSafe {
+class OverlayViewSafe {
   constructor() {
       // MarkerClusterer implements google.maps.OverlayView interface. We use the
       // extend function to extend MarkerClusterer with google.maps.OverlayView
@@ -42,3 +42,5 @@ export class OverlayViewSafe {
       extend(OverlayViewSafe, google.maps.OverlayView);
   }
 }
+
+module.exports = OverlayViewSafe;
