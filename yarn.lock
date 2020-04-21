@@ -994,10 +994,10 @@
   dependencies:
     find-up "^4.0.0"
 
-"@google/markerclusterer@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@google/markerclusterer/-/markerclusterer-1.0.3.tgz#830b9dbba85fae9537a16d17947b484f9e860c65"
-  integrity sha512-/fRbSPyQKnm43zRnoyMerbiGS3vG3WkZiLgpBF3ovoLO84sKhEAzKMVcyozy/khEHlZoMJ9Axkr0NRVJRAQhcg==
+"@google/markerclusterer@^2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@google/markerclusterer/-/markerclusterer-2.0.8.tgz#3d331964b2d865331d11b09d4b7d54298e3af54e"
+  integrity sha512-TACbhK/pm+uKUSeryhJsPPewx3+g8mGKCkj62xkBwO8GNhULwklm+6/NlpnFDDHRmIDQhHHBuDwxEfopKSoixw==
 
 "@iarna/cli@^1.2.0":
   version "1.2.0"
