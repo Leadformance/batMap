@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/Leadformance/batMap/compare/v2.0.1...v2.0.2) (2020-04-22)
+
+
+### Automatic Dependencies Upgrade
+
+* bump @bridge/eslint-config from 4.1.14 to 4.1.26 ([5b455ec](https://github.com/Leadformance/batMap/commit/5b455ec831bfffd4ba30255333ca37866ffc81d5))
+
 ## [2.0.1](https://github.com/Leadformance/batMap/compare/v2.0.0...v2.0.1) (2020-04-21)
 
 
