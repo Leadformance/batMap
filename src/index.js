@@ -1,7 +1,5 @@
-import {GoogleMap} from './providers/gmaps/Gmaps';
-import {GoogleMapWidget} from './providers/gmaps-widget/GmapsWidget';
-import {Leaflet} from './providers/leaflet/Leaflet';
-import {Mappy} from './providers/mappy/Mappy';
-import {MappyWidget} from './providers/mappy-widget/MappyWidget';
-
-export {GoogleMap, GoogleMapWidget, Leaflet, Mappy, MappyWidget};
+export { GoogleMap } from './providers/gmaps/Gmaps';
+export { GoogleMapWidget } from './providers/gmaps-widget/GmapsWidget';
+export { Leaflet } from './providers/leaflet/Leaflet';
+export { Mappy } from './providers/mappy/Mappy';
+export { MappyWidget } from './providers/mappy-widget/MappyWidget';
