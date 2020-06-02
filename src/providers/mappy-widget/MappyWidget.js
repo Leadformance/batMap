@@ -17,7 +17,7 @@ const objectAssign = require('object-assign');
 const iframe = document.querySelector('[data-reactroot]');
 let L;
 
-class Mappy extends AbstractMap {
+export class MappyWidget extends AbstractMap {
     constructor(...args) {
         super(...args);
 
@@ -325,5 +325,5 @@ class Mappy extends AbstractMap {
     }
 }
 
-window.MappyMap = Mappy;
-window.BatMap = Mappy;
+window.MappyMap = MappyWidget;
+window.BatMap = MappyWidget;

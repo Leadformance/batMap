@@ -16,7 +16,7 @@ const objectAssign = require('object-assign');
 
 const MarkerClusterer = require('@google/markerclusterer');
 
-class GoogleMap extends AbstractMap {
+export class GoogleMapWidget extends AbstractMap {
     constructor(...args) {
         super(...args);
 
@@ -265,7 +265,7 @@ class GoogleMap extends AbstractMap {
 
 }
 
-window.GoogleMap = GoogleMap;
-window.BatMap = GoogleMap;
-document.querySelector('[data-reactroot]').contentWindow.GoogleMap = GoogleMap;
-document.querySelector('[data-reactroot]').contentWindow.BatMap = GoogleMap;
+window.GoogleMap = GoogleMapWidget;
+window.BatMap = GoogleMapWidget;
+document.querySelector('[data-reactroot]').contentWindow.GoogleMapWidget = GoogleMapWidget;
+document.querySelector('[data-reactroot]').contentWindow.BatMap = GoogleMapWidget;

@@ -18,7 +18,7 @@ const objectAssign = require('object-assign');
 
 const gmapsPremium = require('./GmapsPremium');
 
-class GoogleMap extends AbstractMap {
+export class GoogleMap extends AbstractMap {
     constructor(...args) {
         super(...args);
 
