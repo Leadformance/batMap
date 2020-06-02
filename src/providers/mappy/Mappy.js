@@ -16,7 +16,7 @@ const objectAssign = require('object-assign');
 
 let L;
 
-class Mappy extends AbstractMap {
+export class Mappy extends AbstractMap {
     constructor(...args) {
         super(...args);
 

@@ -17,7 +17,7 @@ const objectAssign = require('object-assign');
 
 let L;
 
-class Leaflet extends AbstractMap {
+export class Leaflet extends AbstractMap {
     constructor(...args) {
         super(...args);
 
