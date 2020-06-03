@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/Leadformance/batMap/compare/v2.0.2...v2.1.0) (2020-06-03)
+
+
+### Features
+
+* export batmap providers ([9feffc5](https://github.com/Leadformance/batMap/commit/9feffc59a9c6dfac4253bdac4f3ca409085e1e3e))
+
 ## [2.0.2](https://github.com/Leadformance/batMap/compare/v2.0.1...v2.0.2) (2020-04-22)
 
 ### Automatic Dependencies Upgrade
