@@ -32,7 +32,6 @@ jobs:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
             - name: "Build & tests"
               run: |
-                  yarn build
                   yarn ci-validate
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
