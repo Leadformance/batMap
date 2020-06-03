@@ -28,7 +28,7 @@ export class GoogleMap extends AbstractMap {
     load(callback) {
         this.domElement.classList.add("batmap__map", "batmap-gmaps");
 
-        if (window.google && window.google.maps) {
+        if (this.maps.size > 0) {
             callback();
             return;
         }
@@ -313,6 +313,3 @@ export class GoogleMap extends AbstractMap {
         }
     }
 }
-
-window.GoogleMap = GoogleMap;
-window.BatMap = GoogleMap;

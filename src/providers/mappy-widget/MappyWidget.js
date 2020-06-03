@@ -383,6 +383,3 @@ export class MappyWidget extends AbstractMap {
         }
     }
 }
-
-window.MappyMap = MappyWidget;
-window.BatMap = MappyWidget;

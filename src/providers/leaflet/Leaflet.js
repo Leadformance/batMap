@@ -365,6 +365,3 @@ export class Leaflet extends AbstractMap {
         }
     }
 }
-
-window.LeafletMap = Leaflet;
-window.BatMap = Leaflet;
