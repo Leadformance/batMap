@@ -293,8 +293,6 @@ export class GoogleMapWidget extends AbstractMap {
     }
 }
 
-window.GoogleMap = GoogleMapWidget;
-window.BatMap = GoogleMapWidget;
 document.querySelector(
     "[data-reactroot]"
 ).contentWindow.GoogleMapWidget = GoogleMapWidget;

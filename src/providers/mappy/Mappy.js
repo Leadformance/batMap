@@ -14,9 +14,8 @@ const domUtils = require("../../utils/dom");
 const loaderUtils = require("../../utils/loader");
 const objectAssign = require("object-assign");
 
-let L;
-
 export class Mappy extends AbstractMap {
+    L;
     constructor(...args) {
         super(...args);
 
@@ -72,8 +71,8 @@ export class Mappy extends AbstractMap {
                 }
 
                 domUtils.addResources(document.head, resources, () => {
-                    L = window.L;
-                    L.Mappy.setImgPath(
+                    this.L = window.L;
+                    this.L.Mappy.setImgPath(
                         "//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/images/"
                     );
                     callback();
@@ -114,13 +113,13 @@ export class Mappy extends AbstractMap {
     }
 
     initMap() {
-        this.bounds = new L.latLngBounds([]);
-        this.map = new L.Mappy.Map(this.domElement, this.mapOptions);
+        this.bounds = new this.L.latLngBounds([]);
+        this.map = new this.L.Mappy.Map(this.domElement, this.mapOptions);
     }
 
     setPoint(location, iconType, label = false) {
         const point = {
-            position: L.latLng(
+            position: this.L.latLng(
                 location.localisation.coordinates.latitude,
                 location.localisation.coordinates.longitude
             ),
@@ -147,7 +146,7 @@ export class Mappy extends AbstractMap {
     }
 
     addMarker(point, eventCallback = {}) {
-        const marker = L.marker(point.position, point);
+        const marker = this.L.marker(point.position, point);
         marker.id = point.id;
         marker.location = point.location;
 
@@ -185,7 +184,7 @@ export class Mappy extends AbstractMap {
             ];
             const iconLabelOptions = options.label || {};
 
-            this.icons[type] = new L.Icon({
+            this.icons[type] = new this.L.Icon({
                 className: `batmap-marker-${type}`,
                 iconUrl: options.url,
                 iconSize: [options.width, options.height],
@@ -231,7 +230,7 @@ export class Mappy extends AbstractMap {
                 span.style.fontSize = `${labelOptions.size}px`;
 
                 marker.setIcon(
-                    new L.DivIcon({
+                    new this.L.DivIcon({
                         className: icon.options.className,
                         iconSize: icon.options.iconSize,
                         iconAnchor: icon.options.iconAnchor,
@@ -252,8 +251,8 @@ export class Mappy extends AbstractMap {
 
     addUserMarker(position, iconType, id = 0) {
         if (position) {
-            this.userMarker = new L.marker(
-                L.latLng(position.latitude, position.longitude)
+            this.userMarker = new this.L.marker(
+                this.L.latLng(position.latitude, position.longitude)
             );
             this.userMarker.id = id;
             this.userMarker.addTo(this.map);
@@ -266,7 +265,7 @@ export class Mappy extends AbstractMap {
     addCluster() {
         const icon = this.icons.cluster;
 
-        this.cluster = L.markerClusterGroup(
+        this.cluster = this.L.markerClusterGroup(
             objectAssign(
                 {
                     showCoverageOnHover: false,
@@ -286,7 +285,7 @@ export class Mappy extends AbstractMap {
                         span.style.fontWeight = `${labelOptions.weight}`;
                         span.style.fontSize = `${labelOptions.size}px`;
 
-                        return L.divIcon({
+                        return this.L.divIcon({
                             className: icon.options.className,
                             html:
                                 `<img src="${icon.options.iconUrl}" class="map-marker-cluster__image">` +
@@ -321,7 +320,7 @@ export class Mappy extends AbstractMap {
     fitBounds(bounds, zoom = this.mapOptions.zoom) {
         if (this.markers.length > 1) {
             this.map.fitBounds(bounds, {
-                padding: L.point(50, 50),
+                padding: this.L.point(50, 50),
                 maxZoom: zoom,
             });
         } else {
@@ -377,6 +376,3 @@ export class Mappy extends AbstractMap {
         }
     }
 }
-
-window.MappyMap = Mappy;
-window.BatMap = Mappy;
