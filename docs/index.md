@@ -6,9 +6,9 @@ The only thing that change will be the chosen provider and its API Key. All your
 
 **Providers available:**
 
-- [Google Maps](https://developers.google.com/maps/documentation/javascript/) - `gmaps`
-- [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html) - `mappy`
-- [Leaflet](http://leafletjs.com/reference-1.5.1.html) - `leaflet`
+-   [Google Maps](https://developers.google.com/maps/documentation/javascript/) - `gmaps`
+-   [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html) - `mappy`
+-   [Leaflet](http://leafletjs.com/reference-1.5.1.html) - `leaflet`
 
 ## References
 
@@ -28,29 +28,29 @@ The only thing that change will be the chosen provider and its API Key. All your
 
 ```js
 const config = {
-    provider: 'gmaps',
-    apiKey: 'API_KEY'|['CLIENT_ID', 'API_KEY_PREMIUM'],
+    provider: "gmaps",
+    apiKey: "API_KEY" | ["CLIENT_ID", "API_KEY_PREMIUM"],
     // ...
-}
+};
 ```
 
 ##### Mappy
 
 ```js
 const config = {
-    provider: 'mappy',
-    apiKey: 'CLIENT_ID',
+    provider: "mappy",
+    apiKey: "CLIENT_ID",
     // ...
-}
+};
 ```
 
 ##### Leaflet
 
 ```js
 const config = {
-    provider: 'leaflet',
+    provider: "leaflet",
     // ...
-}
+};
 ```
 
 #### Set options
@@ -110,7 +110,7 @@ Or directly in html:
 
 ```js
 const map = new window.BatMap(
-    '#my-map',
+    "#my-map",
     config.apiKey,
     config.locale,
     config.showCluster,
@@ -120,18 +120,23 @@ const map = new window.BatMap(
 );
 
 function callback() {
-    map.setMapOptions(config.options, config.markers, config.labels, config.clusters);
+    map.setMapOptions(
+        config.options,
+        config.markers,
+        config.labels,
+        config.clusters
+    );
 
     map.init();
 
     map.setMarkerIcons();
 
-    [].forEach.call(config.locations, location => {
-        map.setPoint(location, 'default');
+    [].forEach.call(config.locations, (location) => {
+        map.setPoint(location, "default");
     });
 
     map.addMarkers({
-        click: handleClickOnMarker
+        click: handleClickOnMarker,
     });
 
     map.fitBounds(map.getBounds(), config.options.zoom);

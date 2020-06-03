@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const defaultLoaderClass = 'batmap__spinner';
+const defaultLoaderClass = "batmap__spinner";
 
 module.exports = {
-    addLoader: function(domElement, callback, customClass = null) {
-        let loader = document.createElement('div');
+    addLoader: function (domElement, callback, customClass = null) {
+        let loader = document.createElement("div");
 
-        if (typeof customClass === 'string') {
+        if (typeof customClass === "string") {
             loader.className = customClass;
         } else {
             loader.className = defaultLoaderClass;
@@ -14,9 +14,9 @@ module.exports = {
 
         domElement.appendChild(loader);
 
-        return function() {
+        return function () {
             domElement.removeChild(loader);
             callback();
         };
-    }
+    },
 };

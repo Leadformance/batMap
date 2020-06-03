@@ -36,6 +36,8 @@
     "scripts": {
         "cover": "open coverage/lcov-report/index.html",
         "ci-validate": "yarn test:cov",
+        "lint:prettier": "yarn prettier -l '**/*.{js,ts,md,json}'",
+        "lint:prettier:fix": "yarn prettier --write '**/*.{js,ts,md,json}'",
         "start": "browser-sync example dist --watch",
         "test": "jest --forceExit --passWithNoTests",
         "test:cov": "yarn test --ci --coverage"

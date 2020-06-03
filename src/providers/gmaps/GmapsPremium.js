@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /* globals Buffer */
 
-const crypto = require('crypto');
-const url = require('url');
+const crypto = require("crypto");
+const url = require("url");
 
 /**
  * Convert from 'web safe' base64 to true base64.
@@ -13,7 +13,7 @@ const url = require('url');
  * @return {string}
  */
 function removeWebSafe(safeEncodedString) {
-    return safeEncodedString.replace(/-/g, '+').replace(/_/g, '/');
+    return safeEncodedString.replace(/-/g, "+").replace(/_/g, "/");
 }
 
 /**
@@ -24,18 +24,20 @@ function removeWebSafe(safeEncodedString) {
  * @return {string}
  */
 function makeWebSafe(encodedString) {
-    return encodedString.replace(/\+/g, '-').replace(/\//g, '_');
+    return encodedString.replace(/\+/g, "-").replace(/\//g, "_");
 }
 
- /**
+/**
  * Takes a base64 code and decodes it.
  *
  * @param  {string} code The encoded data.
  * @return {string}
  */
 function decodeBase64Hash(code) {
-  // "new Buffer(...)" is deprecated. Use Buffer.from if it exists.
-  return Buffer.from ? Buffer.from(code, 'base64') : new Buffer(code, 'base64');
+    // "new Buffer(...)" is deprecated. Use Buffer.from if it exists.
+    return Buffer.from
+        ? Buffer.from(code, "base64")
+        : new Buffer(code, "base64");
 }
 
 /**
@@ -46,21 +48,23 @@ function decodeBase64Hash(code) {
  * @return {string}
  */
 function encodeBase64Hash(key, data) {
-    return crypto.createHmac('sha1', key).update(data).digest('base64');
+    return crypto.createHmac("sha1", key).update(data).digest("base64");
 }
 
 module.exports = {
-  /**
-   * Sign a URL using a secret key.
-   *
-   * @param  {string} path   The url you want to sign.
-   * @param  {string} secret Your unique secret key.
-   * @return {string}
-   */
-  sign: function sign(path, secret) {
-    const uri = url.parse(path);
-    const safeSecret = decodeBase64Hash(removeWebSafe(secret));
-    const hashedSignature = makeWebSafe(encodeBase64Hash(safeSecret, uri.path));
-    return '&signature=' + hashedSignature;
-  }
+    /**
+     * Sign a URL using a secret key.
+     *
+     * @param  {string} path   The url you want to sign.
+     * @param  {string} secret Your unique secret key.
+     * @return {string}
+     */
+    sign: function sign(path, secret) {
+        const uri = url.parse(path);
+        const safeSecret = decodeBase64Hash(removeWebSafe(secret));
+        const hashedSignature = makeWebSafe(
+            encodeBase64Hash(safeSecret, uri.path)
+        );
+        return "&signature=" + hashedSignature;
+    },
 };

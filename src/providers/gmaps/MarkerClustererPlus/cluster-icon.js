@@ -1,5 +1,5 @@
 // jshint ignore: start
-'use strict';
+"use strict";
 
 /**
  * Copyright 2019 Google LLC. All Rights Reserved.
@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { OverlayViewSafe } from './overlay-view-safe';
-const objectAssign = require('object-assign');
+import { OverlayViewSafe } from "./overlay-view-safe";
+const objectAssign = require("object-assign");
 /**
  *
  * @hidden
@@ -25,19 +25,19 @@ const objectAssign = require('object-assign');
 function toCssText(styles) {
     return Object.keys(styles)
         .reduce((acc, key) => {
-        if (styles[key]) {
-            acc.push(key + ':' + styles[key]);
-        }
-        return acc;
-    }, [])
-        .join(';');
+            if (styles[key]) {
+                acc.push(key + ":" + styles[key]);
+            }
+            return acc;
+        }, [])
+        .join(";");
 }
 /**
  *
  * @hidden
  */
 function coercePixels(pixels) {
-    return pixels ? pixels + 'px' : undefined;
+    return pixels ? pixels + "px" : undefined;
 }
 /**
  * A cluster icon.
@@ -66,18 +66,22 @@ export class ClusterIcon extends OverlayViewSafe {
         let cMouseDownInCluster;
         let cDraggingMapByCluster;
         const mc = this.cluster_.getMarkerClusterer();
-        const [major, minor] = google.maps.version.split('.');
+        const [major, minor] = google.maps.version.split(".");
         const gmVersion = parseInt(major, 10) * 100 + parseInt(minor, 10);
-        this.div_ = document.createElement('div');
+        this.div_ = document.createElement("div");
         if (this.visible_) {
             this.show();
         }
         this.getPanes().overlayMouseTarget.appendChild(this.div_);
         // Fix for Issue 157
-        this.boundsChangedListener_ = google.maps.event.addListener(this.getMap(), 'bounds_changed', function () {
-            cDraggingMapByCluster = cMouseDownInCluster;
-        });
-        google.maps.event.addDomListener(this.div_, 'mousedown', () => {
+        this.boundsChangedListener_ = google.maps.event.addListener(
+            this.getMap(),
+            "bounds_changed",
+            function () {
+                cDraggingMapByCluster = cMouseDownInCluster;
+            }
+        );
+        google.maps.event.addDomListener(this.div_, "mousedown", () => {
             cMouseDownInCluster = true;
             cDraggingMapByCluster = false;
         });
@@ -85,11 +89,11 @@ export class ClusterIcon extends OverlayViewSafe {
         // But it doesn't work with earlier releases so do a version check.
         if (gmVersion >= 332) {
             // Ugly version-dependent code
-            google.maps.event.addDomListener(this.div_, 'touchstart', e => {
+            google.maps.event.addDomListener(this.div_, "touchstart", (e) => {
                 e.stopPropagation();
             });
         }
-        google.maps.event.addDomListener(this.div_, 'click', e => {
+        google.maps.event.addDomListener(this.div_, "click", (e) => {
             cMouseDownInCluster = false;
             if (!cDraggingMapByCluster) {
                 /**
@@ -98,8 +102,8 @@ export class ClusterIcon extends OverlayViewSafe {
                  * @param {Cluster} c The cluster that was clicked.
                  * @event
                  */
-                google.maps.event.trigger(mc, 'click', this.cluster_);
-                google.maps.event.trigger(mc, 'clusterclick', this.cluster_); // deprecated name
+                google.maps.event.trigger(mc, "click", this.cluster_);
+                google.maps.event.trigger(mc, "clusterclick", this.cluster_); // deprecated name
                 // The default click handler follows. Disable it by setting
                 // the zoomOnClick property to false.
                 if (mc.getZoomOnClick()) {
@@ -123,23 +127,23 @@ export class ClusterIcon extends OverlayViewSafe {
                 }
             }
         });
-        google.maps.event.addDomListener(this.div_, 'mouseover', () => {
+        google.maps.event.addDomListener(this.div_, "mouseover", () => {
             /**
              * This event is fired when the mouse moves over a cluster marker.
              * @name MarkerClusterer#mouseover
              * @param {Cluster} c The cluster that the mouse moved over.
              * @event
              */
-            google.maps.event.trigger(mc, 'mouseover', this.cluster_);
+            google.maps.event.trigger(mc, "mouseover", this.cluster_);
         });
-        google.maps.event.addDomListener(this.div_, 'mouseout', () => {
+        google.maps.event.addDomListener(this.div_, "mouseout", () => {
             /**
              * This event is fired when the mouse moves out of a cluster marker.
              * @name MarkerClusterer#mouseout
              * @param {Cluster} c The cluster that the mouse moved out of.
              * @event
              */
-            google.maps.event.trigger(mc, 'mouseout', this.cluster_);
+            google.maps.event.trigger(mc, "mouseout", this.cluster_);
         });
     }
     /**
@@ -160,8 +164,8 @@ export class ClusterIcon extends OverlayViewSafe {
     draw() {
         if (this.visible_) {
             const pos = this.getPosFromLatLng_(this.center_);
-            this.div_.style.top = pos.y + 'px';
-            this.div_.style.left = pos.x + 'px';
+            this.div_.style.top = pos.y + "px";
+            this.div_.style.left = pos.x + "px";
         }
     }
     /**
@@ -169,7 +173,7 @@ export class ClusterIcon extends OverlayViewSafe {
      */
     hide() {
         if (this.div_) {
-            this.div_.style.display = 'none';
+            this.div_.style.display = "none";
         }
         this.visible_ = false;
     }
@@ -179,17 +183,21 @@ export class ClusterIcon extends OverlayViewSafe {
     show() {
         if (this.div_) {
             this.div_.className = this.className_;
-            this.div_.style.cssText = this.createCss_(this.getPosFromLatLng_(this.center_));
+            this.div_.style.cssText = this.createCss_(
+                this.getPosFromLatLng_(this.center_)
+            );
             this.div_.innerHTML =
-                (this.style.url ? this.getImageElementHtml() : '') +
-                    this.getLabelDivHtml();
-            if (typeof this.sums_.title === 'undefined' || this.sums_.title === '') {
+                (this.style.url ? this.getImageElementHtml() : "") +
+                this.getLabelDivHtml();
+            if (
+                typeof this.sums_.title === "undefined" ||
+                this.sums_.title === ""
+            ) {
                 this.div_.title = this.cluster_.getMarkerClusterer().getTitle();
-            }
-            else {
+            } else {
                 this.div_.title = this.sums_.title;
             }
-            this.div_.style.display = '';
+            this.div_.style.display = "";
         }
         this.visible_ = true;
     }
@@ -197,18 +205,18 @@ export class ClusterIcon extends OverlayViewSafe {
         const mc = this.cluster_.getMarkerClusterer();
         const ariaLabel = mc.ariaLabelFn(this.sums_.text);
         const divStyle = {
-            position: 'absolute',
+            position: "absolute",
             top: coercePixels(this.anchorText_[0]),
             left: coercePixels(this.anchorText_[1]),
             color: this.style.textColor,
-            'font-size': coercePixels(this.style.textSize),
-            'font-family': this.style.fontFamily,
-            'font-weight': this.style.fontWeight,
-            'font-style': this.style.fontStyle,
-            'text-decoration': this.style.textDecoration,
-            'text-align': 'center',
+            "font-size": coercePixels(this.style.textSize),
+            "font-family": this.style.fontFamily,
+            "font-weight": this.style.fontWeight,
+            "font-style": this.style.fontStyle,
+            "text-decoration": this.style.textDecoration,
+            "text-align": "center",
             width: coercePixels(this.style.width),
-            'line-height': coercePixels(this.style.textLineHeight)
+            "line-height": coercePixels(this.style.textLineHeight),
         };
         return `
 <div aria-label='${ariaLabel}' style='${toCssText(divStyle)}' tabindex='0'>
@@ -218,28 +226,36 @@ export class ClusterIcon extends OverlayViewSafe {
     }
     getImageElementHtml() {
         // NOTE: values must be specified in px units
-        const bp = (this.style.backgroundPosition || '0 0').split(' ');
-        const spriteH = parseInt(bp[0].replace(/^\s+|\s+$/g, ''), 10);
-        const spriteV = parseInt(bp[1].replace(/^\s+|\s+$/g, ''), 10);
+        const bp = (this.style.backgroundPosition || "0 0").split(" ");
+        const spriteH = parseInt(bp[0].replace(/^\s+|\s+$/g, ""), 10);
+        const spriteV = parseInt(bp[1].replace(/^\s+|\s+$/g, ""), 10);
         let dimensions = {};
         if (this.cluster_.getMarkerClusterer().getEnableRetinaIcons()) {
             dimensions = {
                 width: coercePixels(this.style.width),
-                height: coercePixels(this.style.height)
+                height: coercePixels(this.style.height),
             };
-        }
-        else {
+        } else {
             const [Y1, X1, Y2, X2] = [
                 -1 * spriteV,
                 -1 * spriteH + this.style.width,
                 -1 * spriteV + this.style.height,
-                -1 * spriteH
+                -1 * spriteH,
             ];
             dimensions = {
-                clip: `rect(${Y1}px, ${X1}px, ${Y2}px, ${X2}px)`
+                clip: `rect(${Y1}px, ${X1}px, ${Y2}px, ${X2}px)`,
             };
         }
-        const cssText = toCssText(objectAssign({ position: 'absolute', top: coercePixels(spriteV), left: coercePixels(spriteH) }, dimensions));
+        const cssText = toCssText(
+            objectAssign(
+                {
+                    position: "absolute",
+                    top: coercePixels(spriteV),
+                    left: coercePixels(spriteH),
+                },
+                dimensions
+            )
+        );
         return `<img alt='${this.sums_.text}' aria-hidden='true' src='${this.style.url}' style='${cssText}'/>`;
     }
     /**
@@ -256,12 +272,12 @@ export class ClusterIcon extends OverlayViewSafe {
         this.anchorText_ = this.style.anchorText || [0, 0];
         this.anchorIcon_ = this.style.anchorIcon || [
             Math.floor(this.style.height / 2),
-            Math.floor(this.style.width / 2)
+            Math.floor(this.style.width / 2),
         ];
         this.className_ =
             this.cluster_.getMarkerClusterer().getClusterClass() +
-                ' ' +
-                (this.style.className || 'cluster-' + index);
+            " " +
+            (this.style.className || "cluster-" + index);
     }
     /**
      * Sets the position at which to center the icon.
@@ -279,18 +295,18 @@ export class ClusterIcon extends OverlayViewSafe {
      */
     createCss_(pos) {
         return toCssText({
-            'z-index': `${this.cluster_.getMarkerClusterer().getZIndex()}`,
+            "z-index": `${this.cluster_.getMarkerClusterer().getZIndex()}`,
             top: coercePixels(pos.y),
             left: coercePixels(pos.x),
             width: coercePixels(this.style.width),
             height: coercePixels(this.style.height),
-            cursor: 'pointer',
-            position: 'absolute',
-            '-webkit-user-select': 'none',
-            '-khtml-user-select': 'none',
-            '-moz-user-select': 'none',
-            '-o-user-select': 'none',
-            'user-select': 'none'
+            cursor: "pointer",
+            position: "absolute",
+            "-webkit-user-select": "none",
+            "-khtml-user-select": "none",
+            "-moz-user-select": "none",
+            "-o-user-select": "none",
+            "user-select": "none",
         });
     }
     /**
