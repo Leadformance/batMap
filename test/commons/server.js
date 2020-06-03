@@ -1,26 +1,26 @@
-const express = require('express');
-let isDefined = require('simple-js-validator').isDefined;
+const express = require("express");
+let isDefined = require("simple-js-validator").isDefined;
 
 class Server {
     constructor() {
         const app = express();
-        app.use('/', express.static(__dirname + '/../../dist/'));
+        app.use("/", express.static(__dirname + "/../../dist/"));
         this.app = app;
     }
 
     start(staticContent, config) {
         if (true === isDefined(staticContent)) {
             console.log(`serve static content from ${staticContent}`);
-            this.app.use('/', express.static(staticContent));
+            this.app.use("/", express.static(staticContent));
         }
         this.server = this.app.listen(config.port);
-        console.log('server listening on ' + config.port);
+        console.log("server listening on " + config.port);
         return this;
     }
 
     stop() {
         this.server.close(() => {
-            console.log('server stopped')
+            console.log("server stopped");
         });
     }
 }
@@ -34,12 +34,14 @@ class Server {
  * @returns {Promise<*>}
  */
 async function startServer(staticContent, config = {}) {
-    const myConfig = Object.assign({
-        port: 8000
-    }, config);
+    const myConfig = Object.assign(
+        {
+            port: 8000,
+        },
+        config
+    );
 
     return new Server().start(staticContent, myConfig);
 }
 
-
-module.exports = {startServer};
+module.exports = { startServer };

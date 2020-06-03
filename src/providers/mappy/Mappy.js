@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Mappy Map
@@ -7,12 +7,12 @@
  */
 
 /*jshint -W079 */
-const AbstractMap = require('../../AbstractMap');
+const AbstractMap = require("../../AbstractMap");
 /* jshint +W079 */
 
-const domUtils = require('../../utils/dom');
-const loaderUtils = require('../../utils/loader');
-const objectAssign = require('object-assign');
+const domUtils = require("../../utils/dom");
+const loaderUtils = require("../../utils/loader");
+const objectAssign = require("object-assign");
 
 let L;
 
@@ -20,11 +20,11 @@ export class Mappy extends AbstractMap {
     constructor(...args) {
         super(...args);
 
-        this.provider = 'Mappy';
+        this.provider = "Mappy";
     }
 
     load(callback) {
-        this.domElement.classList.add('batmap__map', 'batmap-mappy');
+        this.domElement.classList.add("batmap__map", "batmap-mappy");
 
         if (window.L && window.L.Mappy) {
             callback();
@@ -33,49 +33,78 @@ export class Mappy extends AbstractMap {
 
         callback = loaderUtils.addLoader(this.domElement, callback);
 
-        domUtils.addResources(document.head, [
-            domUtils.createStyle('//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css'),
-            domUtils.createScript('//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js')
-        ], () => {
-            const resources = [
-                domUtils.createScript('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.js'),
-                domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.css')
-            ];
+        domUtils.addResources(
+            document.head,
+            [
+                domUtils.createStyle(
+                    "//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css"
+                ),
+                domUtils.createScript(
+                    "//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"
+                ),
+            ],
+            () => {
+                const resources = [
+                    domUtils.createScript(
+                        "//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.js"
+                    ),
+                    domUtils.createStyle(
+                        "//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/L.Mappy.css"
+                    ),
+                ];
 
-            if (this.showCluster) {
-                resources.push(domUtils.createScript('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/leaflet.markercluster.js'));
-                resources.push(domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.Default.css'));
-                resources.push(domUtils.createStyle('//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.css'));
+                if (this.showCluster) {
+                    resources.push(
+                        domUtils.createScript(
+                            "//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/leaflet.markercluster.js"
+                        )
+                    );
+                    resources.push(
+                        domUtils.createStyle(
+                            "//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.Default.css"
+                        )
+                    );
+                    resources.push(
+                        domUtils.createStyle(
+                            "//d11lbkprc85eyb.cloudfront.net/plugins/mappy/7.5.0/MarkerCluster.css"
+                        )
+                    );
+                }
+
+                domUtils.addResources(document.head, resources, () => {
+                    L = window.L;
+                    L.Mappy.setImgPath(
+                        "//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/images/"
+                    );
+                    callback();
+                });
             }
-
-            domUtils.addResources(document.head, resources, () => {
-                L = window.L;
-                L.Mappy.setImgPath('//d11lbkprc85eyb.cloudfront.net/Mappy/7.5.0/images/');
-                callback();
-            });
-        });
+        );
     }
 
     setMapOptions(options = {}, markers = {}, labels = {}, clusters = {}) {
-        this.mapOptions = objectAssign({
-            clientId: this.apiKey,
-            locale: this.locale,
-            center: [0, 0],
-            zoom: 12,
-            locationZoom: 16,
-            scrollwheel: true,
-            mapTypeControl: false,
-            panControl: false,
-            zoomControl: true,
-            scaleControl: false,
-            streetViewControl: false,
-            layersControl: {
-                publicTransport: false,
-                traffic: true,
-                viewMode: true,
-                trafficLegend: true
-            }
-        }, options);
+        this.mapOptions = objectAssign(
+            {
+                clientId: this.apiKey,
+                locale: this.locale,
+                center: [0, 0],
+                zoom: 12,
+                locationZoom: 16,
+                scrollwheel: true,
+                mapTypeControl: false,
+                panControl: false,
+                zoomControl: true,
+                scaleControl: false,
+                streetViewControl: false,
+                layersControl: {
+                    publicTransport: false,
+                    traffic: true,
+                    viewMode: true,
+                    trafficLegend: true,
+                },
+            },
+            options
+        );
 
         this.markersOptions = markers;
 
@@ -97,7 +126,7 @@ export class Mappy extends AbstractMap {
             ),
             id: `${location._id}`,
             location,
-            iconType
+            iconType,
         };
 
         if (this.showLabel && label) {
@@ -112,7 +141,7 @@ export class Mappy extends AbstractMap {
             this.addCluster();
         }
 
-        [].forEach.call(this.points, point => {
+        [].forEach.call(this.points, (point) => {
             this.addMarker(point, eventCallback);
         });
     }
@@ -130,7 +159,7 @@ export class Mappy extends AbstractMap {
             marker.addTo(this.map);
         }
 
-        [].forEach.call(Object.keys(eventCallback), event => {
+        [].forEach.call(Object.keys(eventCallback), (event) => {
             const callback = eventCallback[event];
             marker.on(event, callback(marker));
         });
@@ -144,13 +173,16 @@ export class Mappy extends AbstractMap {
         marker = this.getMarker(marker);
 
         marker.removeFrom(this.map);
-        this.markers = this.markers.filter(m => m.id !== marker.id);
+        this.markers = this.markers.filter((m) => m.id !== marker.id);
     }
 
     setMarkerIcons() {
-        Object.keys(this.markersOptions).forEach(type => {
+        Object.keys(this.markersOptions).forEach((type) => {
             const options = this.markersOptions[type];
-            const iconAnchor = options.anchor || [options.width / 2, options.height];
+            const iconAnchor = options.anchor || [
+                options.width / 2,
+                options.height,
+            ];
             const iconLabelOptions = options.label || {};
 
             this.icons[type] = new L.Icon({
@@ -158,18 +190,22 @@ export class Mappy extends AbstractMap {
                 iconUrl: options.url,
                 iconSize: [options.width, options.height],
                 iconAnchor,
-                labelOptions: this.getLabelOptions(iconLabelOptions)
+                labelOptions: this.getLabelOptions(iconLabelOptions),
             });
         });
     }
 
     getLabelOptions(options) {
         return {
-            origin: options.origin || this.labelsOptions.origin || [options.width / 2, options.height / 2],
+            origin: options.origin ||
+                this.labelsOptions.origin || [
+                    options.width / 2,
+                    options.height / 2,
+                ],
             color: options.color || this.labelsOptions.color,
             font: options.font || this.labelsOptions.font,
             size: options.size || this.labelsOptions.size,
-            weight: options.weight || this.labelsOptions.weight
+            weight: options.weight || this.labelsOptions.weight,
         };
     }
 
@@ -182,24 +218,26 @@ export class Mappy extends AbstractMap {
 
             if (this.showLabel && isLabeled) {
                 const labelOptions = icon.options.labelOptions;
-                const span = document.createElement('span');
+                const span = document.createElement("span");
                 span.innerText = marker.options.label;
 
-                span.style.position = 'absolute';
+                span.style.position = "absolute";
                 span.style.top = `${labelOptions.origin[0]}px`;
                 span.style.left = `${labelOptions.origin[1]}px`;
-                span.style.transform = 'translate(-50%, -50%)';
+                span.style.transform = "translate(-50%, -50%)";
                 span.style.color = `${labelOptions.color}`;
                 span.style.fontFamily = `${labelOptions.font}`;
                 span.style.fontWeight = `${labelOptions.weight}`;
                 span.style.fontSize = `${labelOptions.size}px`;
 
-                marker.setIcon(new L.DivIcon({
-                    className: icon.options.className,
-                    iconSize: icon.options.iconSize,
-                    iconAnchor: icon.options.iconAnchor,
-                    html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image">${span.outerHTML}`
-                }));
+                marker.setIcon(
+                    new L.DivIcon({
+                        className: icon.options.className,
+                        iconSize: icon.options.iconSize,
+                        iconAnchor: icon.options.iconAnchor,
+                        html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image">${span.outerHTML}`,
+                    })
+                );
             } else {
                 marker.setIcon(icon);
             }
@@ -214,7 +252,9 @@ export class Mappy extends AbstractMap {
 
     addUserMarker(position, iconType, id = 0) {
         if (position) {
-            this.userMarker = new L.marker(L.latLng(position.latitude, position.longitude));
+            this.userMarker = new L.marker(
+                L.latLng(position.latitude, position.longitude)
+            );
             this.userMarker.id = id;
             this.userMarker.addTo(this.map);
 
@@ -226,31 +266,38 @@ export class Mappy extends AbstractMap {
     addCluster() {
         const icon = this.icons.cluster;
 
-        this.cluster = L.markerClusterGroup(objectAssign({
-            showCoverageOnHover: false,
-            zoomToBoundsOnClick: true,
-            spiderfyOnMaxZoom: true,
-            iconCreateFunction: cluster => {
-                const labelOptions = icon.options.labelOptions;
-                const span = document.createElement('span');
-                span.innerText = cluster.getChildCount();
+        this.cluster = L.markerClusterGroup(
+            objectAssign(
+                {
+                    showCoverageOnHover: false,
+                    zoomToBoundsOnClick: true,
+                    spiderfyOnMaxZoom: true,
+                    iconCreateFunction: (cluster) => {
+                        const labelOptions = icon.options.labelOptions;
+                        const span = document.createElement("span");
+                        span.innerText = cluster.getChildCount();
 
-                span.style.position = 'absolute';
-                span.style.top = `${labelOptions.origin[0]}px`;
-                span.style.left = `${labelOptions.origin[1]}px`;
-                span.style.transform = 'translate(-50%, -50%)';
-                span.style.color = `${labelOptions.color}`;
-                span.style.fontFamily = `${labelOptions.font}`;
-                span.style.fontWeight = `${labelOptions.weight}`;
-                span.style.fontSize = `${labelOptions.size}px`;
+                        span.style.position = "absolute";
+                        span.style.top = `${labelOptions.origin[0]}px`;
+                        span.style.left = `${labelOptions.origin[1]}px`;
+                        span.style.transform = "translate(-50%, -50%)";
+                        span.style.color = `${labelOptions.color}`;
+                        span.style.fontFamily = `${labelOptions.font}`;
+                        span.style.fontWeight = `${labelOptions.weight}`;
+                        span.style.fontSize = `${labelOptions.size}px`;
 
-                return L.divIcon({
-                    className: icon.options.className,
-                    html: `<img src="${icon.options.iconUrl}" class="map-marker-cluster__image">` + span.outerHTML,
-                    iconSize: icon.options.iconSize
-                });
-            }
-        }, this.clustersOptions));
+                        return L.divIcon({
+                            className: icon.options.className,
+                            html:
+                                `<img src="${icon.options.iconUrl}" class="map-marker-cluster__image">` +
+                                span.outerHTML,
+                            iconSize: icon.options.iconSize,
+                        });
+                    },
+                },
+                this.clustersOptions
+            )
+        );
 
         this.map.addLayer(this.cluster);
     }
@@ -275,7 +322,7 @@ export class Mappy extends AbstractMap {
         if (this.markers.length > 1) {
             this.map.fitBounds(bounds, {
                 padding: L.point(50, 50),
-                maxZoom: zoom
+                maxZoom: zoom,
             });
         } else {
             this.setCenter(this.markers[0].getLatLng(), zoom);
@@ -287,23 +334,29 @@ export class Mappy extends AbstractMap {
     }
 
     listenZoomChange(callback) {
-        this.map.on('zoomend', () => {
+        this.map.on("zoomend", () => {
             return callback(this.map.getZoom());
         });
     }
 
     minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
         if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
-            [].forEach.call(Object.keys(this.icons), key => {
+            [].forEach.call(Object.keys(this.icons), (key) => {
                 const size = this.icons[key].options.iconSize;
-                this.icons[key].options.iconSize = [size[0] * minifier, size[1] * minifier];
+                this.icons[key].options.iconSize = [
+                    size[0] * minifier,
+                    size[1] * minifier,
+                ];
             });
             this.isMinifiedMarkerIcons = true;
             this.updateAllMarkerIconsOnMap();
         } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
-            [].forEach.call(Object.keys(this.icons), key => {
+            [].forEach.call(Object.keys(this.icons), (key) => {
                 const size = this.icons[key].options.iconSize;
-                this.icons[key].options.iconSize = [size[0] / minifier, size[1] / minifier];
+                this.icons[key].options.iconSize = [
+                    size[0] / minifier,
+                    size[1] / minifier,
+                ];
             });
             this.isMinifiedMarkerIcons = false;
             this.updateAllMarkerIconsOnMap();
@@ -311,12 +364,16 @@ export class Mappy extends AbstractMap {
     }
 
     updateAllMarkerIconsOnMap() {
-        [].forEach.call(this.markers, marker => {
+        [].forEach.call(this.markers, (marker) => {
             this.setIconOnMarker(marker, marker.iconType, false);
         });
 
         if (this.userMarker) {
-            this.setIconOnMarker(this.userMarker, this.userMarker.iconType, false);
+            this.setIconOnMarker(
+                this.userMarker,
+                this.userMarker.iconType,
+                false
+            );
         }
     }
 }

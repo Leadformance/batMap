@@ -2,8 +2,8 @@
 
 const mapConfig = {
     /* Gmaps */
-    provider: 'gmaps',
-    apiKey: 'AIzaSyBgMN26G65UEgkWVDIPKTq-VpvktLmezjQ',
+    provider: "gmaps",
+    apiKey: "AIzaSyBgMN26G65UEgkWVDIPKTq-VpvktLmezjQ",
     // apiKey: ['gme-lorealsa', 'Cz_fa_vO6pGrXm7LV9yNKZCJrpA='],
 
     /* Mappy */
@@ -14,7 +14,7 @@ const mapConfig = {
     // provider: 'leaflet',
     // apiKey: '',
 
-    locale: 'en',
+    locale: "en",
     locations: locations,
     showCluster: true,
     showLabel: true,
@@ -25,46 +25,46 @@ const mapConfig = {
     },
     markers: {
         default: {
-            url: '/assets/images/markers/marker-default.svg',
+            url: "/assets/images/markers/marker-default.svg",
             width: 38,
-            height: 50
+            height: 50,
         },
         hover: {
-            url: '/assets/images/markers/marker-hover.svg',
+            url: "/assets/images/markers/marker-hover.svg",
             width: 38,
-            height: 50
+            height: 50,
         },
         active: {
-            url: '/assets/images/markers/marker-active.svg',
+            url: "/assets/images/markers/marker-active.svg",
             width: 38,
-            height: 50
+            height: 50,
         },
         location: {
-            url: '/assets/images/markers/marker-location.svg',
+            url: "/assets/images/markers/marker-location.svg",
             width: 38,
-            height: 50
+            height: 50,
         },
         user: {
-            url: '/assets/images/markers/marker-user.svg',
+            url: "/assets/images/markers/marker-user.svg",
             width: 38,
-            height: 50
+            height: 50,
         },
         cluster: {
-            url: '/assets/images/markers/marker-cluster.svg',
+            url: "/assets/images/markers/marker-cluster.svg",
             width: 50,
             height: 50,
             label: {
                 origin: [25, 25],
-                size: 14
-            }
-        }
+                size: 14,
+            },
+        },
     },
     labels: {
         origin: [19, 19],
-        color: 'white',
-        font: 'Arial, sans-serif',
-        size: '14px',
-        weight: 'normal'
+        color: "white",
+        font: "Arial, sans-serif",
+        size: "14px",
+        weight: "normal",
     },
-    clusters: {}
+    clusters: {},
 };

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /**
  * Google Map v3
@@ -6,27 +6,27 @@
  * MarkerClusterer: https://googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html
  */
 
-import { MarkerClusterer } from './MarkerClustererPlus';
+import { MarkerClusterer } from "./MarkerClustererPlus";
 
 /*jshint -W079 */
-const AbstractMap = require('../../AbstractMap');
+const AbstractMap = require("../../AbstractMap");
 /* jshint +W079 */
 
-const domUtils = require('../../utils/dom');
-const loaderUtils = require('../../utils/loader');
-const objectAssign = require('object-assign');
+const domUtils = require("../../utils/dom");
+const loaderUtils = require("../../utils/loader");
+const objectAssign = require("object-assign");
 
-const gmapsPremium = require('./GmapsPremium');
+const gmapsPremium = require("./GmapsPremium");
 
 export class GoogleMap extends AbstractMap {
     constructor(...args) {
         super(...args);
 
-        this.provider = 'GoogleMap';
+        this.provider = "GoogleMap";
     }
 
     load(callback) {
-        this.domElement.classList.add('batmap__map', 'batmap-gmaps');
+        this.domElement.classList.add("batmap__map", "batmap-gmaps");
 
         if (window.google && window.google.maps) {
             callback();
@@ -36,32 +36,44 @@ export class GoogleMap extends AbstractMap {
         callback = loaderUtils.addLoader(this.domElement, callback);
 
         let resources = [];
-        let urlParams = '?v=3.40&language=' + this.locale;
+        let urlParams = "?v=3.40&language=" + this.locale;
 
         if (Array.isArray(this.apiKey)) {
-            urlParams = urlParams + '&client=' + this.apiKey[0];
-            urlParams = urlParams + gmapsPremium.sign('https://maps.googleapis.com/maps/api/js', this.apiKey[1]);
+            urlParams = urlParams + "&client=" + this.apiKey[0];
+            urlParams =
+                urlParams +
+                gmapsPremium.sign(
+                    "https://maps.googleapis.com/maps/api/js",
+                    this.apiKey[1]
+                );
         } else {
-            urlParams = urlParams + '&key=' + this.apiKey;
+            urlParams = urlParams + "&key=" + this.apiKey;
         }
 
-        resources.push(domUtils.createScript('//maps.googleapis.com/maps/api/js' + urlParams));
+        resources.push(
+            domUtils.createScript(
+                "//maps.googleapis.com/maps/api/js" + urlParams
+            )
+        );
 
         domUtils.addResources(document.head, resources, callback);
     }
 
     setMapOptions(options = {}, markers = {}, labels = {}, clusters = {}) {
-        this.mapOptions = objectAssign({
-            center: {lat: 0, lng: 0},
-            zoom: 12,
-            locationZoom: 16,
-            mapTypeControl: false,
-            zoomControl: true,
-            zoomControlOptions: {
-                position: google.maps.ControlPosition.TOP_LEFT
+        this.mapOptions = objectAssign(
+            {
+                center: { lat: 0, lng: 0 },
+                zoom: 12,
+                locationZoom: 16,
+                mapTypeControl: false,
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.TOP_LEFT,
+                },
+                streetViewControl: false,
             },
-            streetViewControl: false
-        }, options);
+            options
+        );
 
         this.markersOptions = markers;
 
@@ -83,12 +95,12 @@ export class GoogleMap extends AbstractMap {
             ),
             id: `${location._id}`,
             location,
-            iconType
+            iconType,
         };
 
         if (this.showLabel && label) {
             point.label = {
-                text: `${label}`
+                text: `${label}`,
             };
         }
 
@@ -96,7 +108,7 @@ export class GoogleMap extends AbstractMap {
     }
 
     addMarkers(eventCallback = {}) {
-        [].forEach.call(this.points, point => {
+        [].forEach.call(this.points, (point) => {
             this.addMarker(point, eventCallback);
         });
 
@@ -112,7 +124,7 @@ export class GoogleMap extends AbstractMap {
 
         this.setIconOnMarker(marker, point.iconType);
 
-        [].forEach.call(Object.keys(eventCallback), event => {
+        [].forEach.call(Object.keys(eventCallback), (event) => {
             const callback = eventCallback[event];
             marker.addListener(event, callback(marker));
         });
@@ -124,22 +136,34 @@ export class GoogleMap extends AbstractMap {
         marker = this.getMarker(marker);
 
         marker.setMap(null);
-        this.markers = this.markers.filter(m => m.id !== marker.id);
+        this.markers = this.markers.filter((m) => m.id !== marker.id);
     }
 
     setMarkerIcons() {
-        Object.keys(this.markersOptions).forEach(type => {
+        Object.keys(this.markersOptions).forEach((type) => {
             const options = this.markersOptions[type];
-            const iconAnchor = options.anchor || [options.width / 2, options.height];
+            const iconAnchor = options.anchor || [
+                options.width / 2,
+                options.height,
+            ];
             const iconLabelOptions = options.label || {};
-            const labelOrigin = options.label && options.label.origin ? options.label.origin : this.labelsOptions.origin || [options.width / 2, options.height / 2];
+            const labelOrigin =
+                options.label && options.label.origin
+                    ? options.label.origin
+                    : this.labelsOptions.origin || [
+                          options.width / 2,
+                          options.height / 2,
+                      ];
 
             this.icons[type] = {
                 url: options.url,
                 scaledSize: new google.maps.Size(options.width, options.height),
                 anchor: new google.maps.Point(iconAnchor[0], iconAnchor[1]),
-                labelOrigin: new google.maps.Point(labelOrigin[0], labelOrigin[1]),
-                labelOptions: this.getLabelOptions(iconLabelOptions)
+                labelOrigin: new google.maps.Point(
+                    labelOrigin[0],
+                    labelOrigin[1]
+                ),
+                labelOptions: this.getLabelOptions(iconLabelOptions),
             };
         });
     }
@@ -149,7 +173,7 @@ export class GoogleMap extends AbstractMap {
             color: options.color || this.labelsOptions.color,
             font: options.font || this.labelsOptions.font,
             size: options.size || this.labelsOptions.size,
-            weight: options.weight || this.labelsOptions.weight
+            weight: options.weight || this.labelsOptions.weight,
         };
     }
 
@@ -168,7 +192,7 @@ export class GoogleMap extends AbstractMap {
                     fontFamily: iconLabelOptions.family,
                     fontSize: iconLabelOptions.size,
                     fontWeight: iconLabelOptions.weight,
-                    text: marker.label.text
+                    text: marker.label.text,
                 };
                 marker.setLabel(label);
             }
@@ -191,7 +215,7 @@ export class GoogleMap extends AbstractMap {
                     position.latitude,
                     position.longitude
                 ),
-                iconType
+                iconType,
             };
 
             this.userMarker = new google.maps.Marker(point);
@@ -204,25 +228,36 @@ export class GoogleMap extends AbstractMap {
     addCluster() {
         const icon = this.icons.cluster;
 
-        this.cluster = new MarkerClusterer(this.map, this.markers, objectAssign({
-            averageCenter: true,
-            clusterClass: 'batmap-marker-cluster',
-            styles: [{
-                url: icon.url,
-                width: icon.scaledSize.width,
-                height: icon.scaledSize.height,
-                anchorText: [
-                    icon.labelOrigin.y - icon.scaledSize.height / 2 + icon.labelOptions.size * 1.2,
-                    icon.labelOrigin.x - icon.scaledSize.width / 2
-                ], // [yoffset, xoffset]
-                anchorIcon: [icon.anchor.y, icon.anchor.x], // [yoffset, xoffset]
-                textSize: icon.labelOptions.size,
-                textColor: icon.labelOptions.color,
-                fontWeight: icon.labelOptions.weight,
-                fontSize: icon.labelOptions.size,
-                fontFamily: icon.labelOptions.font
-            }]
-        }, this.clustersOptions));
+        this.cluster = new MarkerClusterer(
+            this.map,
+            this.markers,
+            objectAssign(
+                {
+                    averageCenter: true,
+                    clusterClass: "batmap-marker-cluster",
+                    styles: [
+                        {
+                            url: icon.url,
+                            width: icon.scaledSize.width,
+                            height: icon.scaledSize.height,
+                            anchorText: [
+                                icon.labelOrigin.y -
+                                    icon.scaledSize.height / 2 +
+                                    icon.labelOptions.size * 1.2,
+                                icon.labelOrigin.x - icon.scaledSize.width / 2,
+                            ], // [yoffset, xoffset]
+                            anchorIcon: [icon.anchor.y, icon.anchor.x], // [yoffset, xoffset]
+                            textSize: icon.labelOptions.size,
+                            textColor: icon.labelOptions.color,
+                            fontWeight: icon.labelOptions.weight,
+                            fontSize: icon.labelOptions.size,
+                            fontFamily: icon.labelOptions.font,
+                        },
+                    ],
+                },
+                this.clustersOptions
+            )
+        );
     }
 
     setZoom(zoom) {
@@ -255,21 +290,21 @@ export class GoogleMap extends AbstractMap {
     }
 
     listenZoomChange(callback) {
-        this.map.addListener('zoom_changed', () => {
+        this.map.addListener("zoom_changed", () => {
             return callback(this.map.getZoom());
         });
     }
 
     minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
         if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
-            [].forEach.call(Object.keys(this.icons), key => {
+            [].forEach.call(Object.keys(this.icons), (key) => {
                 const size = this.icons[key].scaledSize;
                 this.icons[key].scaledSize.width = size.width * minifier;
                 this.icons[key].scaledSize.height = size.height * minifier;
             });
             this.isMinifiedMarkerIcons = true;
         } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
-            [].forEach.call(Object.keys(this.icons), key => {
+            [].forEach.call(Object.keys(this.icons), (key) => {
                 const size = this.icons[key].scaledSize;
                 this.icons[key].scaledSize.width = size.width / minifier;
                 this.icons[key].scaledSize.height = size.height / minifier;

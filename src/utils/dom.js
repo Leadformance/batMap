@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-let ieUtils = require('./ie');
-let isAString = require('./type').isAString;
-let isDefined = require('simple-js-validator').isDefined;
+let ieUtils = require("./ie");
+let isAString = require("./type").isAString;
+let isDefined = require("simple-js-validator").isDefined;
 
 module.exports = {
     addScript: function (domElement, src) {
@@ -34,8 +34,8 @@ module.exports = {
     },
 
     createScript: function (src) {
-        let script = document.createElement('script');
-        script.type = 'text/javascript';
+        let script = document.createElement("script");
+        script.type = "text/javascript";
         script.src = src;
         script.async = true;
 
@@ -43,46 +43,52 @@ module.exports = {
     },
 
     createStyle: function (href) {
-        let style = document.createElement('link');
-        style.rel = 'stylesheet';
+        let style = document.createElement("link");
+        style.rel = "stylesheet";
         style.href = href;
 
         return style;
     },
 
     isHTMLElement: function (obj) {
-        return obj && typeof obj === 'object' && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === 'string';
+        return (
+            obj &&
+            typeof obj === "object" &&
+            obj !== null &&
+            obj.nodeType === 1 &&
+            typeof obj.nodeName === "string"
+        );
     },
 
     extractTextAndCssClasses: function (str) {
-        let div = document.createElement('div');
+        let div = document.createElement("div");
         div.innerHTML = str;
-        let textContent = div.textContent || div.innerText || '';
-        let classes = '';
+        let textContent = div.textContent || div.innerText || "";
+        let classes = "";
         if (isDefined(div.firstChild)) {
             classes = div.firstChild.className;
         }
-        return {textContent: textContent, classes: classes};
+        return { textContent: textContent, classes: classes };
     },
 
     // use a memoized version of the function as il would be silly to repeat the operation
     getStyleFromCss: memoize((cssClass) => {
-        const div = document.createElement('div');
+        const div = document.createElement("div");
         div.className = cssClass;
         document.body.appendChild(div);
         let style = window.getComputedStyle(div);
         let result = {
             top: extractPx(style.top),
-            left: extractPx(style.left)
+            left: extractPx(style.left),
         };
         document.body.removeChild(div);
         return result;
-    })
+    }),
 };
 
 function extractPx(str) {
     if (true === isAString(str)) {
-        const pxValue = str.replace('px', '').replace('"', '');
+        const pxValue = str.replace("px", "").replace('"', "");
         const pxNumber = parseInt(pxValue);
         return isFinite(pxNumber) ? pxNumber : 0;
     } else {

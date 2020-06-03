@@ -50,8 +50,8 @@ theme:
                     # MAP OPTIONS
                     # It is possible to add native provider options here or directly in the component.
                     options:
-                        zoom: 12          # default zoom on results page
-                        locationZoom: 16  # default zoom on focus on marker and on location page
+                        zoom: 12 # default zoom on results page
+                        locationZoom: 16 # default zoom on focus on marker and on location page
 
                     # MARKERS CONFIGURATION
                     # Each marker type have to had at least an image path (url) and a size (width, height) defined.
@@ -105,11 +105,11 @@ theme:
         - action: Bridge\FrontBundle\Controller\FrontController::locationAction
           javascript:
               components:
-                    # Overload options (map, markers, labels, clusters) for each pages
-                    map:
-                        showLabel: false
-                        showPosition: false
-                        showCluster: false
+                  # Overload options (map, markers, labels, clusters) for each pages
+                  map:
+                      showLabel: false
+                      showPosition: false
+                      showCluster: false
 ```
 
 ## Results page
@@ -117,18 +117,18 @@ theme:
 ```js
 // src/Bridge/FrontBundle/Resources/views/pages/results/index.js
 
-import Map from '../../../scripts/modules/results/map';
+import Map from "../../../scripts/modules/results/map";
 
 module.exports = {
-    map: {selector: '#lf-map', provider: Map}
+    map: { selector: "#lf-map", provider: Map },
 };
 ```
 
 ```js
 // src/Bridge/FrontBundle/Resources/scripts/modules/results/map/index.js
 
-import Component from '../../../../scripts/base/Component';
-import {mobile} from '../../../../scripts/utils/mobile';
+import Component from "../../../../scripts/base/Component";
+import { mobile } from "../../../../scripts/utils/mobile";
 
 const isMobile = mobile();
 
@@ -140,19 +140,19 @@ class Map extends Component {
             showLabel: true,
             options: {
                 zoom: 12,
-                locationZoom: 16
+                locationZoom: 16,
             },
             markers: {},
             labels: {
-                color: 'white',
-                font: 'Arial, sans-serif',
-                size: '14px',
-                weight: 'normal'
+                color: "white",
+                font: "Arial, sans-serif",
+                size: "14px",
+                weight: "normal",
             },
             clusters: {},
             pagination: {
-                hitsStart: 1
-            }
+                hitsStart: 1,
+            },
         };
     }
 
@@ -161,8 +161,8 @@ class Map extends Component {
         require(`batMap/dist/${this.attr.provider}`);
 
         this.userCoordinates = {
-            latitude: urlService.getUrlParameter('lat'),
-            longitude: urlService.getUrlParameter('lon')
+            latitude: urlService.getUrlParameter("lat"),
+            longitude: urlService.getUrlParameter("lon"),
         };
 
         this.map = new window.BatMap(
@@ -177,9 +177,18 @@ class Map extends Component {
     }
 
     bindEvents() {
-        this.emitter.on('modules.map.setIconOnMarker', this.setIconOnMarker.bind(this));
-        this.emitter.on('modules.map.focusOnMarker', this.focusOnMarker.bind(this));
-        this.emitter.on('modules.map.panToAllMarkers', this.panToAllMarkers.bind(this));
+        this.emitter.on(
+            "modules.map.setIconOnMarker",
+            this.setIconOnMarker.bind(this)
+        );
+        this.emitter.on(
+            "modules.map.focusOnMarker",
+            this.focusOnMarker.bind(this)
+        );
+        this.emitter.on(
+            "modules.map.panToAllMarkers",
+            this.panToAllMarkers.bind(this)
+        );
     }
 
     initMap() {
@@ -193,7 +202,7 @@ class Map extends Component {
         this.addMarkers();
 
         if (!this.attr.showLabel && !this.attr.showCluster) {
-            this.map.listenZoomChange(zoom => {
+            this.map.listenZoomChange((zoom) => {
                 this.map.minifyMarkerIcons(zoom);
             });
         }
@@ -204,18 +213,23 @@ class Map extends Component {
     }
 
     setMapOptions() {
-        this.map.setMapOptions(this.attr.options, this.attr.markers, this.attr.labels, this.attr.clusters);
+        this.map.setMapOptions(
+            this.attr.options,
+            this.attr.markers,
+            this.attr.labels,
+            this.attr.clusters
+        );
     }
 
     setPoints() {
-        [].forEach.call(this.attr.locations, location => {
+        [].forEach.call(this.attr.locations, (location) => {
             let label = false;
 
             if (this.attr.showLabel) {
                 label = `${this.attr.pagination.hitsStart++}`;
             }
 
-            this.map.setPoint(location, 'default', label);
+            this.map.setPoint(location, "default", label);
         });
     }
 
@@ -239,7 +253,7 @@ class Map extends Component {
         this.map.addMarkers({
             click: this.handleClickOnMarker.bind(this),
             mouseover: this.handleMouseEnterOnMarker.bind(this),
-            mouseout: this.handleMouseLeaveOnMarker.bind(this)
+            mouseout: this.handleMouseLeaveOnMarker.bind(this),
         });
     }
 
@@ -248,11 +262,18 @@ class Map extends Component {
     }
 
     geolocateOnMap() {
-        if(this.attr.showPosition && this.userCoordinates.latitude && this.userCoordinates.longitude) {
-            this.map.addUserMarker({
-                latitude: parseFloat(this.userCoordinates.latitude),
-                longitude: parseFloat(this.userCoordinates.longitude)
-            }, 'user');
+        if (
+            this.attr.showPosition &&
+            this.userCoordinates.latitude &&
+            this.userCoordinates.longitude
+        ) {
+            this.map.addUserMarker(
+                {
+                    latitude: parseFloat(this.userCoordinates.latitude),
+                    longitude: parseFloat(this.userCoordinates.longitude),
+                },
+                "user"
+            );
         }
     }
 
@@ -266,42 +287,42 @@ class Map extends Component {
 
     handleClickOnMarker(marker) {
         return () => {
-            [].forEach.call(this.getMarkers(), m => {
-                this.setIconOnMarker(m, 'default');
+            [].forEach.call(this.getMarkers(), (m) => {
+                this.setIconOnMarker(m, "default");
             });
 
-            this.setIconOnMarker(marker, 'active');
+            this.setIconOnMarker(marker, "active");
 
             this.focusOnMarker(marker);
 
-            this.emitter.emit('modules.searchLocations.scroll', marker.id);
-            this.emitter.emit('modules.searchLocations.highlight', marker.id);
+            this.emitter.emit("modules.searchLocations.scroll", marker.id);
+            this.emitter.emit("modules.searchLocations.highlight", marker.id);
 
             // On mobile, display the map panel
             if (isMobile) {
-                this.emitter.emit('modules.toggleMap.toggleMapDisplay');
+                this.emitter.emit("modules.toggleMap.toggleMapDisplay");
             }
         };
     }
 
     handleMouseEnterOnMarker(marker) {
         return () => {
-            if (this.getMarkerIconType(marker) !== 'active') {
-                this.setIconOnMarker(marker, 'hover');
+            if (this.getMarkerIconType(marker) !== "active") {
+                this.setIconOnMarker(marker, "hover");
             }
         };
     }
 
     handleMouseLeaveOnMarker(marker) {
         return () => {
-            if (this.getMarkerIconType(marker) !== 'active') {
-                this.setIconOnMarker(marker, 'default');
+            if (this.getMarkerIconType(marker) !== "active") {
+                this.setIconOnMarker(marker, "default");
             }
         };
     }
 }
 
-Map.deps = ['eventEmitterService', 'urlService'];
+Map.deps = ["eventEmitterService", "urlService"];
 
 export default Map;
 ```
@@ -311,17 +332,17 @@ export default Map;
 ```js
 // src/Bridge/FrontBundle/Resources/views/pages/location/index.js
 
-import Map from '../../../scripts/modules/location/map';
+import Map from "../../../scripts/modules/location/map";
 
 module.exports = {
-    map: {selector: '#lf-map', provider: Map}
+    map: { selector: "#lf-map", provider: Map },
 };
 ```
 
 ```js
 // src/Bridge/FrontBundle/Resources/scripts/modules/location/map/index.js
 
-import Component from '../../../../scripts/base/Component';
+import Component from "../../../../scripts/base/Component";
 
 class Map extends Component {
     getDefaultAttributes() {
@@ -331,15 +352,15 @@ class Map extends Component {
             showLabel: false,
             options: {
                 zoom: 12,
-                locationZoom: 16
+                locationZoom: 16,
             },
             markers: {},
             labels: {
-                color: 'white',
-                font: 'Arial, sans-serif',
-                size: '14px',
-                weight: 'normal'
-            }
+                color: "white",
+                font: "Arial, sans-serif",
+                size: "14px",
+                weight: "normal",
+            },
         };
     }
 
@@ -372,12 +393,16 @@ class Map extends Component {
     }
 
     setMapOptions() {
-        this.map.setMapOptions(this.attr.options, this.attr.markers, this.attr.labels);
+        this.map.setMapOptions(
+            this.attr.options,
+            this.attr.markers,
+            this.attr.labels
+        );
     }
 
     setPoints() {
-        [].forEach.call(this.attr.locations, location => {
-            this.map.setPoint(location, 'location');
+        [].forEach.call(this.attr.locations, (location) => {
+            this.map.setPoint(location, "location");
         });
     }
 
@@ -390,7 +415,10 @@ class Map extends Component {
     }
 
     panToAllMarkers() {
-        this.map.fitBounds(this.map.getBounds(), this.attr.options.locationZoom);
+        this.map.fitBounds(
+            this.map.getBounds(),
+            this.attr.options.locationZoom
+        );
     }
 }
 

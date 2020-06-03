@@ -2,12 +2,12 @@
 
 const locations = [
     {
-        _id: 'uuid1',
+        _id: "uuid1",
         localisation: {
             coordinates: {
                 latitude: 45.564,
-                longitude: 5.917
-            }
-        }
-    }
+                longitude: 5.917,
+            },
+        },
+    },
 ];

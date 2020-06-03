@@ -6,9 +6,9 @@ The only thing that change will be the chosen provider and its API Key. All your
 
 **Providers available:**
 
-- [Google Maps](https://developers.google.com/maps/documentation/javascript/) - `gmaps`
-- [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html) - `mappy`
-- [Leaflet](http://leafletjs.com/reference-1.5.1.html) - `leaflet`
+-   [Google Maps](https://developers.google.com/maps/documentation/javascript/) - `gmaps`
+-   [Mappy (Leaflet)](http://leafletjs.com/reference-1.0.3.html) - `mappy`
+-   [Leaflet](http://leafletjs.com/reference-1.5.1.html) - `leaflet`
 
 ## Getting Started
 
@@ -43,13 +43,13 @@ Now you can use this version in your project.
 
 ## Compatibility
 
-|         | Google Map |   Mappy   |  Leaflet  | SVG Marker |
-| ------- | :--------: | :-------: | :-------: | :--------: |
-| Chrome  |     ✔      |     ✔     |     ✔     |     ✔      |
-| Firefox |     ✔      |     ✔     |     ✔     |     ✔      |
-| Opera   |     ✔      |     ✔     |     ✔     |     ✔      |
-| Safari  |     ✔      |     ✔     |     ✔     |     ✔      |
-| IE11    |     ✔      |     ✔     |     ✔     |     ✔      |
-| EDGE    |     ✔      |     ✔     |     ✔     |     ✔      |
+|         | Google Map | Mappy | Leaflet | SVG Marker |
+| ------- | :--------: | :---: | :-----: | :--------: |
+| Chrome  |     ✔      |   ✔   |    ✔    |     ✔      |
+| Firefox |     ✔      |   ✔   |    ✔    |     ✔      |
+| Opera   |     ✔      |   ✔   |    ✔    |     ✔      |
+| Safari  |     ✔      |   ✔   |    ✔    |     ✔      |
+| IE11    |     ✔      |   ✔   |    ✔    |     ✔      |
+| EDGE    |     ✔      |   ✔   |    ✔    |     ✔      |
 
-- need to include [es5-shim && es5-sham](https://github.com/es-shims/es5-shim)
+-   need to include [es5-shim && es5-sham](https://github.com/es-shims/es5-shim)

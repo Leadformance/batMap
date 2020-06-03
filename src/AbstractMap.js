@@ -1,22 +1,32 @@
-'use strict';
+"use strict";
 
-require('./style.css');
-const objectAssign = require('object-assign');
-const dom = require('./utils/dom');
+require("./style.css");
+const objectAssign = require("object-assign");
+const dom = require("./utils/dom");
 
-if (typeof Promise === 'undefined') {
-    require('promise/lib/rejection-tracking').enable();
-    window.Promise = require('promise/lib/es6-extensions.js');
+if (typeof Promise === "undefined") {
+    require("promise/lib/rejection-tracking").enable();
+    window.Promise = require("promise/lib/es6-extensions.js");
 }
 
 class AbstractMap {
-    constructor(domSelector, apiKey, locale, showCluster = false, showLabel = false, showPosition = false, callback = () => {}) {
-        this.domElement = dom.isHTMLElement(domSelector) ? domSelector : document.querySelector(domSelector);
-        this.domId = this.domElement.id || '';
+    constructor(
+        domSelector,
+        apiKey,
+        locale,
+        showCluster = false,
+        showLabel = false,
+        showPosition = false,
+        callback = () => {}
+    ) {
+        this.domElement = dom.isHTMLElement(domSelector)
+            ? domSelector
+            : document.querySelector(domSelector);
+        this.domId = this.domElement.id || "";
 
         this.apiKey = apiKey;
-        this.locale = locale || 'en';
-        this.provider = '[No provider defined]';
+        this.locale = locale || "en";
+        this.provider = "[No provider defined]";
 
         this.showCluster = showCluster;
         this.showLabel = showLabel;
@@ -31,7 +41,7 @@ class AbstractMap {
 
         this.defaultOptions = {
             zoom: 12,
-            locationZoom: 16
+            locationZoom: 16,
         };
 
         this.load(callback);
@@ -57,8 +67,8 @@ class AbstractMap {
     }
 
     getMarker(marker) {
-        if (typeof marker === 'string') {
-            marker = this.markers.find(m => {
+        if (typeof marker === "string") {
+            marker = this.markers.find((m) => {
                 return m.id === marker;
             });
         }
@@ -89,12 +99,10 @@ class AbstractMap {
                 navigator.geolocation.getCurrentPosition(resolve, reject, {
                     maximumAge: 60000,
                     timeout: 20000,
-                    enableHighAccuracy: true
+                    enableHighAccuracy: true,
                 });
             } else {
-                reject(
-                    new Error()
-                );
+                reject(new Error());
             }
         });
     }
@@ -108,51 +116,75 @@ class AbstractMap {
     }
 
     addMarkers() {
-        console.error(`${this.provider} has no 'addMarkers' method implemented.`);
+        console.error(
+            `${this.provider} has no 'addMarkers' method implemented.`
+        );
     }
 
     addUserMarker() {
-        console.error(`${this.provider} has no 'addUserMarker' method implemented.`);
+        console.error(
+            `${this.provider} has no 'addUserMarker' method implemented.`
+        );
     }
 
     addMarker() {
-        console.error(`${this.provider} has no 'addMarker' method implemented.`);
+        console.error(
+            `${this.provider} has no 'addMarker' method implemented.`
+        );
     }
 
     removeMarker() {
-        console.error(`${this.provider} has no 'removeMarker' method implemented.`);
+        console.error(
+            `${this.provider} has no 'removeMarker' method implemented.`
+        );
     }
 
     setMarkerIcons() {
-        console.error(`${this.provider} has no 'setMarkerIcons' method implemented.`);
+        console.error(
+            `${this.provider} has no 'setMarkerIcons' method implemented.`
+        );
     }
 
     setIconOnMarker() {
-        console.error(`${this.provider} has no 'setIconOnMarker' method implemented.`);
+        console.error(
+            `${this.provider} has no 'setIconOnMarker' method implemented.`
+        );
     }
 
     focusOnMarker() {
-        console.error(`${this.provider} has no 'focusOnMarker' method implemented.`);
+        console.error(
+            `${this.provider} has no 'focusOnMarker' method implemented.`
+        );
     }
 
     addCluster() {
-        console.error(`${this.provider} has no 'addCluster' method implemented.`);
+        console.error(
+            `${this.provider} has no 'addCluster' method implemented.`
+        );
     }
 
     setCenter() {
-        console.error(`${this.provider} has no 'setCenter' method implemented.`);
+        console.error(
+            `${this.provider} has no 'setCenter' method implemented.`
+        );
     }
 
     fitBounds() {
-        console.error(`${this.provider} has no 'fitBounds' method implemented.`);
+        console.error(
+            `${this.provider} has no 'fitBounds' method implemented.`
+        );
     }
 
     extendBounds() {
-        console.error(`${this.provider} has no 'extendBounds' method implemented.`);
+        console.error(
+            `${this.provider} has no 'extendBounds' method implemented.`
+        );
     }
 
     getBounds() {
-        console.error(`${this.provider} has no 'getBounds' method implemented.`);
+        console.error(
+            `${this.provider} has no 'getBounds' method implemented.`
+        );
     }
 
     panTo() {
@@ -164,11 +196,15 @@ class AbstractMap {
     }
 
     listenZoomChange() {
-        console.error(`${this.provider} has no 'listenZoomChange' method implemented.`);
+        console.error(
+            `${this.provider} has no 'listenZoomChange' method implemented.`
+        );
     }
 
     minifyMarkerIcons() {
-        console.error(`${this.provider} has no 'minifyMarkerIcons' method implemented.`);
+        console.error(
+            `${this.provider} has no 'minifyMarkerIcons' method implemented.`
+        );
     }
 }
 

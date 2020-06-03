@@ -1,5 +1,5 @@
 // jshint ignore: start
-'use strict';
+"use strict";
 
 /**
  * Copyright 2019 Google LLC. All Rights Reserved.
@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ClusterIcon } from './cluster-icon';
+import { ClusterIcon } from "./cluster-icon";
 /**
  * Creates a single cluster that manages a group of proximate markers.
  *  Used internally, do not call this constructor directly.
@@ -35,7 +35,10 @@ export class Cluster {
         this.markers_ = []; // TODO: type;
         this.center_ = null;
         this.bounds_ = null;
-        this.clusterIcon_ = new ClusterIcon(this, this.markerClusterer_.getStyles());
+        this.clusterIcon_ = new ClusterIcon(
+            this,
+            this.markerClusterer_.getStyles()
+        );
     }
     /**
      * Returns the number of markers managed by the cluster. You can call this from
@@ -121,12 +124,17 @@ export class Cluster {
         if (!this.center_) {
             this.center_ = marker.getPosition();
             this.calculateBounds_();
-        }
-        else {
+        } else {
             if (this.averageCenter_) {
                 const l = this.markers_.length + 1;
-                const lat = (this.center_.lat() * (l - 1) + marker.getPosition().lat()) / l;
-                const lng = (this.center_.lng() * (l - 1) + marker.getPosition().lng()) / l;
+                const lat =
+                    (this.center_.lat() * (l - 1) +
+                        marker.getPosition().lat()) /
+                    l;
+                const lng =
+                    (this.center_.lng() * (l - 1) +
+                        marker.getPosition().lng()) /
+                    l;
                 this.center_ = new google.maps.LatLng(lat, lng);
                 this.calculateBounds_();
             }
@@ -140,20 +148,17 @@ export class Cluster {
             if (marker.getMap() !== this.map_) {
                 marker.setMap(this.map_);
             }
-        }
-        else if (mCount < this.minClusterSize_) {
+        } else if (mCount < this.minClusterSize_) {
             // Min cluster size not reached so show the marker.
             if (marker.getMap() !== this.map_) {
                 marker.setMap(this.map_);
             }
-        }
-        else if (mCount === this.minClusterSize_) {
+        } else if (mCount === this.minClusterSize_) {
             // Hide the markers that were showing.
             for (let i = 0; i < mCount; i++) {
                 this.markers_[i].setMap(null);
             }
-        }
-        else {
+        } else {
             marker.setMap(null);
         }
         return true;
@@ -191,7 +196,10 @@ export class Cluster {
             return;
         }
         const numStyles = this.markerClusterer_.getStyles().length;
-        const sums = this.markerClusterer_.getCalculator()(this.markers_, numStyles);
+        const sums = this.markerClusterer_.getCalculator()(
+            this.markers_,
+            numStyles
+        );
         this.clusterIcon_.setCenter(this.center_);
         this.clusterIcon_.useStyle(sums);
         this.clusterIcon_.show();
@@ -205,8 +213,7 @@ export class Cluster {
     isMarkerAlreadyAdded_(marker) {
         if (this.markers_.indexOf) {
             return this.markers_.indexOf(marker) !== -1;
-        }
-        else {
+        } else {
             for (let i = 0; i < this.markers_.length; i++) {
                 if (marker === this.markers_[i]) {
                     return true;
