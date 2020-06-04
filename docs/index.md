@@ -90,26 +90,10 @@ const config = {
 
 1. Add the provider script.
 
-Using bower:
-
-```bash
-bower install Leadformance/batMap
-```
-
-```js
-require(`batMap/dist/${provider}`);
-```
-
-Or directly in html:
-
-```html
-<script src="path/to/batMap/dist/{{ provider }}.min.js"></script>
-```
-
 2. Create a new map instance and display it.
 
 ```js
-const map = new window.BatMap(
+const map = new window.GoogleMap(
     "#my-map",
     config.apiKey,
     config.locale,
