@@ -15,7 +15,6 @@ const loaderUtils = require("../../utils/loader");
 const objectAssign = require("object-assign");
 
 export class Mappy extends AbstractMap {
-    L;
     constructor(...args) {
         super(...args);
 
