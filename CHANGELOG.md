@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/Leadformance/batMap/compare/v2.1.1...v2.1.2) (2020-06-04)
+
+
+### Bug Fixes
+
+* remove property declaration ([7f1aa35](https://github.com/Leadformance/batMap/commit/7f1aa359c1e60222d49b66eb47a2c623679def27))
+
 ## [2.1.1](https://github.com/Leadformance/batMap/compare/v2.1.0...v2.1.1) (2020-06-04)
 
 
