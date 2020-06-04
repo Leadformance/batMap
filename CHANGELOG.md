@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/Leadformance/batMap/compare/v2.1.0...v2.1.1) (2020-06-04)
+
+
+### Bug Fixes
+
+* move index module ([a576731](https://github.com/Leadformance/batMap/commit/a57673100017aca2ce96e755f3827a951be20e73))
+
 # [2.1.0](https://github.com/Leadformance/batMap/compare/v2.0.2...v2.1.0) (2020-06-03)
 
 
