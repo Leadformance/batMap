@@ -73,6 +73,7 @@ class GoogleMap extends AbstractMap {
     initMap() {
         this.bounds = new google.maps.LatLngBounds();
         this.map = new google.maps.Map(this.domElement, this.mapOptions);
+        this.initialBoundsEvent = true;
     }
 
     setPoint(location, iconType, label = false) {
@@ -106,9 +107,11 @@ class GoogleMap extends AbstractMap {
     }
 
     addMarker(point, eventCallback = {}) {
-        const marker = new google.maps.Marker(point);
+        const marker = new google.maps.Marker({
+            map: this.map,
+            ...point
+        });
         this.markers.push(marker);
-        marker.setMap(this.map);
 
         this.setIconOnMarker(marker, point.iconType);
 
@@ -121,10 +124,13 @@ class GoogleMap extends AbstractMap {
     }
 
     removeMarker(marker) {
-        marker = this.getMarker(marker);
-
+        marker = marker ? marker : this.getMarker(marker);
         marker.setMap(null);
         this.markers = this.markers.filter(m => m.id !== marker.id);
+    }
+
+    removeCluster() {
+        this.cluster.clearMarkers();
     }
 
     setMarkerIcons() {
@@ -225,6 +231,10 @@ class GoogleMap extends AbstractMap {
         }, this.clustersOptions));
     }
 
+    getZoom() {
+        return this.map.getZoom();
+    }
+
     setZoom(zoom) {
         this.map.setZoom(zoom);
     }
@@ -233,8 +243,23 @@ class GoogleMap extends AbstractMap {
         this.map.setCenter(position);
     }
 
+    getCenterLatLng() {
+        const center = this.map.getCenter();
+        return {
+            lat: center.lat(),
+            lng: center.lng()
+        };
+    }
+
     getBounds() {
         return this.bounds;
+    }
+
+    getBoundsLatLng() {
+        const bounds = this.map.getBounds();
+        const northEast = bounds.getNorthEast();
+        const southWest = bounds.getSouthWest();
+        return [southWest.lat(), southWest.lng(), northEast.lat(), northEast.lng()];
     }
 
     extendBounds(position) {
@@ -257,6 +282,16 @@ class GoogleMap extends AbstractMap {
     listenZoomChange(callback) {
         this.map.addListener('zoom_changed', () => {
             return callback(this.map.getZoom());
+        });
+    }
+
+    listenBoundsChange(callback) {
+        this.map.addListener('bounds_changed', () => {
+            if (this.initialBoundsEvent) {
+                this.initialBoundsEvent = false;
+                return;
+            }
+            return callback(this.getCenterLatLng());
         });
     }
 
