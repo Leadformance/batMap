@@ -7,7 +7,7 @@
         "yarn": ">=1"
     },
     "dependencies": {
-        "@bridge/commitlint-config": "^2.1.1",
+        "@bridge/commitlint-config": "^2.2.0",
         "@bridge/eslint-config": "^4.1.26",
         "@bridge/semantic-release-config": "^2.1.40",
         "@commitlint/cli": "^8.3.5",
