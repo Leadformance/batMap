@@ -813,10 +813,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bridge/commitlint-config@^2.1.1":
-  version "2.1.1"
-  resolved "https://solocal.jfrog.io/solocal/api/npm/npm/@bridge/commitlint-config/-/@bridge/commitlint-config-2.1.1.tgz#9b35f88af97646484d65397768b92bd33ce147a3"
-  integrity sha1-mzX4ivl2RkhNZTl3aLkr0zzhR6M=
+"@bridge/commitlint-config@^2.2.1":
+  version "2.2.1"
+  resolved "https://solocal.jfrog.io/solocal/api/npm/npm/@bridge/commitlint-config/-/@bridge/commitlint-config-2.2.1.tgz#6a1107b8f99f288876d86e8dafa874e11ccc984f"
+  integrity sha1-ahEHuPmfKIh22G6Nr6h04RzMmE8=
 
 "@bridge/eslint-config@^4.1.26":
   version "4.1.26"
