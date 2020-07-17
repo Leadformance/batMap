@@ -28,6 +28,7 @@ class AbstractMap {
         this.icons = [];
         this.bounds = null;
         this.cluster = null;
+        this.focusInProgress = false;
 
         this.defaultOptions = {
             zoom: 12,

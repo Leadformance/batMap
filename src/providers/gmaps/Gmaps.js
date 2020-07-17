@@ -182,7 +182,13 @@ class GoogleMap extends AbstractMap {
     }
 
     focusOnMarker(marker) {
+        this.focusInProgress = true;
         marker = this.getMarker(marker);
+
+        const listener = this.map.addListener('idle', () => {
+            this.focusInProgress = false;
+            google.maps.event.removeListener(listener);
+        });
 
         this.map.setZoom(this.mapOptions.locationZoom);
         this.panTo(marker.position);
@@ -285,8 +291,11 @@ class GoogleMap extends AbstractMap {
         });
     }
 
-    listenBoundsChange(callback) {
+    listenBoundsChange(callback, ignoreFocusOnMarker = true) {
         this.map.addListener('bounds_changed', () => {
+            if (ignoreFocusOnMarker && this.focusInProgress) {
+                return;
+            }
             if (this.initialBoundsEvent) {
                 this.initialBoundsEvent = false;
                 return;
