@@ -210,13 +210,19 @@ class Mappy extends AbstractMap {
         }
     }
 
-    focusOnMarker(marker) {
+    focusOnMarker(marker, offset = {x: 0, y: 0}) {
         this.focusInProgress = true;
+        let hasOffset = offset.x || offset.y;
         marker = this.getMarker(marker);
 
         const onMoveEnd = () => {
-            this.focusInProgress = false;
-            this.map.off('moveend', onMoveEnd, this);
+            if (hasOffset) {
+                hasOffset = false;
+                this.map.panBy(offset);
+            } else {
+                this.focusInProgress = false;
+                this.map.off('moveend', onMoveEnd, this);
+            }
         }
         this.map.on('moveend', onMoveEnd, this);
 
