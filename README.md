@@ -18,17 +18,17 @@ See the full [documentation](https://leadformance.github.io/batMap/).
 
 ### Run the example project
 
-Run `npm run build-dev` and launch the example folder on a local server.
-Any changes will be watched.
+Run `yarn build-dev` and launch the example folder on a local server.
+To sync the browser with changes run `yarn start` in another terminal.
 
 ### Validate your code
 
-Run `npm run test` to launch the tests (Jest - [documentation](https://jestjs.io/)).
+Run `yarn test` to launch the tests (Jest - [documentation](https://jestjs.io/)).
 
 ### Testing your devs
 
 If you need to test your developments before releasing, you can push the compiled filed to Github Pages.
-To do this, just run `npm run gh-deploy`.
+To do this, just run `yarn gh-deploy`.
 
 You'll find the generated files on this link: https://leadformance.github.io/batMap/dist/[PROVIDER].[min].js
 
@@ -36,7 +36,7 @@ You'll find the generated files on this link: https://leadformance.github.io/bat
 
 To deploy and release your code you have to merge your branch on master.
 
-Now you can switch on master and run `npm run deploy <versions>` (version: major|minor|patch).
+Now you can switch on master and run `yarn deploy <versions>` (version: major|minor|patch).
 It will generate the folder **dist** with every provider js (normal and minified).
 
 Now you can use this version in your project.

@@ -2,6 +2,10 @@
   "name": "batmap",
   "version": "1.9.1",
   "description": "Unique interface above multiple map providers",
+  "engines": {
+    "node": ">=12",
+    "yarn": ">=1"
+  },
   "dependencies": {
     "@google/markerclusterer": "^1.0.3",
     "promise": "^8.0.3",
@@ -37,13 +41,17 @@
     "build-dev": "rm -rf dist && webpack --mode development --watch",
     "deploy": "bash scripts/deploy.sh",
     "gh-deploy": "bash scripts/gh-deploy.sh",
-    "test": "jest"
+    "test": "jest --forceExit --passWithNoTests",
+    "ci-validate": "yarn build && yarn test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Leadformance/batMap.git"
   },
-  "author": "Marie Rigal",
+  "author": {
+    "name": "Leadformance Developers",
+    "email": "dev@leadformance.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/leadformance/batMap/issues"
