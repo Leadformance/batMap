@@ -202,7 +202,7 @@ class Mappy extends AbstractMap {
                     className: icon.options.className,
                     iconSize: icon.options.iconSize,
                     iconAnchor: icon.options.iconAnchor,
-                    html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image">${span.outerHTML}`
+                    html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image" alt="marker ${marker.options.label}">${span.outerHTML}`
                 }));
             } else {
                 marker.setIcon(icon);
@@ -263,7 +263,7 @@ class Mappy extends AbstractMap {
 
                 return L.divIcon({
                     className: icon.options.className,
-                    html: `<img src="${icon.options.iconUrl}" class="map-marker-cluster__image">` + span.outerHTML,
+                    html: `<img src="${icon.options.iconUrl}" class="map-marker-cluster__image" alt="marker cluster (${cluster.getChildCount()})">` + span.outerHTML,
                     iconSize: icon.options.iconSize
                 });
             }
