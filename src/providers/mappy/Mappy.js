@@ -121,7 +121,7 @@ class Mappy extends AbstractMap {
         const marker = L.marker(point.position, point);
         marker.id = point.id;
         marker.location = point.location;
-        marker.options.alt = point.location.name;
+        marker.options.alt = 'marker ' + point.location.name;
 
         if (this.showCluster && this.icons.cluster) {
             this.cluster.addLayer(marker);
