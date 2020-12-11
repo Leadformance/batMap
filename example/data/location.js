@@ -3,6 +3,7 @@
 const locations = [
     {
         _id: 'uuid1',
+        name: 'Location name',
         localisation: {
             coordinates: {
                 latitude: 45.564,

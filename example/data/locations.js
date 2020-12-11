@@ -9,6 +9,7 @@ let locations = [];
 for (let i = 0; i < 20; i++) {
     const location = {
         _id: 'uuid' + i,
+        name: `Location name #${i}`,
         localisation: {
             coordinates: {
                 latitude: getRandomInRange(45, 46, 3),

@@ -121,6 +121,7 @@ class Mappy extends AbstractMap {
         const marker = L.marker(point.position, point);
         marker.id = point.id;
         marker.location = point.location;
+        marker.options.alt = 'marker ' + point.location.name;
 
         if (this.showCluster && this.icons.cluster) {
             this.cluster.addLayer(marker);
@@ -202,7 +203,7 @@ class Mappy extends AbstractMap {
                     className: icon.options.className,
                     iconSize: icon.options.iconSize,
                     iconAnchor: icon.options.iconAnchor,
-                    html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image" alt="marker ${marker.options.label}">${span.outerHTML}`
+                    html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image" alt="${marker.options.alt}">${span.outerHTML}`
                 }));
             } else {
                 marker.setIcon(icon);
