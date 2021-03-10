@@ -41,6 +41,9 @@ class GoogleMap extends AbstractMap {
         if (Array.isArray(this.apiKey)) {
             urlParams = urlParams + '&client=' + this.apiKey[0];
             urlParams = urlParams + gmapsPremium.sign('https://maps.googleapis.com/maps/api/js', this.apiKey[1]);
+            if (this.apiKey.length > 2) {
+                urlParams = urlParams + '&channel=' + this.apiKey[2];
+            }
         } else {
             urlParams = urlParams + '&key=' + this.apiKey;
         }
