@@ -281,13 +281,8 @@ class GoogleMap extends AbstractMap {
         return this.bounds.extend(position);
     }
 
-    fitBounds(bounds, zoom = this.mapOptions.zoom) {
-        if (this.markers.length > 1) {
-            this.map.fitBounds(bounds);
-        } else {
-            this.setCenter(this.markers[0].position);
-            this.setZoom(zoom);
-        }
+    fitBounds(bounds) {
+        this.map.fitBounds(bounds);
     }
 
     panTo(position) {
