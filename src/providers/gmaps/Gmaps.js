@@ -205,13 +205,13 @@ class GoogleMap extends AbstractMap {
 
     addUserMarker(position, iconType, id = 0) {
         if (position) {
+            // Backward compatibility
+            const latLng = position.latitude && position.longitude ? this.makeLatLng(position.latitude, position.longitude) : position;
+
             const point = {
                 id: `${id}`,
                 map: this.map,
-                position: new google.maps.LatLng(
-                    position.latitude,
-                    position.longitude
-                ),
+                position: latLng,
                 iconType
             };
 

@@ -232,7 +232,10 @@ class Mappy extends AbstractMap {
 
     addUserMarker(position, iconType, id = 0) {
         if (position) {
-            this.userMarker = new L.marker(L.latLng(position.latitude, position.longitude));
+            // Backward compatibility
+            const latLng = position.latitude && position.longitude ? this.makeLatLng(position.latitude, position.longitude) : position;
+
+            this.userMarker = new L.marker(latLng);
             this.userMarker.id = id;
             this.userMarker.addTo(this.map);
 
