@@ -157,6 +157,10 @@ class AbstractMap {
         console.error(`${this.provider} has no 'addCluster' method implemented.`);
     }
 
+    makeLatLng() {
+        console.error(`${this.provider} has no 'makeLatLng' method implemented.`);
+    }
+
     setCenter() {
         console.error(`${this.provider} has no 'setCenter' method implemented.`);
     }

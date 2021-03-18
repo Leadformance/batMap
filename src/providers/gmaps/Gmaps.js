@@ -254,6 +254,10 @@ class GoogleMap extends AbstractMap {
         this.map.setZoom(zoom);
     }
 
+    makeLatLng(latitude, longitude) {
+        return new google.maps.LatLng(latitude, longitude);
+    }
+
     setCenter(position) {
         this.map.setCenter(position);
     }
