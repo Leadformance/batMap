@@ -82,7 +82,11 @@ var MyMap = /** @class */ (function () {
         if (this.attr.showPosition) {
             this.map.getGeolocation()
                 .then(function (position) {
-                _this.map.addUserMarker(position.coords, 'user');
+                _this.map.addUserMarker(
+                    _this.map.makeLatLng(position.coords.latitude, position.coords.longitude),
+                    'user'
+                );
+                _this.panToAllMarkers();
             })
                 .catch(function (error) {
                 console.error("geolocateOnMap(): " + error.message);
