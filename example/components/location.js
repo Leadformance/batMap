@@ -25,7 +25,9 @@ var MyMap = /** @class */ (function () {
             _this.map.setPoint(location, 'location');
         });
         this.map.addMarkers();
-        this.map.fitBounds(this.map.getBounds(), this.attr.options.locationZoom);
+        const coords = this.attr.locations[0].localisation.coordinates;
+        this.map.setCenter(this.map.makeLatLng(coords.latitude, coords.longitude));
+        this.map.setZoom(this.attr.options.locationZoom);
     };
     return MyMap;
 }());
