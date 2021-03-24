@@ -285,8 +285,8 @@ class GoogleMap extends AbstractMap {
         return this.bounds.extend(position);
     }
 
-    fitBounds(bounds) {
-        this.map.fitBounds(bounds);
+    fitBounds(bounds, _zoom, padding = 50) {
+        this.map.fitBounds(bounds, padding);
     }
 
     panTo(position) {
