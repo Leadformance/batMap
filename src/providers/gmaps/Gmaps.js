@@ -316,17 +316,38 @@ class GoogleMap extends AbstractMap {
         if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
             [].forEach.call(Object.keys(this.icons), key => {
                 const size = this.icons[key].scaledSize;
-                this.icons[key].scaledSize.width = size.width * minifier;
-                this.icons[key].scaledSize.height = size.height * minifier;
+                const width = size.width * minifier;
+                const height = size.height * minifier;
+
+                this.icons[key].scaledSize = new google.maps.Size(width, height);
+                this.icons[key].anchor = new google.maps.Point(width / 2, height);
             });
+            this.refreshAllMarkers();
+
             this.isMinifiedMarkerIcons = true;
         } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
             [].forEach.call(Object.keys(this.icons), key => {
                 const size = this.icons[key].scaledSize;
-                this.icons[key].scaledSize.width = size.width / minifier;
-                this.icons[key].scaledSize.height = size.height / minifier;
+                const width = size.width / minifier;
+                const height = size.height / minifier;
+
+                this.icons[key].scaledSize = new google.maps.Size(width, height);
+                this.icons[key].anchor = new google.maps.Point(width / 2, height);
             });
+            this.refreshAllMarkers();
+
             this.isMinifiedMarkerIcons = false;
+        }
+    }
+
+    refreshAllMarkers() {
+        this.getMarkers().forEach(marker => {
+            const iconName = this.getMarkerIconType(marker);
+            marker.setIcon(this.icons[iconName]);
+        });
+
+        if (this.userMarker) {
+            this.userMarker.setIcon(this.icons.user);
         }
     }
 }
