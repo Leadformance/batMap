@@ -120,6 +120,19 @@ var MyMap = /** @class */ (function () {
     MyMap.prototype.handleMouseEnterOnMarker = function (marker) {
         var _this = this;
         return function () {
+            /**
+             * NOTE: Set all non active markers to default icon for Mappy and Leaflet
+             *   prevent markers to not update correctly when showLabel is set to true
+             */
+            if (_this.attr.showLabel && (_this.attr.provider === 'mappy' || _this.attr.provider === 'leaflet')) {
+                _this.getMarkers().filter(function (m) {
+                    var type = _this.getMarkerIconType(m);
+                    return type !== 'active' && type !== 'default' && marker.id !== m.id;
+                }).forEach(function (m) {
+                    _this.setIconOnMarker(m, 'default');
+                });
+            }
+
             if (_this.getMarkerIconType(marker) !== 'active' && _this.getMarkerIconType(marker) !== 'hover') {
                 _this.setIconOnMarker(marker, 'hover');
                 _this.highlightLocation(marker.id);
