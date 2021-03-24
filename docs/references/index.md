@@ -30,6 +30,7 @@
 - [listenZoomChange](listen-zoom-change)
 - [minifyMarkerIcons](minify-marker-icons)
 - [panTo](pan-to)
+- [panBy](pan-by)
 - [removeMarker](remove-marker)
 - [setCenter](set-center)
 - [setIconOnMarker](set-icon-on-marker)

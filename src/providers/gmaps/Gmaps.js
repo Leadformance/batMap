@@ -293,6 +293,10 @@ class GoogleMap extends AbstractMap {
         this.map.panTo(position);
     }
 
+    panBy(x, y) {
+        this.map.panBy(x, y);
+    }
+
     listenZoomChange(callback) {
         this.map.addListener('zoom_changed', () => {
             return callback(this.map.getZoom());

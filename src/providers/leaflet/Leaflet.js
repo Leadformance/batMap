@@ -319,6 +319,10 @@ class Leaflet extends AbstractMap {
         this.map.flyTo(position, zoom);
     }
 
+    panBy(x, y) {
+        this.map.panBy(L.point(x, y));
+    }
+
     listenZoomChange(callback) {
         this.map.on('zoomend', () => {
             return callback(this.map.getZoom());
