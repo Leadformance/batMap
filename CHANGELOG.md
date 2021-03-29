@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/Leadformance/batMap/compare/v2.1.2...v2.2.0) (2021-03-29)
+
+
+### Features
+
+* update npm registry ([73a461e](https://github.com/Leadformance/batMap/commit/73a461eecf44c664c650b7732d39f3afdac73083))
+
 ## [2.1.2](https://github.com/Leadformance/batMap/compare/v2.1.1...v2.1.2) (2020-06-04)
 
 
