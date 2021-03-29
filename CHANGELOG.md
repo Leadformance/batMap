@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/Leadformance/batMap/compare/v2.2.0...v2.2.1) (2021-03-29)
+
+
+### Bug Fixes
+
+* fix npm deploy registry ([4730b33](https://github.com/Leadformance/batMap/commit/4730b33f57ad8bdb407a67f7993155a63e47aa2a))
+
 # [2.2.0](https://github.com/Leadformance/batMap/compare/v2.1.2...v2.2.0) (2021-03-29)
 
 

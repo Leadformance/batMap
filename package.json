@@ -1,6 +1,6 @@
 {
     "name": "@bridge/batMap",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "description": "Unique interface above multiple map providers",
     "publishConfig": {
         "registry": "https://nexus.azure.cicd.solocal.com/repository/leadformance-npm-releases/",
