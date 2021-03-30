@@ -1,6 +1,3 @@
-// jshint ignore: start
-"use strict";
-
 /**
  * Copyright 2019 Google LLC. All Rights Reserved.
  *
@@ -16,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* globals google */
+
 /**
  * Extends an object's prototype by another's.
  *
@@ -23,22 +23,21 @@
  * @param type2 The Type to extend with.
  * @ignore
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extend(type1, type2) {
-    for (const property in type2.prototype) {
-        type1.prototype[property] = type2.prototype[property];
-    }
+  for (const property in type2.prototype) {
+    type1.prototype[property] = type2.prototype[property];
+  }
 }
 /**
  * @ignore
  */
 export class OverlayViewSafe {
-    constructor() {
-        // MarkerClusterer implements google.maps.OverlayView interface. We use the
-        // extend function to extend MarkerClusterer with google.maps.OverlayView
-        // because it might not always be available when the code is defined so we
-        // look for it at the last possible moment. If it doesn't exist now then
-        // there is no point going ahead :)
-        extend(OverlayViewSafe, google.maps.OverlayView);
-    }
+  constructor() {
+    // MarkerClusterer implements google.maps.OverlayView interface. We use the
+    // extend function to extend MarkerClusterer with google.maps.OverlayView
+    // because it might not always be available when the code is defined so we
+    // look for it at the last possible moment. If it doesn't exist now then
+    // there is no point going ahead :)
+    extend(OverlayViewSafe, google.maps.OverlayView);
+  }
 }
