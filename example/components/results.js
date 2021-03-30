@@ -1,249 +1,270 @@
-"use strict";
-// ResultsPage Component
-var MyMap = /** @class */ (function () {
-    function MyMap(domSelector, attributes) {
-        if (attributes === void 0) {
-            attributes = {};
-        }
-        this.el = document.querySelector(domSelector);
-        this.attr = attributes;
-        this.init();
+import { mapConfig } from '../config';
+import { getBatMapInstance, makeLocations } from '../utils';
+
+class ResultsMapModule {
+  constructor(domSelector, attributes = {}) {
+    this.el = document.querySelector(domSelector);
+
+    if (!this.el) {
+      throw new Error(`"${domSelector}" element not found`);
     }
-    MyMap.prototype.init = function () {
-        var _this = this;
-        var script = document.createElement("script");
-        script.setAttribute("src", "/" + this.attr.provider + ".js");
-        document.head.appendChild(script);
-        script.addEventListener("load", function () {
-            _this.map = new BatMap(
-                _this.el,
-                _this.attr.apiKey,
-                _this.attr.locale,
-                _this.attr.showCluster,
-                _this.attr.showLabel,
-                _this.attr.showPosition,
-                _this.initMap.bind(_this)
-            );
+
+    this.attr = {
+      ...attributes,
+      locations: makeLocations(20),
+    };
+
+    this.init();
+  }
+
+  init() {
+    this.fillLocationsList('#locationsList');
+
+    this.batMap = getBatMapInstance(
+      this.attr.provider,
+      this.el,
+      this.attr.apiKey,
+      this.attr.locale,
+      this.attr.showCluster,
+      this.attr.showLabel,
+      this.attr.showPosition,
+      this.initMap.bind(this),
+    );
+  }
+
+  bindEvents() {
+    document.querySelectorAll('[data-location]').forEach(location => {
+      const id = location.getAttribute('data-location');
+
+      location.addEventListener('click', this.handleClickOnLocation(id));
+      location.addEventListener(
+        'mouseenter',
+        this.handleMouseEnterOnLocation(id),
+      );
+      location.addEventListener(
+        'mouseleave',
+        this.handleMouseLeaveOnLocation(id),
+      );
+    });
+  }
+
+  fillLocationsList(domSelector) {
+    this.attr.locations.forEach(location => {
+      const li = document.createElement('li');
+      li.classList.add('location');
+      li.setAttribute('data-location', location._id);
+      li.innerText = location.name;
+      document.querySelector(domSelector).appendChild(li);
+    });
+  }
+
+  initMap() {
+    this.setMapOptions();
+    this.batMap.initMap();
+    this.setMarkerIcons();
+    this.geolocateOnMap();
+    this.setPoints();
+    this.addMarkers();
+
+    if (!this.attr.showLabel && !this.attr.showCluster) {
+      this.batMap.listenZoomChange(zoom => {
+        this.batMap.minifyMarkerIcons(zoom);
+      });
+    }
+
+    this.panToAllMarkers();
+    this.bindEvents();
+  }
+
+  setMapOptions() {
+    this.batMap.setMapOptions(
+      this.attr.options,
+      this.attr.markers,
+      this.attr.labels,
+      this.attr.clusters,
+    );
+  }
+
+  setPoints() {
+    let i = 1;
+
+    this.attr.locations.forEach(location => {
+      let label = false;
+      if (this.attr.showLabel) {
+        label = i++;
+      }
+
+      this.batMap.setPoint(location, 'default', label);
+    });
+  }
+
+  getPoints() {
+    return this.batMap.getPoints();
+  }
+
+  setMarkerIcons() {
+    this.batMap.setMarkerIcons();
+  }
+
+  setIconOnMarker(marker, iconType) {
+    this.batMap.setIconOnMarker(marker, iconType);
+  }
+
+  focusOnMarker(marker) {
+    this.batMap.focusOnMarker(marker);
+  }
+
+  addMarkers() {
+    this.batMap.addMarkers({
+      click: this.handleClickOnMarker.bind(this),
+      mouseover: this.handleMouseEnterOnMarker.bind(this),
+      mouseout: this.handleMouseLeaveOnMarker.bind(this),
+    });
+  }
+
+  getMarkers() {
+    return this.batMap.getMarkers();
+  }
+
+  geolocateOnMap() {
+    if (this.attr.showPosition) {
+      this.batMap
+        .getGeolocation()
+        .then(position => {
+          this.batMap.addUserMarker(position.coords, 'user');
+        })
+        .catch(error => {
+          console.error('geolocateOnMap(): ' + error.message);
+          return false;
         });
-    };
-    MyMap.prototype.bindEvents = function () {
-        var _this = this;
-        [].forEach.call(document.querySelectorAll("[data-location]"), function (
-            location
-        ) {
-            var id = location.getAttribute("data-location");
-            location.addEventListener("click", _this.handleClickOnLocation(id));
-            location.addEventListener(
-                "mouseenter",
-                _this.handleMouseEnterOnLocation(id)
-            );
-            location.addEventListener(
-                "mouseleave",
-                _this.handleMouseLeaveOnLocation(id)
-            );
+    } else {
+      return false;
+    }
+  }
+
+  panToAllMarkers() {
+    this.batMap.fitBounds(this.batMap.getBounds(), this.attr.options.zoom);
+  }
+
+  getMarkerIconType(marker) {
+    return this.batMap.getMarkerIconType(marker);
+  }
+
+  handleClickOnMarker(marker) {
+    return () => {
+      if (this.getMarkerIconType(marker) !== 'active') {
+        this.getMarkers().forEach(m => {
+          this.setIconOnMarker(m, 'default');
         });
+
+        this.setIconOnMarker(marker, 'active');
+        this.focusOnMarker(marker);
+        this.scrollToLocation(marker.id);
+        this.highlightLocation(marker.id, true);
+      }
     };
-    MyMap.prototype.initMap = function () {
-        var _this = this;
-        this.setMapOptions();
-        this.map.initMap();
-        this.setMarkerIcons();
-        this.geolocateOnMap();
-        this.setPoints();
-        this.addMarkers();
-        if (!this.attr.showLabel && !this.attr.showCluster) {
-            this.map.listenZoomChange(function (zoom) {
-                _this.map.minifyMarkerIcons(zoom);
-            });
-        }
-        this.panToAllMarkers();
-        this.bindEvents();
+  }
+
+  handleMouseEnterOnMarker(marker) {
+    return () => {
+      if (
+        this.getMarkerIconType(marker) !== 'active' &&
+        this.getMarkerIconType(marker) !== 'hover'
+      ) {
+        this.setIconOnMarker(marker, 'hover');
+        this.highlightLocation(marker.id);
+      }
     };
-    MyMap.prototype.setMapOptions = function () {
-        this.map.setMapOptions(
-            this.attr.options,
-            this.attr.markers,
-            this.attr.labels,
-            this.attr.clusters
-        );
+  }
+
+  handleMouseLeaveOnMarker(marker) {
+    return () => {
+      if (
+        this.getMarkerIconType(marker) !== 'active' &&
+        this.getMarkerIconType(marker) !== 'default'
+      ) {
+        this.setIconOnMarker(marker, 'default');
+        this.highlightLocation(false);
+      }
     };
-    MyMap.prototype.setPoints = function () {
-        var _this = this;
-        var i = 1;
-        [].forEach.call(this.attr.locations, function (location) {
-            var label = false;
-            if (_this.attr.showLabel) {
-                label = i++;
-            }
-            _this.map.setPoint(location, "default", label);
-        });
+  }
+
+  handleClickOnLocation(id) {
+    return () => {
+      this.getMarkers().forEach(m => {
+        this.setIconOnMarker(m, 'default');
+      });
+
+      const marker = this.batMap.getMarker(id);
+      if (marker) {
+        this.setIconOnMarker(marker, 'active');
+        this.focusOnMarker(marker);
+        this.highlightLocation(id, true);
+      }
     };
-    MyMap.prototype.getPoints = function () {
-        return this.map.getPoints();
-    };
-    MyMap.prototype.setMarkerIcons = function () {
-        this.map.setMarkerIcons();
-    };
-    MyMap.prototype.setIconOnMarker = function (marker, iconType) {
-        this.map.setIconOnMarker(marker, iconType);
-    };
-    MyMap.prototype.focusOnMarker = function (marker) {
-        this.map.focusOnMarker(marker);
-    };
-    MyMap.prototype.addMarkers = function () {
-        this.map.addMarkers({
-            click: this.handleClickOnMarker.bind(this),
-            mouseover: this.handleMouseEnterOnMarker.bind(this),
-            mouseout: this.handleMouseLeaveOnMarker.bind(this),
-        });
-    };
-    MyMap.prototype.getMarkers = function () {
-        return this.map.getMarkers();
-    };
-    MyMap.prototype.geolocateOnMap = function () {
-        var _this = this;
-        if (this.attr.showPosition) {
-            this.map
-                .getGeolocation()
-                .then(function (position) {
-                    _this.map.addUserMarker(position.coords, "user");
-                })
-                .catch(function (error) {
-                    console.error("geolocateOnMap(): " + error.message);
-                    return false;
-                });
+  }
+
+  handleMouseEnterOnLocation(id) {
+    return () => {
+      const marker = this.batMap.getMarker(id);
+      if (marker) {
+        if (this.getMarkerIconType(marker) !== 'active') {
+          this.setIconOnMarker(marker, 'hover');
+          this.highlightLocation(id);
         } else {
-            return false;
+          this.highlightLocation(id, true);
         }
+      }
     };
-    MyMap.prototype.panToAllMarkers = function () {
-        this.map.fitBounds(this.map.getBounds(), this.attr.options.zoom);
-    };
-    MyMap.prototype.getMarkerIconType = function (marker) {
-        return this.map.getMarkerIconType(marker);
-    };
-    MyMap.prototype.handleClickOnMarker = function (marker) {
-        var _this = this;
-        return function () {
-            if (_this.getMarkerIconType(marker) !== "active") {
-                [].forEach.call(_this.getMarkers(), function (m) {
-                    _this.setIconOnMarker(m, "default");
-                });
-                _this.setIconOnMarker(marker, "active");
-                _this.focusOnMarker(marker);
-                _this.scrollToLocation(marker.id);
-                _this.highlightLocation(marker.id, true);
-            }
-        };
-    };
-    MyMap.prototype.handleMouseEnterOnMarker = function (marker) {
-        var _this = this;
-        return function () {
-            if (
-                _this.getMarkerIconType(marker) !== "active" &&
-                _this.getMarkerIconType(marker) !== "hover"
-            ) {
-                _this.setIconOnMarker(marker, "hover");
-                _this.highlightLocation(marker.id);
-            }
-        };
-    };
-    MyMap.prototype.handleMouseLeaveOnMarker = function (marker) {
-        var _this = this;
-        return function () {
-            if (
-                _this.getMarkerIconType(marker) !== "active" &&
-                _this.getMarkerIconType(marker) !== "default"
-            ) {
-                _this.setIconOnMarker(marker, "default");
-                _this.highlightLocation(false);
-            }
-        };
-    };
-    // NOTE: LocationOnMap
-    MyMap.prototype.handleClickOnLocation = function (id) {
-        var _this = this;
-        return function () {
-            [].forEach.call(_this.getMarkers(), function (m) {
-                _this.setIconOnMarker(m, "default");
-            });
-            var marker = _this.map.getMarker(id);
-            if (marker) {
-                _this.setIconOnMarker(marker, "active");
-                _this.focusOnMarker(marker);
-                _this.highlightLocation(id, true);
-            }
-        };
-    };
-    MyMap.prototype.handleMouseEnterOnLocation = function (id) {
-        var _this = this;
-        return function () {
-            var marker = _this.map.getMarker(id);
-            if (marker) {
-                if (_this.getMarkerIconType(marker) !== "active") {
-                    _this.setIconOnMarker(marker, "hover");
-                    _this.highlightLocation(id);
-                } else {
-                    _this.highlightLocation(id, true);
-                }
-            }
-        };
-    };
-    MyMap.prototype.handleMouseLeaveOnLocation = function (id) {
-        var _this = this;
-        return function () {
-            var marker = _this.map.getMarker(id);
-            if (marker) {
-                if (_this.getMarkerIconType(marker) !== "active") {
-                    _this.setIconOnMarker(marker, "default");
-                    _this.highlightLocation();
-                } else {
-                    _this.highlightLocation(id, true);
-                }
-            }
-        };
-    };
-    MyMap.prototype.highlightLocation = function (id, isActive) {
-        if (id === void 0) {
-            id = false;
+  }
+
+  handleMouseLeaveOnLocation(id) {
+    return () => {
+      const marker = this.batMap.getMarker(id);
+      if (marker) {
+        if (this.getMarkerIconType(marker) !== 'active') {
+          this.setIconOnMarker(marker, 'default');
+          this.highlightLocation();
+        } else {
+          this.highlightLocation(id, true);
         }
-        if (isActive === void 0) {
-            isActive = false;
-        }
-        [].forEach.call(document.querySelectorAll("[data-location]"), function (
-            l
-        ) {
-            l.classList.remove("hover");
-        });
-        if (id) {
-            var location = document.querySelector(
-                '[data-location="' + id + '"]'
-            );
-            if (location) {
-                location.classList.add("hover");
-                if (isActive) {
-                    [].forEach.call(
-                        document.querySelectorAll("[data-location]"),
-                        function (l) {
-                            l.classList.remove("active");
-                        }
-                    );
-                    location.classList.add("active");
-                }
-            }
-        }
+      }
     };
-    MyMap.prototype.scrollToLocation = function (id) {
-        var location = document.querySelector('[data-location="' + id + '"]');
-        var list = document.querySelector("#locationsList");
-        if (location && list) {
-            list.scrollTo({
-                top:
-                    location.offsetTop - location.clientHeight - list.offsetTop,
-                behavior: "smooth",
-            });
+  }
+
+  highlightLocation(id = false, isActive = false) {
+    document.querySelectorAll('[data-location]').forEach(l => {
+      l.classList.remove('hover');
+    });
+
+    if (id) {
+      const location = document.querySelector('[data-location="' + id + '"]');
+
+      if (location) {
+        location.classList.add('hover');
+
+        if (isActive) {
+          document.querySelectorAll('[data-location]').forEach(l => {
+            l.classList.remove('active');
+          });
+
+          location.classList.add('active');
         }
-    };
-    return MyMap;
-})();
-window.MyMap = MyMap;
+      }
+    }
+  }
+
+  scrollToLocation(id) {
+    const location = document.querySelector('[data-location="' + id + '"]');
+    const list = document.querySelector('#locationsList');
+
+    if (location && list) {
+      list.scrollTo({
+        top: location.offsetTop - location.clientHeight - list.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  }
+}
+
+new ResultsMapModule('#myMap', mapConfig);
