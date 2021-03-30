@@ -88,47 +88,45 @@ const config = {
 
 #### Usage
 
-1. Add the provider script.
-
-2. Create a new map instance and display it.
-
 ```js
-const map = new window.GoogleMap(
-    "#my-map",
-    config.apiKey,
-    config.locale,
-    config.showCluster,
-    config.showLabel,
-    config.showPosition,
-    callback
+import GoogleMaps from '@bridge/batMap';
+
+const batMap = new GoogleMaps(
+  "#my-map",
+  config.apiKey,
+  config.locale,
+  config.showCluster,
+  config.showLabel,
+  config.showPosition,
+  callback
 );
 
 function callback() {
-    map.setMapOptions(
-        config.options,
-        config.markers,
-        config.labels,
-        config.clusters
-    );
+  batMap.setMapOptions(
+    config.options,
+    config.markers,
+    config.labels,
+    config.clusters
+  );
 
-    map.init();
+  batMap.init();
 
-    map.setMarkerIcons();
+  batMap.setMarkerIcons();
 
-    [].forEach.call(config.locations, (location) => {
-        map.setPoint(location, "default");
-    });
+  config.locations.forEach(location => {
+    batMap.setPoint(location, "default");
+  });
 
-    map.addMarkers({
-        click: handleClickOnMarker,
-    });
+  batMap.addMarkers({
+    click: handleClickOnMarker,
+  });
 
-    map.fitBounds(map.getBounds(), config.options.zoom);
+  batMap.fitBounds(batMap.getBounds(), config.options.zoom);
 }
 
 function handleClickOnMarker(marker) {
-    return () => {
-        map.focusOnMarker(marker);
-    };
+  return () => {
+    map.focusOnMarker(marker);
+  };
 }
 ```
