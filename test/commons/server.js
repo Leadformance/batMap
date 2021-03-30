@@ -1,28 +1,28 @@
-const express = require("express");
-let isDefined = require("simple-js-validator").isDefined;
+import express from 'express';
+import { isDefined } from 'simple-js-validator';
 
-class Server {
-    constructor() {
-        const app = express();
-        app.use("/", express.static(__dirname + "/../../dist/"));
-        this.app = app;
-    }
+export class Server {
+  constructor() {
+    const app = express();
+    app.use('/', express.static(__dirname + '/../../dist/'));
+    this.app = app;
+  }
 
-    start(staticContent, config) {
-        if (true === isDefined(staticContent)) {
-            console.log(`serve static content from ${staticContent}`);
-            this.app.use("/", express.static(staticContent));
-        }
-        this.server = this.app.listen(config.port);
-        console.log("server listening on " + config.port);
-        return this;
+  start(staticContent, config) {
+    if (true === isDefined(staticContent)) {
+      console.log(`serve static content from ${staticContent}`);
+      this.app.use('/', express.static(staticContent));
     }
+    this.server = this.app.listen(config.port);
+    console.log('server listening on ' + config.port);
+    return this;
+  }
 
-    stop() {
-        this.server.close(() => {
-            console.log("server stopped");
-        });
-    }
+  stop() {
+    this.server.close(() => {
+      console.log('server stopped');
+    });
+  }
 }
 
 /**
@@ -33,15 +33,13 @@ class Server {
  * </ul>
  * @returns {Promise<*>}
  */
-async function startServer(staticContent, config = {}) {
-    const myConfig = Object.assign(
-        {
-            port: 8000,
-        },
-        config
-    );
+export async function startServer(staticContent, config = {}) {
+  const myConfig = Object.assign(
+    {
+      port: 8000,
+    },
+    config,
+  );
 
-    return new Server().start(staticContent, myConfig);
+  return new Server().start(staticContent, myConfig);
 }
-
-module.exports = { startServer };
