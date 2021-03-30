@@ -1,5 +1,3 @@
-import { isDefined } from 'simple-js-validator';
-
 import { ieUtils } from './ie';
 import { isAString } from './type';
 
@@ -63,7 +61,7 @@ export const domUtils = {
     div.innerHTML = str;
     let textContent = div.textContent || div.innerText || '';
     let classes = '';
-    if (isDefined(div.firstChild)) {
+    if (div.firstChild) {
       classes = div.firstChild.className;
     }
     return { textContent: textContent, classes: classes };
