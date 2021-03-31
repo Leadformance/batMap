@@ -226,10 +226,12 @@ export default class GoogleMaps extends AbstractMap {
               width: icon.scaledSize.width,
               height: icon.scaledSize.height,
               anchorText: [
-                icon.labelOrigin.y -
-                  icon.scaledSize.height / 2 +
-                  icon.labelOptions.size * 1.2,
-                icon.labelOrigin.x - icon.scaledSize.width / 2,
+                Math.ceil(
+                  icon.labelOrigin.y -
+                    icon.scaledSize.height / 2 +
+                    icon.labelOptions.size * 1.2,
+                ),
+                Math.ceil(icon.labelOrigin.x - icon.scaledSize.width / 2),
               ], // [yoffset, xoffset]
               anchorIcon: [icon.anchor.y, icon.anchor.x], // [yoffset, xoffset]
               textSize: icon.labelOptions.size,
