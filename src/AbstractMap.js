@@ -206,6 +206,10 @@ export class AbstractMap {
     console.error(`${this.provider} has no 'panTo' method implemented.`);
   }
 
+  panBy() {
+    console.error(`${this.provider} has no 'panBy' method implemented.`);
+  }
+
   getZoom() {
     console.error(`${this.provider} has no 'getZoom' method implemented.`);
   }
