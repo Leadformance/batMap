@@ -129,8 +129,6 @@ export default class Leaflet extends AbstractMap {
     marker.id = point.id;
     marker.location = point.location;
 
-    this.setIconOnMarker(marker, point.iconType);
-
     if (this.showCluster && this.icons.cluster) {
       this.cluster.addLayer(marker);
     } else {
@@ -145,6 +143,8 @@ export default class Leaflet extends AbstractMap {
     this.extendBounds(marker.getLatLng());
 
     this.markers.push(marker);
+
+    this.setIconOnMarker(marker, point.iconType);
   }
 
   removeMarker(marker) {
@@ -152,6 +152,10 @@ export default class Leaflet extends AbstractMap {
 
     marker.removeFrom(this.map);
     this.markers = this.markers.filter(m => m.id !== marker.id);
+  }
+
+  removeCluster() {
+    this.cluster.remove();
   }
 
   setMarkerIcons() {
@@ -274,6 +278,10 @@ export default class Leaflet extends AbstractMap {
     this.map.addLayer(this.cluster);
   }
 
+  getZoom() {
+    return this.map.getZoom();
+  }
+
   setZoom(zoom) {
     this.map.setZoom(zoom);
   }
@@ -282,8 +290,19 @@ export default class Leaflet extends AbstractMap {
     this.map.setView(position, zoom);
   }
 
+  getCenterLatLng() {
+    return this.map.getCenter();
+  }
+
   getBounds() {
     return this.bounds;
+  }
+
+  getBoundsLatLng() {
+    const bounds = this.map.getBounds();
+    const northEast = bounds.getNorthEast();
+    const southWest = bounds.getSouthWest();
+    return [southWest.lat, southWest.lng, northEast.lat, northEast.lng];
   }
 
   extendBounds(position) {
@@ -308,6 +327,12 @@ export default class Leaflet extends AbstractMap {
   listenZoomChange(callback) {
     this.map.on('zoomend', () => {
       return callback(this.map.getZoom());
+    });
+  }
+
+  listenBoundsChange(callback) {
+    this.map.on('move', () => {
+      return callback(this.getCenterLatLng());
     });
   }
 
