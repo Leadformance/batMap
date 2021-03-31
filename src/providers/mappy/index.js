@@ -317,6 +317,10 @@ export default class Mappy extends AbstractMap {
     this.map.setZoom(zoom);
   }
 
+  makeLatLng(latitude, longitude) {
+    return L.latLng(latitude, longitude);
+  }
+
   setCenter(position, zoom = this.mapOptions.zoom) {
     this.map.setView(position, zoom);
   }
