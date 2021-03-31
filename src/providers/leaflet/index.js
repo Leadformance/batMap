@@ -324,14 +324,10 @@ export default class Leaflet extends AbstractMap {
   }
 
   fitBounds(bounds, zoom = this.mapOptions.zoom) {
-    if (this.markers.length > 1) {
-      this.map.fitBounds(bounds, {
-        padding: L.point(50, 50),
-        maxZoom: zoom,
-      });
-    } else {
-      this.setCenter(this.markers[0].getLatLng(), zoom);
-    }
+    this.map.fitBounds(bounds, {
+      padding: L.point(50, 50),
+      maxZoom: zoom,
+    });
   }
 
   panTo(position, zoom = this.mapOptions.locationZoom) {
