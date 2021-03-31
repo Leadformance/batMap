@@ -372,33 +372,40 @@ export default class Leaflet extends AbstractMap {
     if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
       [].forEach.call(Object.keys(this.icons), key => {
         const size = this.icons[key].options.iconSize;
-        this.icons[key].options.iconSize = [
-          size[0] * minifier,
-          size[1] * minifier,
-        ];
+        const width = size[0] * minifier;
+        const height = size[1] * minifier;
+
+        this.icons[key].options.iconSize = [width, height];
+        this.icons[key].options.iconAnchor = [width / 2, height];
       });
+
+      this.refreshAllMarkers();
+
       this.isMinifiedMarkerIcons = true;
-      this.updateAllMarkerIconsOnMap();
     } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
       [].forEach.call(Object.keys(this.icons), key => {
         const size = this.icons[key].options.iconSize;
-        this.icons[key].options.iconSize = [
-          size[0] / minifier,
-          size[1] / minifier,
-        ];
+        const width = size[0] / minifier;
+        const height = size[1] / minifier;
+
+        this.icons[key].options.iconSize = [width, height];
+        this.icons[key].options.iconAnchor = [width / 2, height];
       });
+
+      this.refreshAllMarkers();
+
       this.isMinifiedMarkerIcons = false;
-      this.updateAllMarkerIconsOnMap();
     }
   }
 
-  updateAllMarkerIconsOnMap() {
-    [].forEach.call(this.markers, marker => {
-      this.setIconOnMarker(marker, marker.iconType, false);
+  refreshAllMarkers() {
+    this.getMarkers().forEach(marker => {
+      const iconName = this.getMarkerIconType(marker);
+      marker.setIcon(this.icons[iconName]);
     });
 
     if (this.userMarker) {
-      this.setIconOnMarker(this.userMarker, this.userMarker.iconType, false);
+      this.userMarker.setIcon(this.icons.user);
     }
   }
 }
