@@ -225,7 +225,7 @@ export default class MappyWidget extends AbstractMap {
             className: icon.options.className,
             iconSize: icon.options.iconSize,
             iconAnchor: icon.options.iconAnchor,
-            html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image">${span.outerHTML}`,
+            html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image" alt="marker ${marker.options.label}">${span.outerHTML}`,
           }),
         );
       } else {
