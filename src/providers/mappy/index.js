@@ -348,11 +348,22 @@ export default class Mappy extends AbstractMap {
     return this.bounds.extend(position);
   }
 
-  fitBounds(bounds, zoom = this.mapOptions.zoom) {
-    this.map.fitBounds(bounds, {
-      padding: L.point(50, 50),
+  fitBounds(bounds, zoom = this.mapOptions.zoom, padding = 50) {
+    const options = {
       maxZoom: zoom,
-    });
+    };
+
+    if (!isNaN(padding)) {
+      options['padding'] = L.point(padding, padding);
+    } else {
+      options['paddingTopLeft'] = L.point(padding.left || 0, padding.top || 0);
+      options['paddingBottomRight'] = L.point(
+        padding.right || 0,
+        padding.bottom || 0,
+      );
+    }
+
+    this.map.fitBounds(bounds, options);
   }
 
   panTo(position, zoom = this.mapOptions.locationZoom) {
