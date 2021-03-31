@@ -63,10 +63,13 @@ export class AbstractMap {
   }
 
   getMarker(marker) {
-    const id = typeof marker === 'string' ? marker : marker.id;
-    return this.markers.find(m => {
-      return m.id === id;
-    });
+    if (typeof marker === 'string') {
+      marker = this.markers.find(m => {
+        return m.id === marker;
+      });
+    }
+
+    return marker;
   }
 
   getMarkerIcons() {
