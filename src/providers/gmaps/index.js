@@ -194,13 +194,19 @@ export default class GoogleMaps extends AbstractMap {
     }
   }
 
-  focusOnMarker(marker) {
+  focusOnMarker(marker, offset = { x: 0, y: 0 }) {
     this.focusInProgress = true;
+    let hasOffset = offset.x || offset.y;
     marker = this.getMarker(marker);
 
     const listener = this.map.addListener('idle', () => {
-      this.focusInProgress = false;
-      google.maps.event.removeListener(listener);
+      if (hasOffset) {
+        hasOffset = false;
+        this.map.panBy(offset.x, offset.y);
+      } else {
+        this.focusInProgress = false;
+        google.maps.event.removeListener(listener);
+      }
     });
 
     this.map.setZoom(this.mapOptions.locationZoom);
