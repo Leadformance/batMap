@@ -221,7 +221,14 @@ export default class Leaflet extends AbstractMap {
   }
 
   focusOnMarker(marker) {
+    this.focusInProgress = true;
     marker = this.getMarker(marker);
+
+    const onMoveEnd = () => {
+      this.focusInProgress = false;
+      this.map.off('moveend', onMoveEnd, this);
+    };
+    this.map.on('moveend', onMoveEnd, this);
 
     this.panTo(marker.getLatLng());
   }
@@ -330,8 +337,11 @@ export default class Leaflet extends AbstractMap {
     });
   }
 
-  listenBoundsChange(callback) {
+  listenBoundsChange(callback, ignoreFocusOnMarker = true) {
     this.map.on('move', () => {
+      if (ignoreFocusOnMarker && this.focusInProgress) {
+        return;
+      }
       return callback(this.getCenterLatLng());
     });
   }
