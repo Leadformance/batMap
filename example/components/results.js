@@ -131,7 +131,14 @@ class ResultsMapModule {
       this.batMap
         .getGeolocation()
         .then(position => {
-          this.batMap.addUserMarker(position.coords, 'user');
+          this.batMap.addUserMarker(
+            this.map.makeLatLng(
+              position.coords.latitude,
+              position.coords.longitude,
+            ),
+            'user',
+          );
+          this.batMap.panToAllMarkers();
         })
         .catch(error => {
           console.error('geolocateOnMap(): ' + error.message);
