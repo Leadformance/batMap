@@ -34,7 +34,7 @@
     "lint:prettier": "yarn prettier -l '{src,test}/**/*.{ts,js,md,json}'",
     "lint:prettier:fix": "yarn prettier --write '{src,test}/**/*.{ts,js,md,json}'",
     "lint:fix": "yarn lint:eslint:fix && yarn lint:prettier:fix",
-    "start": "parcel serve --port 8888 example/*.html example/assets/*",
+    "start": "parcel serve --port=8888 --public-url='/' example/*.html example/assets/**/*",
     "test": "jest --forceExit --passWithNoTests",
     "test:cov": "yarn test --ci --coverage"
   },
