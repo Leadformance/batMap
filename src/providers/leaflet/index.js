@@ -128,8 +128,7 @@ export default class Leaflet extends AbstractMap {
     const marker = L.marker(point.position, point);
     marker.id = point.id;
     marker.location = point.location;
-
-    this.setIconOnMarker(marker, point.iconType);
+    marker.options.alt = 'marker ' + point.location.name;
 
     if (this.showCluster && this.icons.cluster) {
       this.cluster.addLayer(marker);
@@ -145,6 +144,8 @@ export default class Leaflet extends AbstractMap {
     this.extendBounds(marker.getLatLng());
 
     this.markers.push(marker);
+
+    this.setIconOnMarker(marker, point.iconType);
   }
 
   removeMarker(marker) {
@@ -152,6 +153,10 @@ export default class Leaflet extends AbstractMap {
 
     marker.removeFrom(this.map);
     this.markers = this.markers.filter(m => m.id !== marker.id);
+  }
+
+  removeCluster() {
+    this.cluster.remove();
   }
 
   setMarkerIcons() {
@@ -207,7 +212,7 @@ export default class Leaflet extends AbstractMap {
             className: icon.options.className,
             iconSize: icon.options.iconSize,
             iconAnchor: icon.options.iconAnchor,
-            html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image">${span.outerHTML}`,
+            html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image" alt="${marker.options.alt}">${span.outerHTML}`,
           }),
         );
       } else {
@@ -216,17 +221,34 @@ export default class Leaflet extends AbstractMap {
     }
   }
 
-  focusOnMarker(marker) {
+  focusOnMarker(marker, offset = { x: 0, y: 0 }) {
+    this.focusInProgress = true;
+    let hasOffset = offset.x || offset.y;
     marker = this.getMarker(marker);
+
+    const onMoveEnd = () => {
+      if (hasOffset) {
+        hasOffset = false;
+        this.map.panBy(new L.Point(offset.x, offset.y));
+      } else {
+        this.focusInProgress = false;
+        this.map.off('moveend', onMoveEnd, this);
+      }
+    };
+    this.map.on('moveend', onMoveEnd, this);
 
     this.panTo(marker.getLatLng());
   }
 
   addUserMarker(position, iconType, id = 0) {
     if (position) {
-      this.userMarker = new L.marker(
-        L.latLng(position.latitude, position.longitude),
-      );
+      // Backward compatibility
+      const latLng =
+        position.latitude && position.longitude
+          ? this.makeLatLng(position.latitude, position.longitude)
+          : position;
+
+      this.userMarker = new L.marker(latLng);
       this.userMarker.id = id;
       this.userMarker.addTo(this.map);
 
@@ -274,35 +296,65 @@ export default class Leaflet extends AbstractMap {
     this.map.addLayer(this.cluster);
   }
 
+  getZoom() {
+    return this.map.getZoom();
+  }
+
   setZoom(zoom) {
     this.map.setZoom(zoom);
+  }
+
+  makeLatLng(latitude, longitude) {
+    return L.latLng(latitude, longitude);
   }
 
   setCenter(position, zoom = this.mapOptions.zoom) {
     this.map.setView(position, zoom);
   }
 
+  getCenterLatLng() {
+    return this.map.getCenter();
+  }
+
   getBounds() {
     return this.bounds;
+  }
+
+  getBoundsLatLng() {
+    const bounds = this.map.getBounds();
+    const northEast = bounds.getNorthEast();
+    const southWest = bounds.getSouthWest();
+    return [southWest.lat, southWest.lng, northEast.lat, northEast.lng];
   }
 
   extendBounds(position) {
     return this.bounds.extend(position);
   }
 
-  fitBounds(bounds, zoom = this.mapOptions.zoom) {
-    if (this.markers.length > 1) {
-      this.map.fitBounds(bounds, {
-        padding: L.point(50, 50),
-        maxZoom: zoom,
-      });
+  fitBounds(bounds, zoom = this.mapOptions.zoom, padding = 50) {
+    const options = {
+      maxZoom: zoom,
+    };
+
+    if (!isNaN(padding)) {
+      options['padding'] = L.point(padding, padding);
     } else {
-      this.setCenter(this.markers[0].getLatLng(), zoom);
+      options['paddingTopLeft'] = L.point(padding.left || 0, padding.top || 0);
+      options['paddingBottomRight'] = L.point(
+        padding.right || 0,
+        padding.bottom || 0,
+      );
     }
+
+    this.map.fitBounds(bounds, options);
   }
 
   panTo(position, zoom = this.mapOptions.locationZoom) {
     this.map.flyTo(position, zoom);
+  }
+
+  panBy(x, y) {
+    this.map.panBy(L.point(x, y));
   }
 
   listenZoomChange(callback) {
@@ -311,37 +363,53 @@ export default class Leaflet extends AbstractMap {
     });
   }
 
+  listenBoundsChange(callback, ignoreFocusOnMarker = true) {
+    this.map.on('move', () => {
+      if (ignoreFocusOnMarker && this.focusInProgress) {
+        return;
+      }
+      return callback(this.getCenterLatLng());
+    });
+  }
+
   minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
     if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
       [].forEach.call(Object.keys(this.icons), key => {
         const size = this.icons[key].options.iconSize;
-        this.icons[key].options.iconSize = [
-          size[0] * minifier,
-          size[1] * minifier,
-        ];
+        const width = size[0] * minifier;
+        const height = size[1] * minifier;
+
+        this.icons[key].options.iconSize = [width, height];
+        this.icons[key].options.iconAnchor = [width / 2, height];
       });
+
+      this.refreshAllMarkers();
+
       this.isMinifiedMarkerIcons = true;
-      this.updateAllMarkerIconsOnMap();
     } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
       [].forEach.call(Object.keys(this.icons), key => {
         const size = this.icons[key].options.iconSize;
-        this.icons[key].options.iconSize = [
-          size[0] / minifier,
-          size[1] / minifier,
-        ];
+        const width = size[0] / minifier;
+        const height = size[1] / minifier;
+
+        this.icons[key].options.iconSize = [width, height];
+        this.icons[key].options.iconAnchor = [width / 2, height];
       });
+
+      this.refreshAllMarkers();
+
       this.isMinifiedMarkerIcons = false;
-      this.updateAllMarkerIconsOnMap();
     }
   }
 
-  updateAllMarkerIconsOnMap() {
-    [].forEach.call(this.markers, marker => {
-      this.setIconOnMarker(marker, marker.iconType, false);
+  refreshAllMarkers() {
+    this.getMarkers().forEach(marker => {
+      const iconName = this.getMarkerIconType(marker);
+      marker.setIcon(this.icons[iconName]);
     });
 
     if (this.userMarker) {
-      this.setIconOnMarker(this.userMarker, this.userMarker.iconType, false);
+      this.userMarker.setIcon(this.icons.user);
     }
   }
 }

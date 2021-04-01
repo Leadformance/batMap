@@ -143,6 +143,7 @@ export default class MappyWidget extends AbstractMap {
     const marker = L.marker(point.position, point);
     marker.id = point.id;
     marker.location = point.location;
+    marker.options.alt = 'marker ' + point.location.name;
 
     this.setIconOnMarker(marker, point.iconType);
 
@@ -225,7 +226,7 @@ export default class MappyWidget extends AbstractMap {
             className: icon.options.className,
             iconSize: icon.options.iconSize,
             iconAnchor: icon.options.iconAnchor,
-            html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image">${span.outerHTML}`,
+            html: `<img src="${icon.options.iconUrl}" class="map-marker-${iconType}__image" alt="${marker.options.alt}">${span.outerHTML}`,
           }),
         );
       } else {

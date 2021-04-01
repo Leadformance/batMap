@@ -131,7 +131,14 @@ class ResultsMapModule {
       this.batMap
         .getGeolocation()
         .then(position => {
-          this.batMap.addUserMarker(position.coords, 'user');
+          this.batMap.addUserMarker(
+            this.map.makeLatLng(
+              position.coords.latitude,
+              position.coords.longitude,
+            ),
+            'user',
+          );
+          this.batMap.panToAllMarkers();
         })
         .catch(error => {
           console.error('geolocateOnMap(): ' + error.message);
@@ -167,6 +174,26 @@ class ResultsMapModule {
 
   handleMouseEnterOnMarker(marker) {
     return () => {
+      /**
+       * NOTE: Set all non active markers to default icon for Mappy and Leaflet
+       *   prevent markers to not update correctly when showLabel is set to true
+       */
+      if (
+        this.attr.showLabel &&
+        (this.attr.provider === 'mappy' || this.attr.provider === 'leaflet')
+      ) {
+        this.getMarkers()
+          .filter(m => {
+            const type = this.getMarkerIconType(m);
+            return (
+              type !== 'active' && type !== 'default' && marker.id !== m.id
+            );
+          })
+          .forEach(m => {
+            this.setIconOnMarker(m, 'default');
+          });
+      }
+
       if (
         this.getMarkerIconType(marker) !== 'active' &&
         this.getMarkerIconType(marker) !== 'hover'

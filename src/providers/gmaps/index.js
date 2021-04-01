@@ -42,6 +42,10 @@ export default class GoogleMaps extends AbstractMap {
           'https://maps.googleapis.com/maps/api/js',
           this.apiKey[1],
         );
+
+      if (this.apiKey.length > 2) {
+        urlParams = urlParams + '&channel=' + this.apiKey[2];
+      }
     } else {
       urlParams = urlParams + '&key=' + this.apiKey;
     }
@@ -79,6 +83,7 @@ export default class GoogleMaps extends AbstractMap {
   initMap() {
     this.bounds = new google.maps.LatLngBounds();
     this.map = new google.maps.Map(this.domElement, this.mapOptions);
+    this.initialBoundsEvent = true;
   }
 
   setPoint(location, iconType, label = false) {
@@ -112,9 +117,11 @@ export default class GoogleMaps extends AbstractMap {
   }
 
   addMarker(point, eventCallback = {}) {
-    const marker = new google.maps.Marker(point);
+    const marker = new google.maps.Marker({
+      map: this.map,
+      ...point,
+    });
     this.markers.push(marker);
-    marker.setMap(this.map);
 
     this.setIconOnMarker(marker, point.iconType);
 
@@ -127,10 +134,14 @@ export default class GoogleMaps extends AbstractMap {
   }
 
   removeMarker(marker) {
-    marker = this.getMarker(marker);
+    marker = marker ? marker : this.getMarker(marker);
 
     marker.setMap(null);
     this.markers = this.markers.filter(m => m.id !== marker.id);
+  }
+
+  removeCluster() {
+    this.cluster.clearMarkers();
   }
 
   setMarkerIcons() {
@@ -187,8 +198,20 @@ export default class GoogleMaps extends AbstractMap {
     }
   }
 
-  focusOnMarker(marker) {
+  focusOnMarker(marker, offset = { x: 0, y: 0 }) {
+    this.focusInProgress = true;
+    let hasOffset = offset.x || offset.y;
     marker = this.getMarker(marker);
+
+    const listener = this.map.addListener('idle', () => {
+      if (hasOffset) {
+        hasOffset = false;
+        this.map.panBy(offset.x, offset.y);
+      } else {
+        this.focusInProgress = false;
+        google.maps.event.removeListener(listener);
+      }
+    });
 
     this.map.setZoom(this.mapOptions.locationZoom);
     this.panTo(marker.position);
@@ -196,10 +219,16 @@ export default class GoogleMaps extends AbstractMap {
 
   addUserMarker(position, iconType, id = 0) {
     if (position) {
+      // Backward compatibility
+      const latLng =
+        position.latitude && position.longitude
+          ? this.makeLatLng(position.latitude, position.longitude)
+          : position;
+
       const point = {
         id: `${id}`,
         map: this.map,
-        position: new google.maps.LatLng(position.latitude, position.longitude),
+        position: latLng,
         iconType,
       };
 
@@ -226,10 +255,12 @@ export default class GoogleMaps extends AbstractMap {
               width: icon.scaledSize.width,
               height: icon.scaledSize.height,
               anchorText: [
-                icon.labelOrigin.y -
-                  icon.scaledSize.height / 2 +
-                  icon.labelOptions.size * 1.2,
-                icon.labelOrigin.x - icon.scaledSize.width / 2,
+                Math.ceil(
+                  icon.labelOrigin.y -
+                    icon.scaledSize.height / 2 +
+                    icon.labelOptions.size * 1.2,
+                ),
+                Math.ceil(icon.labelOrigin.x - icon.scaledSize.width / 2),
               ], // [yoffset, xoffset]
               anchorIcon: [icon.anchor.y, icon.anchor.x], // [yoffset, xoffset]
               textSize: icon.labelOptions.size,
@@ -245,33 +276,55 @@ export default class GoogleMaps extends AbstractMap {
     );
   }
 
+  getZoom() {
+    return this.map.getZoom();
+  }
+
   setZoom(zoom) {
     this.map.setZoom(zoom);
+  }
+
+  makeLatLng(latitude, longitude) {
+    return new google.maps.LatLng(latitude, longitude);
   }
 
   setCenter(position) {
     this.map.setCenter(position);
   }
 
+  getCenterLatLng() {
+    const center = this.map.getCenter();
+    return {
+      lat: center.lat(),
+      lng: center.lng(),
+    };
+  }
+
   getBounds() {
     return this.bounds;
+  }
+
+  getBoundsLatLng() {
+    const bounds = this.map.getBounds();
+    const northEast = bounds.getNorthEast();
+    const southWest = bounds.getSouthWest();
+    return [southWest.lat(), southWest.lng(), northEast.lat(), northEast.lng()];
   }
 
   extendBounds(position) {
     return this.bounds.extend(position);
   }
 
-  fitBounds(bounds, zoom = this.mapOptions.zoom) {
-    if (this.markers.length > 1) {
-      this.map.fitBounds(bounds);
-    } else {
-      this.setCenter(this.markers[0].position);
-      this.setZoom(zoom);
-    }
+  fitBounds(bounds, _zoom, padding = 50) {
+    this.map.fitBounds(bounds, padding);
   }
 
   panTo(position) {
     this.map.panTo(position);
+  }
+
+  panBy(x, y) {
+    this.map.panBy(x, y);
   }
 
   listenZoomChange(callback) {
@@ -280,21 +333,55 @@ export default class GoogleMaps extends AbstractMap {
     });
   }
 
+  listenBoundsChange(callback, ignoreFocusOnMarker = true) {
+    this.map.addListener('bounds_changed', () => {
+      if (ignoreFocusOnMarker && this.focusInProgress) {
+        return;
+      }
+      if (this.initialBoundsEvent) {
+        this.initialBoundsEvent = false;
+        return;
+      }
+      return callback(this.getCenterLatLng());
+    });
+  }
+
   minifyMarkerIcons(zoom, breakZoom = 8, minifier = 0.8) {
     if (zoom < breakZoom + 1 && !this.isMinifiedMarkerIcons) {
       [].forEach.call(Object.keys(this.icons), key => {
         const size = this.icons[key].scaledSize;
-        this.icons[key].scaledSize.width = size.width * minifier;
-        this.icons[key].scaledSize.height = size.height * minifier;
+        const width = size.width * minifier;
+        const height = size.height * minifier;
+
+        this.icons[key].scaledSize = new google.maps.Size(width, height);
+        this.icons[key].anchor = new google.maps.Point(width / 2, height);
       });
+      this.refreshAllMarkers();
+
       this.isMinifiedMarkerIcons = true;
     } else if (zoom > breakZoom && this.isMinifiedMarkerIcons) {
       [].forEach.call(Object.keys(this.icons), key => {
         const size = this.icons[key].scaledSize;
-        this.icons[key].scaledSize.width = size.width / minifier;
-        this.icons[key].scaledSize.height = size.height / minifier;
+        const width = size.width / minifier;
+        const height = size.height / minifier;
+
+        this.icons[key].scaledSize = new google.maps.Size(width, height);
+        this.icons[key].anchor = new google.maps.Point(width / 2, height);
       });
+      this.refreshAllMarkers();
+
       this.isMinifiedMarkerIcons = false;
+    }
+  }
+
+  refreshAllMarkers() {
+    this.getMarkers().forEach(marker => {
+      const iconName = this.getMarkerIconType(marker);
+      marker.setIcon(this.icons[iconName]);
+    });
+
+    if (this.userMarker) {
+      this.userMarker.setIcon(this.icons.user);
     }
   }
 }

@@ -33,6 +33,7 @@ export class AbstractMap {
     this.icons = [];
     this.bounds = null;
     this.cluster = null;
+    this.focusInProgress = false;
 
     this.defaultOptions = {
       zoom: 12,
@@ -110,6 +111,10 @@ export class AbstractMap {
     console.error(`${this.provider} has no 'setPoint' method implemented.`);
   }
 
+  clearPoints() {
+    this.points.length = 0;
+  }
+
   addMarkers() {
     console.error(`${this.provider} has no 'addMarkers' method implemented.`);
   }
@@ -126,6 +131,21 @@ export class AbstractMap {
 
   removeMarker() {
     console.error(`${this.provider} has no 'removeMarker' method implemented.`);
+  }
+
+  removeCluster() {
+    console.error(
+      `${this.provider} has no 'removeCluster' method implemented.`,
+    );
+  }
+
+  removeAllMarkers() {
+    if (this.cluster) {
+      this.removeCluster();
+    }
+    this.markers.forEach(marker => {
+      this.removeMarker(marker);
+    });
   }
 
   setMarkerIcons() {
@@ -150,8 +170,18 @@ export class AbstractMap {
     console.error(`${this.provider} has no 'addCluster' method implemented.`);
   }
 
+  makeLatLng() {
+    console.error(`${this.provider} has no 'makeLatLng' method implemented.`);
+  }
+
   setCenter() {
     console.error(`${this.provider} has no 'setCenter' method implemented.`);
+  }
+
+  getCenterLatLng() {
+    console.error(
+      `${this.provider} has no 'getCenterLatLng' method implemented.`,
+    );
   }
 
   fitBounds() {
@@ -166,8 +196,22 @@ export class AbstractMap {
     console.error(`${this.provider} has no 'getBounds' method implemented.`);
   }
 
+  getBoundsLatLng() {
+    console.error(
+      `${this.provider} has no 'getBoundsLatLng' method implemented.`,
+    );
+  }
+
   panTo() {
     console.error(`${this.provider} has no 'panTo' method implemented.`);
+  }
+
+  panBy() {
+    console.error(`${this.provider} has no 'panBy' method implemented.`);
+  }
+
+  getZoom() {
+    console.error(`${this.provider} has no 'getZoom' method implemented.`);
   }
 
   setZoom() {
@@ -177,6 +221,12 @@ export class AbstractMap {
   listenZoomChange() {
     console.error(
       `${this.provider} has no 'listenZoomChange' method implemented.`,
+    );
+  }
+
+  listenBoundsChange() {
+    console.error(
+      `${this.provider} has no 'listenBoundsChange' method implemented.`,
     );
   }
 

@@ -48,10 +48,10 @@ class LocationMapModule {
     });
 
     this.batMap.addMarkers();
-    this.batMap.fitBounds(
-      this.batMap.getBounds(),
-      this.attr.options.locationZoom,
-    );
+
+    const coords = this.attr.locations[0].localisation.coordinates;
+    this.map.setCenter(this.map.makeLatLng(coords.latitude, coords.longitude));
+    this.map.setZoom(this.attr.options.locationZoom);
   }
 }
 
