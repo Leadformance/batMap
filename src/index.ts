@@ -1,5 +1,5 @@
-export * from './providers/gmaps';
-export * from './providers/gmaps-widget';
-export * from './providers/leaflet';
-export * from './providers/mappy';
-export * from './providers/mappy-widget';
+export { GoogleMaps } from './providers/gmaps';
+export { GoogleMapsWidget } from './providers/gmaps-widget';
+export { Leaflet } from './providers/leaflet';
+export { Mappy } from './providers/mappy';
+export { MappyWidget } from './providers/mappy-widget';

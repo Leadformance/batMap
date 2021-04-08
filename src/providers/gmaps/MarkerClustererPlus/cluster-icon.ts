@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/* eslint-disable */
 /* globals google */
 
 import objectAssign from 'object-assign';
