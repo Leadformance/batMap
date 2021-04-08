@@ -33,7 +33,6 @@
  *  deprecated. The new name is `click`, so please change your application code now.
  */
 
-/* eslint-disable */
 /* globals google */
 
 import objectAssign from 'object-assign';

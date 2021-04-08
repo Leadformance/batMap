@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-/* eslint-disable */
 /* globals google */
 
 import { ClusterIcon } from './cluster-icon';

@@ -5,14 +5,14 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["node_modules", "dist", "build"]
+  "exclude": ["node_modules", "dist", "build", "plugins"]
 }

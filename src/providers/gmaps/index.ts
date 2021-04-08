@@ -4,6 +4,7 @@
  * MarkerClusterer: https://googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html
  */
 
+import { MarkerClusterer } from '../../../plugins/MarkerClustererPlus';
 import { AbstractMap } from '../../AbstractMap';
 import { DefaultIconType, Provider } from '../../constants';
 import {
