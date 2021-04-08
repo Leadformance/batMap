@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DomUtils addResources should add all resources into the document and execute the callback function once they are all loaded 1`] = `
+<head>
+  <link
+    href="http://example.com/style.css"
+  />
+  <script
+    src="http://example.com/script.js"
+  />
+</head>
+`;
+
+exports[`DomUtils addResources should only execute the callback function if the resources are empty 1`] = `<head />`;
+
+exports[`DomUtils addScript should add a script element into the document 1`] = `
+<head>
+  <script
+    src="http://example.com/script.js"
+    type="text/javascript"
+  />
+</head>
+`;
+
+exports[`DomUtils addStyle should add a link element into the document 1`] = `
+<head>
+  <link
+    href="http://example.com/style.css"
+    rel="stylesheet"
+  />
+</head>
+`;
+
+exports[`DomUtils createScript should return a script element 1`] = `
+<script
+  src="http://example.com/script.js"
+  type="text/javascript"
+/>
+`;
+
+exports[`DomUtils createScript should return an async script element 1`] = `
+<script
+  src="http://example.com/script.js"
+  type="text/javascript"
+/>
+`;
+
+exports[`DomUtils createStyle should return a link element with an href attribute 1`] = `
+<link
+  href="http://example.com/style.css"
+  rel="stylesheet"
+/>
+`;

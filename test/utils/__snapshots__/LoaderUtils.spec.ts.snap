@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoaderUtils addLoader should append the container with the loader element 1`] = `
+<body>
+  <div
+    class="batmap__spinner"
+  />
+</body>
+`;
+
+exports[`LoaderUtils should return a function to remove the loader element 1`] = `
+<body>
+  <div
+    class="batmap__spinner"
+  />
+</body>
+`;
+
+exports[`LoaderUtils should return a function to remove the loader element 2`] = `<body />`;
