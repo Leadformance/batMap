@@ -5,14 +5,10 @@
  * Free providers: https://leaflet-extras.github.io/leaflet-providers/preview/
  */
 
-// eslint-disable-next-line import/no-unresolved
-import * as L from 'leaflet';
-
 import { AbstractMap } from '../../AbstractMap';
 import { DefaultIconType, Provider } from '../../constants';
 import {
   EventCallbacks,
-  IconType,
   LabelsOptions,
   LatLng,
   LatLngBounds,
@@ -23,18 +19,16 @@ import {
   Marker,
   Padding,
   Point,
-  ProviderMap,
+  BatMapProvider,
   ProviderConstructorArgs,
-} from '../../types';
+} from '../../interfaces';
 import { DomUtils, LoaderUtils } from '../../utils';
 
 type provider = Provider.leaflet;
 
-export default Leaflet;
-
 export class Leaflet
   extends AbstractMap<provider>
-  implements ProviderMap<provider> {
+  implements BatMapProvider<provider> {
   constructor(...args: ProviderConstructorArgs<provider>) {
     super(...args, {
       mapOptions: {
@@ -100,7 +94,7 @@ export class Leaflet
     ).addTo(this.map);
   }
 
-  setPoint(location: Location, iconType: IconType, label?: string): void {
+  setPoint(location: Location, iconType: string, label?: string): void {
     const point: LocationPoint<provider> = {
       position: this.makeLatLng(
         location.localisation.coordinates.latitude,
@@ -194,7 +188,7 @@ export class Leaflet
         labelOptions: this.getLabelOptions(iconLabelOptions),
       }) as any;
 
-      icon.type = type as IconType;
+      icon.type = type;
 
       this.icons.push(icon);
     });
@@ -202,7 +196,7 @@ export class Leaflet
 
   setIconOnMarker(
     markerId: Marker<provider> | string,
-    iconType: IconType,
+    iconType: string,
     hasLabel = true,
   ): void {
     const marker = this.getMarker(markerId);
@@ -269,7 +263,7 @@ export class Leaflet
 
   addUserMarker(
     position: LatLng<provider>,
-    iconType: IconType,
+    iconType: string,
     id = 'user',
   ): void {
     if (this.userMarker && this.map) {
@@ -490,3 +484,5 @@ export class Leaflet
     return span;
   }
 }
+
+export default Leaflet;

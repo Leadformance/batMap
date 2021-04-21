@@ -5,14 +5,12 @@
  */
 
 import { Provider } from '../../constants';
-import { ProviderConstructorArgs } from '../../types';
+import { ProviderConstructorArgs } from '../../interfaces';
 import { DomUtils, LoaderUtils } from '../../utils';
 import { GoogleMaps } from '../gmaps';
 import { GmapsPremium } from '../gmaps/GmapsPremium';
 
 type provider = Provider.gmaps;
-
-export default GoogleMapsWidget;
 
 export class GoogleMapsWidget extends GoogleMaps {
   private static iframeSelector = 'iframe[data-reactroot]';
@@ -81,5 +79,7 @@ export class GoogleMapsWidget extends GoogleMaps {
     );
   }
 }
+
+export default GoogleMapsWidget;
 
 GoogleMapsWidget.setIframeWindowVars();

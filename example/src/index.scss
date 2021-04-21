@@ -1,0 +1,33 @@
+@import 'src/styles/main';
+
+.list {
+  margin: 0;
+  border: 1px solid $dark;
+  padding: 0;
+  min-height: calc(44px * 3);
+  overflow-y: scroll;
+  list-style: none;
+
+  .location {
+    background-color: $light;
+    padding: 10px 20px;
+    color: $dark;
+    cursor: pointer;
+    border-bottom: 1px solid $dark;
+
+    &:last-child {
+      border: 0;
+    }
+
+    &.active {
+      background-color: $dark;
+      color: $light;
+    }
+
+    &.hover,
+    &.hover.active {
+      background-color: rgba($dark, .1);
+      color: $dark;
+    }
+  }
+}

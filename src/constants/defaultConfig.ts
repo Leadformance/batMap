@@ -1,8 +1,8 @@
-import { Config } from '../types';
+import { BatMapConfig } from '../interfaces';
 
 import { Provider } from './providers';
 
-export const DEFAULT_CONFIG: Config<Provider> = {
+export const DEFAULT_CONFIG: BatMapConfig<Provider> = {
   locale: 'en',
   showCluster: true,
   showLabel: false,

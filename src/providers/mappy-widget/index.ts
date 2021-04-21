@@ -4,17 +4,12 @@
  * MarkerCluster Documentation: https://leaflet.github.io/Leaflet.markercluster/
  */
 
-// eslint-disable-next-line import/no-unresolved
-import * as L from 'leaflet';
-
 import { Provider } from '../../constants';
-import { ProviderConstructorArgs } from '../../types';
+import { ProviderConstructorArgs } from '../../interfaces';
 import { DomUtils, LoaderUtils } from '../../utils';
 import { Mappy } from '../mappy';
 
 type provider = Provider.mappy;
-
-export default MappyWidget;
 
 export class MappyWidget extends Mappy {
   private static iframeSelector = 'iframe[data-reactroot]';
@@ -103,5 +98,7 @@ export class MappyWidget extends Mappy {
     );
   }
 }
+
+export default MappyWidget;
 
 MappyWidget.setIframeWindowVars();

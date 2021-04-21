@@ -1,23 +1,20 @@
-import objectAssign from 'object-assign';
-
-import './style.css';
+import './style.scss';
 import { DEFAULT_CONFIG, Provider } from './constants';
 import {
   ApiKey,
   Cluster,
-  Config,
+  BatMapConfig,
   DefaultOptions,
   Icon,
-  IconType,
   LocationPoint,
   MapObject,
   Marker,
-} from './types';
+} from './interfaces';
 import { DomUtils } from './utils';
 
 export class AbstractMap<T extends Provider> {
   protected readonly domElement: HTMLElement;
-  protected readonly config: Config<T>;
+  protected readonly config: BatMapConfig<T>;
 
   protected points: LocationPoint<T>[] = [];
   protected markers: Marker<T>[] = [];
@@ -32,7 +29,7 @@ export class AbstractMap<T extends Provider> {
   constructor(
     domSelector: HTMLElement | string,
     protected readonly apiKey: ApiKey<T>,
-    configuration: Partial<Config<T>>,
+    configuration: Partial<BatMapConfig<T>>,
     callback?: () => void,
     defaultOptions?: DefaultOptions<T>,
   ) {
@@ -40,20 +37,24 @@ export class AbstractMap<T extends Provider> {
       ? (domSelector as HTMLElement)
       : document.querySelector(domSelector as string) || document.body;
 
-    const config: Config<T> = objectAssign({}, DEFAULT_CONFIG, configuration);
+    const config: BatMapConfig<T> = Object.assign(
+      {},
+      DEFAULT_CONFIG,
+      configuration,
+    );
     this.config = {
       ...config,
-      mapOptions: objectAssign(
+      mapOptions: Object.assign(
         {},
         defaultOptions?.mapOptions,
         config.mapOptions,
       ),
-      markersOptions: objectAssign(
+      markersOptions: Object.assign(
         {},
         defaultOptions?.markersOptions,
         config.markersOptions,
       ),
-      labelsOptions: objectAssign(
+      labelsOptions: Object.assign(
         {},
         defaultOptions?.labelsOptions,
         config.labelsOptions,
@@ -87,11 +88,11 @@ export class AbstractMap<T extends Provider> {
     return this.icons;
   }
 
-  getMarkerIconByType(iconType: IconType): Icon<T> | undefined {
+  getMarkerIconByType(iconType: string): Icon<T> | undefined {
     return this.icons.find(icon => icon.type === iconType);
   }
 
-  getMarkerIconType(marker: Marker<T> | string): IconType | undefined {
+  getMarkerIconType(marker: Marker<T> | string): string | undefined {
     return this.getMarker(marker)?.iconType;
   }
 

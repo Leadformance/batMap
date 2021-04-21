@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "target": "es5",
-    "module": "commonjs",
+    "target": "es6",
+    "module": "esnext",
     "declaration": true,
-    "outDir": "./dist",
-    "rootDir": ".",
+    "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
     "moduleResolution": "node",
     "baseUrl": ".",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "dist", "build", "plugins"]
+  "include": [
+    "./src/index.ts", "./src/**/*"],
+  "exclude": ["node_modules", "dist", "build", "src/plugins"]
 }

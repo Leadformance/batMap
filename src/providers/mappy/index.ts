@@ -4,14 +4,10 @@
  * MarkerCluster Documentation: https://leaflet.github.io/Leaflet.markercluster/
  */
 
-// eslint-disable-next-line import/no-unresolved
-import * as L from 'leaflet';
-
 import { AbstractMap } from '../../AbstractMap';
 import { DefaultIconType, Provider } from '../../constants';
 import {
   EventCallbacks,
-  IconType,
   LabelsOptions,
   LatLng,
   LatLngBounds,
@@ -22,18 +18,16 @@ import {
   Marker,
   Padding,
   Point,
-  ProviderMap,
+  BatMapProvider,
   ProviderConstructorArgs,
-} from '../../types';
+} from '../../interfaces';
 import { DomUtils, LoaderUtils } from '../../utils';
 
 type provider = Provider.mappy;
 
-export default Mappy;
-
 export class Mappy
   extends AbstractMap<provider>
-  implements ProviderMap<provider> {
+  implements BatMapProvider<provider> {
   constructor(
     ...[
       domElement,
@@ -122,7 +116,7 @@ export class Mappy
     this.map = new L.Mappy.Map(this.domElement, this.config.mapOptions);
   }
 
-  setPoint(location: Location, iconType: IconType, label?: string): void {
+  setPoint(location: Location, iconType: string, label?: string): void {
     const point: LocationPoint<provider> = {
       position: this.makeLatLng(
         location.localisation.coordinates.latitude,
@@ -216,7 +210,7 @@ export class Mappy
         labelOptions: this.getLabelOptions(iconLabelOptions),
       }) as any;
 
-      icon.type = type as IconType;
+      icon.type = type;
 
       this.icons.push(icon);
     });
@@ -224,7 +218,7 @@ export class Mappy
 
   setIconOnMarker(
     markerId: Marker<provider> | string,
-    iconType: IconType,
+    iconType: string,
     hasLabel = true,
   ): void {
     const marker = this.getMarker(markerId);
@@ -291,7 +285,7 @@ export class Mappy
 
   addUserMarker(
     position: LatLng<provider>,
-    iconType: IconType,
+    iconType: string,
     id = 'user',
   ): void {
     if (this.userMarker && this.map) {
@@ -521,3 +515,5 @@ export class Mappy
     L.Mappy.setLocale(locale);
   }
 }
+
+export default Mappy;

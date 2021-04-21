@@ -4,12 +4,10 @@
  * MarkerClusterer: https://googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html
  */
 
-import { MarkerClusterer } from '../../../plugins/MarkerClustererPlus';
 import { AbstractMap } from '../../AbstractMap';
 import { DefaultIconType, Provider } from '../../constants';
 import {
   EventCallbacks,
-  IconType,
   LabelsOptions,
   LatLng,
   LatLngBounds,
@@ -20,9 +18,10 @@ import {
   Marker,
   Padding,
   Point,
-  ProviderMap,
+  BatMapProvider,
   ProviderConstructorArgs,
-} from '../../types';
+} from '../../interfaces';
+import { MarkerClusterer } from '../../plugins/MarkerClustererPlus';
 import { DomUtils, LoaderUtils } from '../../utils';
 
 import { GmapsPremium } from './GmapsPremium';
@@ -33,7 +32,7 @@ export default GoogleMaps;
 
 export class GoogleMaps
   extends AbstractMap<provider>
-  implements ProviderMap<provider> {
+  implements BatMapProvider<provider> {
   private initialBoundsEvent = false;
 
   constructor(...args: ProviderConstructorArgs<provider>) {
@@ -44,7 +43,7 @@ export class GoogleMaps
         mapTypeControl: false,
         zoomControl: true,
         zoomControlOptions: {
-          position: google.maps.ControlPosition.TOP_LEFT,
+          position: 1,
         },
         streetViewControl: false,
       },
@@ -93,7 +92,7 @@ export class GoogleMaps
     this.initialBoundsEvent = true;
   }
 
-  setPoint(location: Location, iconType: IconType, label?: string): void {
+  setPoint(location: Location, iconType: string, label?: string): void {
     const point: LocationPoint<provider> = {
       position: this.makeLatLng(
         location.localisation.coordinates.latitude,
@@ -176,7 +175,7 @@ export class GoogleMaps
               ];
 
         this.icons.push({
-          type: type as IconType,
+          type,
           url: options.url,
           scaledSize: new google.maps.Size(options.width, options.height),
           anchor: new google.maps.Point(iconAnchor[0], iconAnchor[1]),
@@ -189,7 +188,7 @@ export class GoogleMaps
 
   setIconOnMarker(
     markerId: Marker<provider> | string,
-    iconType: IconType,
+    iconType: string,
     hasLabel = true,
   ): void {
     const marker = this.getMarker(markerId);
@@ -239,7 +238,7 @@ export class GoogleMaps
 
   addUserMarker(
     position: LatLng<provider>,
-    iconType: IconType,
+    iconType: string,
     id = 'user',
   ): void {
     const point: LocationPoint<provider> = {
